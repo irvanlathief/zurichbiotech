@@ -43,10 +43,17 @@
       .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
       @media (max-width: 1200px) { .product-grid { grid-template-columns: repeat(3, 1fr); } }
       @media (max-width: 720px) { .product-grid { grid-template-columns: repeat(2, 1fr); } }
+      @media (max-width: 480px) {
+        .products-page { padding-inline: 16px; }
+        .products-sticky-bar { top: 0; padding-top: 18px; }
+        .product-grid { grid-template-columns: 1fr; gap: 28px; }
+        .products-header { align-items: flex-start; }
+        .sort-select { width: 100%; }
+      }
 
       .product-card { display: flex; flex-direction: column; }
       .product-card .card-visual {
-        display: grid; min-height: 280px; place-items: center;
+        display: grid; aspect-ratio: 1 / 1; min-height: 0; place-items: center;
         background: #f7f7f7;
         margin-bottom: 18px;
         position: relative;

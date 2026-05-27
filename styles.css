@@ -132,7 +132,7 @@ nav {
 }
 
 .hero {
-  min-height: 100vh;
+  min-height: 100svh;
   position: relative;
   overflow: hidden;
   background: var(--black);
@@ -163,7 +163,7 @@ nav {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: 1fr minmax(320px, 400px);
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 400px);
   gap: clamp(40px, 6vw, 100px);
   align-items: center;
   width: 100%;
@@ -326,11 +326,13 @@ h1 {
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .product-card-visual {
   display: grid;
-  min-height: 220px;
+  min-height: 0;
+  aspect-ratio: 4 / 3;
   place-items: center;
   background: linear-gradient(135deg, transparent 49.7%, var(--gray-300, #d6d6d6) 50%, transparent 50.3%),
     linear-gradient(45deg, transparent 49.7%, var(--gray-300, #d6d6d6) 50%, transparent 50.3%), #f7f7f7;
@@ -339,7 +341,6 @@ h1 {
 .product-card-visual img {
   width: 100%;
   height: 100%;
-  max-height: 260px;
   object-fit: contain;
   display: block;
 }
@@ -865,13 +866,13 @@ canvas {
 
 .product-visual {
   display: grid;
-  min-height: 560px;
+  min-height: clamp(320px, 48vw, 560px);
   place-items: center;
 }
 
 .product-focus-image {
   width: min(100%, 560px);
-  max-height: 620px;
+  max-height: clamp(320px, 56vw, 620px);
   object-fit: contain;
   display: block;
 }
@@ -1158,8 +1159,8 @@ dd {
 
   .hero-inner {
     grid-template-columns: 1fr;
-    padding: 100px 24px 48px;
-    gap: 40px;
+    padding: 96px 20px 40px;
+    gap: 28px;
   }
 
   .hero-content {
@@ -1168,9 +1169,17 @@ dd {
   }
 
   .hero-product-card {
-    max-width: 400px;
+    max-width: min(400px, 100%);
     margin: 0 auto;
     width: 100%;
+  }
+
+  .product-card-body {
+    padding: 18px;
+  }
+
+  .product-card-specs {
+    grid-template-columns: 1fr;
   }
 
   .hero-bg {
@@ -1202,6 +1211,26 @@ dd {
     min-height: 260px;
   }
 
+  .product-focus {
+    gap: 28px;
+  }
+
+  .product-visual {
+    min-height: auto;
+  }
+
+  .product-focus-image {
+    max-height: 380px;
+  }
+
+  .product-data h2 {
+    font-size: clamp(42px, 14vw, 62px);
+  }
+
+  dl div {
+    grid-template-columns: 110px 1fr;
+  }
+
   .viz-header {
     display: grid;
     gap: 18px;
@@ -1209,5 +1238,31 @@ dd {
 
   .button {
     width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-inner {
+    padding-inline: 16px;
+  }
+
+  .hero-inner h1 {
+    font-size: clamp(42px, 14vw, 68px);
+  }
+
+  .research-note {
+    margin-top: 44px;
+  }
+
+  .product-card-visual {
+    aspect-ratio: 1 / 1;
+  }
+
+  .product-card-body h3 {
+    font-size: 24px;
+  }
+
+  .product-card-cta {
+    min-height: 52px;
   }
 }
