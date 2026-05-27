@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zurich Biotech | Precision Peptide Protocols</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .nav-cta { position: relative; }
+      .nav-cta .cart-count { position: absolute; top: -6px; right: -10px; }
+      .compounds-section { padding: 80px clamp(24px, 5vw, 88px); }
+      .compounds-section h2 { font-size: clamp(32px, 3.5vw, 56px); font-weight: 400; margin: 0 0 40px; }
+      .compounds-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+      @media (max-width: 1200px) { .compounds-grid { grid-template-columns: repeat(3, 1fr); } }
+      @media (max-width: 720px) { .compounds-grid { grid-template-columns: repeat(2, 1fr); } }
+      .compound-card { display: flex; flex-direction: column; border: 1px solid var(--gray-200); padding: 0; }
+      .compound-card .card-visual { display: grid; min-height: 220px; place-items: center; background: #f7f7f7; position: relative; overflow: hidden; }
+      .compound-card .card-visual .placeholder { position: absolute; inset: 0; display: grid; place-items: center; background: linear-gradient(135deg, transparent 49.7%, var(--gray-300, #d6d6d6) 50%, transparent 50.3%), linear-gradient(45deg, transparent 49.7%, var(--gray-300, #d6d6d6) 50%, transparent 50.3%), #f7f7f7; }
+      .compound-card .card-visual .placeholder span { background: var(--white); border: 1px solid var(--gray-200); padding: 10px 16px; font-family: var(--tech); text-transform: uppercase; letter-spacing: 0.02em; font-size: 12px; font-weight: 700; }
+      .compound-card .card-body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
+      .compound-card h3 { font-size: 18px; font-weight: 500; margin: 0 0 4px; letter-spacing: 0.02em; }
+      .compound-card .category { font-family: var(--tech); font-size: 12px; text-transform: uppercase; color: var(--gray-700); margin-bottom: 6px; }
+      .compound-card .category-line { display: block; width: 100%; height: 2px; margin-bottom: 12px; }
+      .compound-card .meta { font-family: var(--tech); font-size: 13px; color: var(--gray-700); margin-bottom: 6px; }
+      .compound-card .price { font-family: var(--tech); font-size: 16px; font-weight: 700; margin-bottom: 12px; }
+      .compound-card .add-btn { margin-top: auto; width: 100%; min-height: 44px; border: 1px solid var(--black); background: var(--black); color: var(--white); font-family: var(--tech); font-weight: 700; text-transform: uppercase; cursor: pointer; transition: background 180ms ease, color 180ms ease; }
+      .compound-card .add-btn:hover { background: var(--white); color: var(--black); }
+    </style>
+  </head>
+  <body>
+    <header class="site-header" aria-label="Primary navigation">
+      <a class="brand" href="#top" aria-label="Zurich Biotech home">Zurich Biotech<span>+</span></a>
+      <nav>
+        <a href="#protocols">Protocols</a>
+        <a href="#science">Science</a>
+        <a href="#compounds">Compounds</a>
+        <a href="#truth">About</a>
+        <a class="nav-cta" href="cart.html" aria-label="Cart">Your Cart <span class="cart-count" id="cartCount">0</span></a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-bg" aria-hidden="true"></div>
+        <div class="hero-inner">
+          <div class="hero-content">
+            <p class="hero-kicker">[ Research use only ]</p>
+            <h1 id="hero-title">Research-grade Peptides<span>+</span></h1>
+            <p>peptide protocols designed for strength, recovery, and biological control.</p>
+            <p class="research-note">Research use only<br />Not for human consumption</p>
+          </div>
+          <div class="hero-product-card">
+            <div class="product-card-visual">
+              <span>Image placeholder</span>
+            </div>
+            <div class="product-card-body">
+              <h3>GHK-CU<span class="red">+</span></h3>
+              <p class="product-card-category">Recovery &amp; Tissue Repair</p>
+              <span class="product-card-line" style="background:#138f2d"></span>
+              <p class="product-card-dose">10mg / vial</p>
+              <dl class="product-card-specs">
+                <div><dt>Purity:</dt><dd>&gt;99%</dd></div>
+                <div><dt>Form:</dt><dd>Lyophilized</dd></div>
+                <div><dt>Storage:</dt><dd>-20°C</dd></div>
+              </dl>
+              <p class="product-card-price">Rp1.800.000</p>
+              <p class="product-card-note">For research purpose only</p>
+            </div>
+            <button class="product-card-cta add-protocol-btn" data-key="ghk-cu" data-title="GHK-CU" data-type="Single Vial" data-goal="Recovery &amp; Tissue Repair" data-price="1800000">Add to Protocol</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="science" id="science" aria-labelledby="science-title">
+        <div class="section-kicker">[ The Reality ]</div>
+        <div class="science-copy">
+          <aside class="peptide-list" aria-label="Select protocol">
+            <span>Select protocols</span>
+            <button class="active" type="button" data-peptide="ghk">GHK-CU — inflammation <span>+</span></button>
+            <button type="button" data-peptide="recovery">BPC157+TB500 — recovery <span>+</span></button>
+            <button type="button" data-peptide="growth">CJC1295/Ipamorelin — growth <span>+</span></button>
+            <button type="button" data-peptide="metabolic">MOTS-C — metabolic <span>+</span></button>
+            <button type="button" data-peptide="bodycomp">Retatrutide — body comp <span>+</span></button>
+          </aside>
+          <div class="science-text">
+            <h2 id="science-title">Decline<span>+</span></h2>
+            <p id="scienceBody">The repair protocol maps tissue repair, collagen signaling, and recovery quality after 30.</p>
+            <ul id="scienceMetrics">
+              <li><span>+</span> Tissue repair</li>
+              <li><span>+</span> Collagen signaling</li>
+              <li><span>+</span> Recovery quality</li>
+              <li><span>+</span> Skin resilience</li>
+            </ul>
+          </div>
+        </div>
+        <div class="viz-panel">
+          <div class="viz-header">
+            <div>
+              <h3 id="vizTitle">Repair Protocol Intervention Model</h3>
+              <p id="vizSubtitle">Tissue repair score vs. age</p>
+            </div>
+            <div class="legend">
+              <span id="lineLegend"><i class="dot red"></i> GHK-CU / TB-500 / BPC-157</span>
+              <span><i class="dot blue"></i> Without support</span>
+            </div>
+          </div>
+          <canvas id="performanceChart" width="1180" height="720" aria-label="Protocol performance data visualization"></canvas>
+          <div id="chartTooltip" class="chart-tooltip"></div>
+          <div class="viz-callout" id="vizCallout">+ Repair window<br /><small>30-48 years</small></div>
+        </div>
+      </section>
+
+      <section class="truth" id="truth" aria-labelledby="truth-title">
+        <div class="truth-image" aria-hidden="true"></div>
+        <div class="truth-message">
+          <div class="section-kicker">[ The Filter ]</div>
+          <h2 id="truth-title">Peptides won't outrun the habit you built over years, discipline will<span>+</span></h2>
+        </div>
+      </section>
+
+      <section class="outcomes" id="protocols" aria-labelledby="outcomes-title">
+        <div class="section-kicker">[ Protocols ]</div>
+        <h2 id="outcomes-title" class="sr-only">Outcome protocol selector</h2>
+        <div class="outcome-tabs" role="tablist" aria-label="Protocol outcomes">
+          <button class="outcome-tab active" type="button" data-protocol="strength" role="tab" aria-selected="true">
+            <strong>Lift<br />Heavier.</strong>
+            <span class="signal blue"></span>
+            <small>Build strength you can feel.</small>
+          </button>
+          <button class="outcome-tab" type="button" data-protocol="energy" role="tab" aria-selected="false">
+            <strong>Wake Up<br />Sharp.</strong>
+            <span class="signal yellow"></span>
+            <small>Cleaner mornings. More output.</small>
+          </button>
+          <button class="outcome-tab" type="button" data-protocol="recovery" role="tab" aria-selected="false">
+            <strong>Recover<br />Faster.</strong>
+            <span class="signal green"></span>
+            <small>Less downtime. More progress.</small>
+          </button>
+          <button class="outcome-tab" type="button" data-protocol="skin" role="tab" aria-selected="false">
+            <strong>Look<br />Better.</strong>
+            <span class="signal orange"></span>
+            <small>Healthier skin. Sharper you.</small>
+          </button>
+        </div>
+
+        <div class="protocol-reveal">
+          <div class="protocol-copy">
+            <p class="protocol-type" id="protocolType">Strength protocol</p>
+            <h3 id="protocolTitle">Lift Heavier.</h3>
+            <p id="protocolDescription">Targets strength, muscle density, and recovery so you can train harder, recover stronger, and keep progressing.</p>
+            <div class="protocol-facts">
+              <div>
+                <span>Duration</span>
+                <strong id="protocolDuration">12-16 Weeks</strong>
+              </div>
+              <div>
+                <span>Goal</span>
+                <strong id="protocolGoal">Strength & Muscle Performance</strong>
+              </div>
+            </div>
+          </div>
+          <div class="image-placeholder" aria-label="Protocol image placeholder">
+            <span>Image placeholder</span>
+          </div>
+          <aside class="included">
+            <span>What's included</span>
+            <ul id="protocolStack">
+              <li><b>+</b> GHK-CU <strong>10mg</strong></li>
+              <li><b>+</b> BPC157 + TB500 <strong>5mg + 5mg</strong></li>
+              <li><b>+</b> CJC1295 / Ipamorelin <strong>10mg Blend</strong></li>
+            </ul>
+            <p><strong id="protocolPrice">Rp5.200.000</strong> / protocol</p>
+            <button class="button add-protocol-btn" data-key="strength" id="protocolAddBtn" data-price="5200000">Add Protocol <span>+</span></button>
+          </aside>
+        </div>
+      </section>
+
+      <section class="product-focus" id="product-focus" aria-labelledby="product-title">
+        <div class="product-visual">
+          <div class="image-placeholder image-placeholder-tall">
+            <span>Image placeholder</span>
+          </div>
+        </div>
+        <div class="product-data">
+          <div class="section-kicker">[ Best Selling ]</div>
+          <h2 id="product-title">GHK-CU<span>+</span></h2>
+          <dl>
+            <div><dt>Price</dt><dd>Rp1.800.000</dd></div>
+            <div><dt>Category</dt><dd>Recovery & Tissue Repair</dd></div>
+            <div><dt>Batch</dt><dd>GHK26-0516-01</dd></div>
+            <div><dt>Storage</dt><dd>-20°C</dd></div>
+            <div><dt>Purity</dt><dd>&gt; 99%</dd></div>
+          </dl>
+          <p>Copper peptide support for tissue repair, skin quality, and recovery signaling within a structured protocol.</p>
+          <button class="button button-red add-protocol-btn" data-key="ghk-cu" data-title="GHK-CU" data-type="Single Vial" data-goal="Recovery & Tissue Repair" data-price="1800000">Add <span>+</span></button>
+        </div>
+      </section>
+
+      <section class="compounds-section" id="compounds" aria-labelledby="compounds-title">
+        <div class="section-kicker">[ Compounds ]</div>
+        <h2 id="compounds-title">Individual Vials<span>+</span></h2>
+        <div class="compounds-grid">
+          <article class="compound-card">
+            <div class="card-visual"><div class="placeholder"><span>Image placeholder</span></div></div>
+            <div class="card-body">
+              <h3>GHK-CU<span style="color:var(--red)">+</span></h3>
+              <div class="category">Recovery — Recover Faster</div>
+              <span class="category-line" style="background:#138f2d"></span>
+              <div class="meta">10mg / vial</div>
+              <div class="price">Rp1.800.000</div>
+              <button class="add-btn add-protocol-btn" data-key="ghk-cu" data-title="GHK-CU" data-type="Single Vial" data-goal="Recovery &amp; Tissue Repair" data-price="1800000">Add <span>+</span></button>
+            </div>
+          </article>
+          <article class="compound-card">
+            <div class="card-visual"><div class="placeholder"><span>Image placeholder</span></div></div>
+            <div class="card-body">
+              <h3>SEMAX<span style="color:var(--red)">+</span></h3>
+              <div class="category">Cognitive — Wake Up Sharp</div>
+              <span class="category-line" style="background:#ffd21a"></span>
+              <div class="meta">5mg / vial</div>
+              <div class="price">Rp1.000.000</div>
+              <button class="add-btn add-protocol-btn" data-key="semax" data-title="SEMAX" data-type="Single Vial" data-goal="Cognitive &amp; Energy" data-price="1000000">Add <span>+</span></button>
+            </div>
+          </article>
+          <article class="compound-card">
+            <div class="card-visual"><div class="placeholder"><span>Image placeholder</span></div></div>
+            <div class="card-body">
+              <h3>BPC157+TB500<span style="color:var(--red)">+</span></h3>
+              <div class="category">Recovery — Recover Faster</div>
+              <span class="category-line" style="background:#138f2d"></span>
+              <div class="meta">10mg / vial</div>
+              <div class="price">Rp1.900.000</div>
+              <button class="add-btn add-protocol-btn" data-key="bpc157-tb500" data-title="BPC157+TB500" data-type="Single Vial" data-goal="Recovery &amp; Tissue Repair" data-price="1900000">Add <span>+</span></button>
+            </div>
+          </article>
+          <article class="compound-card">
+            <div class="card-visual"><div class="placeholder"><span>Image placeholder</span></div></div>
+            <div class="card-body">
+              <h3>MOTS-C<span style="color:var(--red)">+</span></h3>
+              <div class="category">Longevity — Look Better</div>
+              <span class="category-line" style="background:#ffd21a"></span>
+              <div class="meta">10mg / vial</div>
+              <div class="price">Rp2.000.000</div>
+              <button class="add-btn add-protocol-btn" data-key="mots-c" data-title="MOTS-C" data-type="Single Vial" data-goal="Longevity &amp; Metabolic Health" data-price="2000000">Add <span>+</span></button>
+            </div>
+          </article>
+          <article class="compound-card">
+            <div class="card-visual"><div class="placeholder"><span>Image placeholder</span></div></div>
+            <div class="card-body">
+              <h3>RETATRUTIDE<span style="color:var(--red)">+</span></h3>
+              <div class="category">Longevity — Look Better</div>
+              <span class="category-line" style="background:#ff4a12"></span>
+              <div class="meta">10mg / vial</div>
+              <div class="price">Rp3.800.000</div>
+              <button class="add-btn add-protocol-btn" data-key="retatrutide" data-title="RETATRUTIDE" data-type="Single Vial" data-goal="Longevity &amp; Body Composition" data-price="3800000">Add <span>+</span></button>
+            </div>
+          </article>
+          <article class="compound-card">
+            <div class="card-visual"><div class="placeholder"><span>Image placeholder</span></div></div>
+            <div class="card-body">
+              <h3>CJC1295/IPAMORELIN<span style="color:var(--red)">+</span></h3>
+              <div class="category">Growth — Lift Heavier</div>
+              <span class="category-line" style="background:#1158d8"></span>
+              <div class="meta">5mg + 5mg / vial</div>
+              <div class="price">Rp1.500.000</div>
+              <button class="add-btn add-protocol-btn" data-key="cjc1295-ipamorelin" data-title="CJC1295/IPAMORELIN" data-type="Single Vial" data-goal="Growth &amp; Strength" data-price="1500000">Add <span>+</span></button>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="resources" aria-labelledby="resources-title">
+        <div class="section-kicker">[ Resources ]</div>
+        <h2 id="resources-title">Download the research layer.</h2>
+        <div class="resource-grid">
+          <article class="resource-card">
+            <span class="resource-line" style="background:var(--blue)"></span>
+            <div class="resource-badge">
+              <span class="resource-format">PDF</span>
+              <span class="resource-pages">12 PAGES</span>
+            </div>
+            <div class="resource-body">
+              <p class="resource-category">Clinical Overview</p>
+              <h3>Protocol Primer</h3>
+              <p class="resource-desc">12-16 week protocol logic and selection criteria for research applications.</p>
+              <dl class="resource-specs">
+                <div><dt>Format</dt><dd>PDF</dd></div>
+                <div><dt>Size</dt><dd>1.2 MB</dd></div>
+              </dl>
+              <a class="resource-cta" href="resources/protocol-primer.txt" download>Download Free <span>+</span></a>
+            </div>
+          </article>
+          <article class="resource-card">
+            <span class="resource-line" style="background:var(--green)"></span>
+            <div class="resource-badge">
+              <span class="resource-format">PDF</span>
+              <span class="resource-pages">08 PAGES</span>
+            </div>
+            <div class="resource-body">
+              <p class="resource-category">Reference Guide</p>
+              <h3>Stack Compatibility</h3>
+              <p class="resource-desc">Grouping matrix by outcome and biological pathway for common research peptides.</p>
+              <dl class="resource-specs">
+                <div><dt>Format</dt><dd>PDF</dd></div>
+                <div><dt>Size</dt><dd>0.8 MB</dd></div>
+              </dl>
+              <a class="resource-cta" href="resources/stack-compatibility.txt" download>Download Free <span>+</span></a>
+            </div>
+          </article>
+          <article class="resource-card">
+            <span class="resource-line" style="background:var(--yellow)"></span>
+            <div class="resource-badge">
+              <span class="resource-format">PDF</span>
+              <span class="resource-pages">06 PAGES</span>
+            </div>
+            <div class="resource-body">
+              <p class="resource-category">Lab Checklist</p>
+              <h3>Batch Transparency</h3>
+              <p class="resource-desc">Identity, purity, and storage verification checklist for lab-report review.</p>
+              <dl class="resource-specs">
+                <div><dt>Format</dt><dd>PDF</dd></div>
+                <div><dt>Size</dt><dd>0.5 MB</dd></div>
+              </dl>
+              <a class="resource-cta" href="resources/batch-transparency.txt" download>Download Free <span>+</span></a>
+            </div>
+          </article>
+          <article class="resource-card">
+            <span class="resource-line" style="background:var(--orange)"></span>
+            <div class="resource-badge">
+              <span class="resource-format">PDF</span>
+              <span class="resource-pages">10 PAGES</span>
+            </div>
+            <div class="resource-body">
+              <p class="resource-category">Compliance</p>
+              <h3>Research Use Guide</h3>
+              <p class="resource-desc">Handling notes, compliance language, and research-only positioning guidelines.</p>
+              <dl class="resource-specs">
+                <div><dt>Format</dt><dd>PDF</dd></div>
+                <div><dt>Size</dt><dd>0.9 MB</dd></div>
+              </dl>
+              <a class="resource-cta" href="resources/research-use-guide.txt" download>Download Free <span>+</span></a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="final-cta" id="begin" aria-labelledby="begin-title">
+        <h2 id="begin-title">Start your protocol.<span>+</span></h2>
+        <div class="plus-grid" id="plusGrid" aria-hidden="true"></div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
