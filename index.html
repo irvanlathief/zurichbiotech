@@ -15,6 +15,7 @@
       @media (max-width: 720px) { .compounds-grid { grid-template-columns: repeat(2, 1fr); } }
       .compound-card { display: flex; flex-direction: column; border: 1px solid var(--gray-200); padding: 0; }
       .compound-card .card-visual { display: grid; min-height: 220px; place-items: center; background: #f7f7f7; position: relative; overflow: hidden; }
+      .compound-card .card-visual img { width: 100%; height: 100%; object-fit: contain; display: block; }
       .compound-card .card-visual .placeholder { position: absolute; inset: 0; display: grid; place-items: center; background: linear-gradient(135deg, transparent 49.7%, var(--gray-300, #d6d6d6) 50%, transparent 50.3%), linear-gradient(45deg, transparent 49.7%, var(--gray-300, #d6d6d6) 50%, transparent 50.3%), #f7f7f7; }
       .compound-card .card-visual .placeholder span { background: var(--white); border: 1px solid var(--gray-200); padding: 10px 16px; font-family: var(--tech); text-transform: uppercase; letter-spacing: 0.02em; font-size: 12px; font-weight: 700; }
       .compound-card .card-body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
@@ -51,7 +52,7 @@
           </div>
           <div class="hero-product-card">
             <div class="product-card-visual">
-              <span>Image placeholder</span>
+              <img src="assets/ghk-cu.png" alt="GHK-CU vial" />
             </div>
             <div class="product-card-body">
               <h3>GHK-CU<span class="red">+</span></h3>
@@ -178,9 +179,7 @@
 
       <section class="product-focus" id="product-focus" aria-labelledby="product-title">
         <div class="product-visual">
-          <div class="image-placeholder image-placeholder-tall">
-            <span>Image placeholder</span>
-          </div>
+          <img class="product-focus-image" src="assets/ghk-cu.png" alt="GHK-CU vial" />
         </div>
         <div class="product-data">
           <div class="section-kicker">[ Best Selling ]</div>
@@ -202,7 +201,7 @@
         <h2 id="compounds-title">Individual Vials<span>+</span></h2>
         <div class="compounds-grid">
           <article class="compound-card">
-            <div class="card-visual"><div class="placeholder"><span>Image placeholder</span></div></div>
+            <div class="card-visual"><img src="assets/ghk-cu.png" alt="GHK-CU vial" loading="lazy" /></div>
             <div class="card-body">
               <h3>GHK-CU<span style="color:var(--red)">+</span></h3>
               <div class="category">Recovery — Recover Faster</div>
@@ -213,7 +212,7 @@
             </div>
           </article>
           <article class="compound-card">
-            <div class="card-visual"><div class="placeholder"><span>Image placeholder</span></div></div>
+            <div class="card-visual"><img src="assets/semax.png" alt="SEMAX vial" loading="lazy" /></div>
             <div class="card-body">
               <h3>SEMAX<span style="color:var(--red)">+</span></h3>
               <div class="category">Cognitive — Wake Up Sharp</div>
@@ -224,7 +223,7 @@
             </div>
           </article>
           <article class="compound-card">
-            <div class="card-visual"><div class="placeholder"><span>Image placeholder</span></div></div>
+            <div class="card-visual"><img src="assets/bpc157-tb500.png" alt="BPC157+TB500 vial" loading="lazy" /></div>
             <div class="card-body">
               <h3>BPC157+TB500<span style="color:var(--red)">+</span></h3>
               <div class="category">Recovery — Recover Faster</div>
@@ -235,7 +234,7 @@
             </div>
           </article>
           <article class="compound-card">
-            <div class="card-visual"><div class="placeholder"><span>Image placeholder</span></div></div>
+            <div class="card-visual"><img src="assets/mots-c.png" alt="MOTS-C vial" loading="lazy" /></div>
             <div class="card-body">
               <h3>MOTS-C<span style="color:var(--red)">+</span></h3>
               <div class="category">Longevity — Look Better</div>
@@ -246,7 +245,7 @@
             </div>
           </article>
           <article class="compound-card">
-            <div class="card-visual"><div class="placeholder"><span>Image placeholder</span></div></div>
+            <div class="card-visual"><img src="assets/retatrutide.png" alt="RETATRUTIDE vial" loading="lazy" /></div>
             <div class="card-body">
               <h3>RETATRUTIDE<span style="color:var(--red)">+</span></h3>
               <div class="category">Longevity — Look Better</div>
@@ -257,7 +256,7 @@
             </div>
           </article>
           <article class="compound-card">
-            <div class="card-visual"><div class="placeholder"><span>Image placeholder</span></div></div>
+            <div class="card-visual"><img src="assets/cjc1295-ipamorelin.png" alt="CJC1295/IPAMORELIN vial" loading="lazy" /></div>
             <div class="card-body">
               <h3>CJC1295/IPAMORELIN<span style="color:var(--red)">+</span></h3>
               <div class="category">Growth — Lift Heavier</div>
