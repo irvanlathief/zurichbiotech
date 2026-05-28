@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Peptide Dosing Calculator — Reconstitution &amp; Syringe Units | Zurich Biotech</title>
+    <meta name="description" content="Free peptide dosing calculator. Enter compound, dose, syringe size and BAC water — get exact syringe units, concentration, and vial duration. Works for BPC-157, Retatrutide, GHK-Cu, MOTS-c, CJC-1295/Ipamorelin, Semax. Research use only." />
+    <meta name="keywords" content="peptide dosing calculator, peptide reconstitution calculator, BPC-157 dosage calculator, retatrutide dosage calculator, peptide syringe units calculator, BAC water peptide calculator, U-100 syringe peptide" />
+    <link rel="canonical" href="https://zurichbiotech.com/dosing-calculator/" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+
+    <meta name="geo.region" content="ID-BA" />
+    <meta name="geo.placename" content="Canggu, Bali, Indonesia" />
+    <meta name="geo.position" content="-8.6478;115.1385" />
+    <meta name="ICBM" content="-8.6478, 115.1385" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Zurich Biotech" />
+    <meta property="og:title" content="Peptide Dosing Calculator — Reconstitution &amp; Syringe Units" />
+    <meta property="og:description" content="Free peptide dosing calculator. Enter compound, dose, syringe size and BAC water — get exact syringe units." />
+    <meta property="og:url" content="https://zurichbiotech.com/dosing-calculator/" />
+    <meta property="og:image" content="https://zurichbiotech.com/assets/hero-mots-c.png" />
+    <meta property="og:locale" content="en_US" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Peptide Dosing Calculator | Zurich Biotech" />
+    <meta name="twitter:description" content="Free peptide dosing calculator for BPC-157, Retatrutide, GHK-Cu, MOTS-c and more." />
+    <meta name="twitter:image" content="https://zurichbiotech.com/assets/hero-mots-c.png" />
+
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+
+    <style>
+      .calc-page { padding: 120px clamp(16px, 5vw, 88px) 80px; max-width: 1200px; margin: 0 auto; }
+      .calc-page .lede { max-width: 720px; font-size: clamp(15px, 1.4vw, 17px); color: var(--gray-700); margin: 12px 0 36px; line-height: 1.6; }
+      .calc-page h1 { font-size: clamp(36px, 4vw, 64px); font-weight: 400; margin: 0; line-height: 1.05; }
+      .calc-page h1 span { color: var(--red); }
+      .calc-howto { margin-top: 56px; border-top: 1px solid var(--gray-200); padding-top: 40px; }
+      .calc-howto h2 { font-size: clamp(24px, 2.5vw, 36px); font-weight: 400; margin: 0 0 8px; }
+      .calc-howto ol { padding-left: 20px; margin: 24px 0 0; font-family: var(--tech); font-size: 14px; line-height: 1.8; color: var(--gray-900, #222); }
+      .calc-howto ol li { margin-bottom: 6px; }
+      .calc-cta { margin-top: 48px; padding: 32px clamp(20px, 4vw, 48px); border: 1px solid var(--gray-200); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; background: #f7f7f7; }
+      .calc-cta p { margin: 0; font-family: var(--tech); text-transform: uppercase; font-size: 13px; letter-spacing: 0.04em; }
+      .calc-cta a { font-family: var(--tech); font-size: 13px; font-weight: 700; text-transform: uppercase; background: var(--black); color: var(--white); padding: 14px 22px; text-decoration: none; }
+      .calc-cta a:hover { background: var(--red); }
+    </style>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://zurichbiotech.com/" },
+            { "@type": "ListItem", "position": 2, "name": "Peptide Dosing Calculator", "item": "https://zurichbiotech.com/dosing-calculator/" }
+          ]
+        },
+        {
+          "@type": "WebApplication",
+          "name": "Peptide Dosing Calculator",
+          "url": "https://zurichbiotech.com/dosing-calculator/",
+          "applicationCategory": "HealthApplication",
+          "operatingSystem": "All",
+          "browserRequirements": "Requires JavaScript",
+          "description": "Interactive peptide dosing calculator. Computes syringe units, concentration, mcg per unit, and vial duration for BPC-157, Retatrutide, GHK-Cu, MOTS-c, CJC-1295/Ipamorelin, and Semax based on user-entered dose, BAC water volume, and syringe size.",
+          "publisher": { "@id": "https://zurichbiotech.com/#organization" },
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "featureList": [
+            "Syringe unit calculation for U-100 0.5ml and 1.0ml syringes",
+            "Peptide concentration (mg/ml) from vial mg and BAC water volume",
+            "Micrograms per insulin syringe unit",
+            "Vial duration in days at chosen dose",
+            "Supports 6 research peptides: BPC-157+TB-500, Retatrutide, GHK-Cu, MOTS-c, CJC-1295/Ipamorelin, Semax"
+          ]
+        },
+        {
+          "@type": "HowTo",
+          "name": "How to calculate peptide reconstitution and syringe units",
+          "description": "Determine the correct syringe draw for a research peptide dose given vial concentration, BAC water volume, and syringe size.",
+          "totalTime": "PT2M",
+          "tool": [
+            { "@type": "HowToTool", "name": "Insulin syringe (U-100, 0.5ml or 1.0ml)" },
+            { "@type": "HowToTool", "name": "Bacteriostatic water" },
+            { "@type": "HowToTool", "name": "Lyophilized peptide vial" }
+          ],
+          "step": [
+            { "@type": "HowToStep", "name": "Select compound", "text": "Choose the peptide and vial mg from the dropdown. The calculator uses the lyophilized mg per vial to derive concentration." },
+            { "@type": "HowToStep", "name": "Enter desired dose", "text": "Enter dose in milligrams per administration (e.g. 0.5mg). A typical research dosing range is shown next to the input." },
+            { "@type": "HowToStep", "name": "Choose syringe size", "text": "Pick 0.5ml U-100 (50 units total) or 1.0ml U-100 (100 units total). Units per ml stays 100 either way." },
+            { "@type": "HowToStep", "name": "Enter BAC water volume", "text": "Enter the milliliters of bacteriostatic water you reconstituted the vial with. Default is 2ml." },
+            { "@type": "HowToStep", "name": "Read syringe draw", "text": "The calculator returns the exact syringe units to draw, concentration in mg/ml, micrograms per unit, and how many days the vial will last at the chosen dose." }
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What syringe size should I use for peptide injections?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Most research peptide protocols use insulin syringes — either 0.5ml U-100 (50 units total) or 1.0ml U-100 (100 units total). U-100 means 100 units per milliliter. The calculator works with either size."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How much bacteriostatic water should I use to reconstitute a peptide vial?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "There is no single correct answer — the volume determines concentration. 2ml of BAC water is common for 10mg vials because it yields a 5 mg/ml concentration that maps neatly to insulin syringe units. The calculator recomputes everything when you change the BAC water volume."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is this calculator for human use?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. This calculator and all linked compounds are for research use only and not intended for human consumption."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+  </head>
+  <body>
+    <header class="site-header" aria-label="Primary navigation">
+      <a class="brand" href="/" aria-label="Zurich Biotech home">Zurich Biotech<span>+</span></a>
+      <nav>
+        <a href="/#protocols">Protocols</a>
+        <a href="/#science">Science</a>
+        <a href="/#compounds">Compounds</a>
+        <a href="/resources/">Resources</a>
+        <a href="/#truth">About</a>
+        <a class="nav-cta" href="/cart.html" aria-label="Cart">Your Cart <span class="cart-count" id="cartCount">0</span></a>
+      </nav>
+    </header>
+
+    <main class="calc-page" id="top">
+      <p class="section-kicker">[ Dosing Calculator ]</p>
+      <h1>Peptide Dosing Calculator<span>+</span></h1>
+      <p class="lede">Enter compound, desired dose, syringe size and BAC water volume — get the exact syringe units to draw, concentration in mg/ml, micrograms per unit, and how long the vial lasts at that dose. Works for BPC-157+TB-500, Retatrutide, GHK-Cu, MOTS-c, CJC-1295/Ipamorelin, and Semax. Research use only.</p>
+
+      <section class="dosing-calculator" id="dosing-calculator" aria-labelledby="calculator-title">
+        <h2 id="calculator-title" class="visually-hidden" style="position:absolute;left:-9999px">Calculator</h2>
+        <div class="calculator-body">
+          <div class="calculator-form" id="calculatorForm">
+            <div class="form-group">
+              <label for="calcCompound">Compound</label>
+              <select id="calcCompound">
+                <option value="" data-conc="0" data-unit="">Select a compound</option>
+                <option value="ghk-cu" data-conc="10" data-unit="mg/vial" data-range="1-2">GHK-CU: 10mg/vial</option>
+                <option value="semax" data-conc="5" data-unit="mg/vial" data-range="0.3-0.6">Semax: 5mg/vial</option>
+                <option value="bpc157-tb500" data-conc="10" data-unit="mg/vial" data-range="5-10">BPC157+TB500: 10mg/vial</option>
+                <option value="mots-c" data-conc="10" data-unit="mg/vial" data-range="0.2-0.3">MOTS-C: 10mg/vial</option>
+                <option value="retatrutide" data-conc="10" data-unit="mg/vial" data-range="1-2">Retatrutide: 10mg/vial</option>
+                <option value="cjc1295-ipamorelin" data-conc="10" data-unit="mg Blend/vial" data-range="1-2">CJC1295/Ipamorelin: 10mg Blend/vial</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="calcDose">Desired dose <small id="doseRangeHint">(mg / day)</small></label>
+              <input type="number" id="calcDose" step="0.01" min="0.01" placeholder="e.g. 1.5">
+            </div>
+            <div class="form-group">
+              <label for="calcSyringe">Syringe size</label>
+              <select id="calcSyringe">
+                <option value="0.5">0.5ml U-100 (50 units)</option>
+                <option value="1">1.0ml U-100 (100 units)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="calcBac">BAC water per vial <small>(ml)</small></label>
+              <input type="number" id="calcBac" step="0.1" min="0.5" value="2" placeholder="2">
+            </div>
+          </div>
+          <div class="calculator-results" id="calculatorResults">
+            <article class="calc-result-card">
+              <span class="resource-line" style="background:var(--gray-400)"></span>
+              <div class="resource-body">
+                <p class="resource-category">Research Dosing</p>
+                <h3>Enter values to calculate</h3>
+                <p class="resource-desc">Select a compound and enter your desired dose to see exact syringe measurements.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="calc-howto" aria-labelledby="howto-title">
+        <p class="section-kicker">[ How it works ]</p>
+        <h2 id="howto-title">How the calculation works</h2>
+        <ol>
+          <li><strong>Concentration</strong> = vial mg ÷ BAC water ml. A 10mg vial in 2ml of BAC water = 5 mg/ml.</li>
+          <li><strong>Syringe draw (ml)</strong> = desired dose ÷ concentration. For 1.5mg at 5 mg/ml that's 0.3ml.</li>
+          <li><strong>Syringe units</strong> = ml × 100 (U-100 syringes are 100 units per ml). 0.3ml = 30 units.</li>
+          <li><strong>Micrograms per unit</strong> = concentration × 10. Useful for small-dose peptides like Semax or MOTS-c.</li>
+          <li><strong>Vial duration</strong> = vial mg ÷ dose per administration, rounded down to whole days.</li>
+        </ol>
+      </section>
+
+      <aside class="calc-cta" aria-label="Browse compounds">
+        <p>Need the compound? Browse our research peptide catalog.</p>
+        <a href="/#compounds">View Compounds +</a>
+      </aside>
+    </main>
+
+    <script src="/script.js"></script>
+  </body>
+</html>
