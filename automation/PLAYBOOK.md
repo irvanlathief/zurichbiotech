@@ -75,11 +75,14 @@ Voice and style:
 - One idea per paragraph. One claim per sentence where possible.
 - Use specific numbers: study sample sizes, percentages, dosing ranges
   from the literature, dates, years.
-- Avoid AI tells: "delve into", "navigating the landscape", "in the
-  realm of", "ever-evolving", "tapestry", "unleash", "embark on a
-  journey", em-dash overload, bullet-point soup, three-item lists
-  everywhere. Read your draft and rewrite anything that sounds like
-  a chatbot.
+- Avoid AI tells. The full anti-pattern catalog lives in
+  `automation/HUMANIZER.md` — you must read it before drafting and
+  run a humanizer pass on the draft (step 4b below) before filling
+  the template. Hard bans inherited from HUMANIZER.md: em dashes,
+  en dashes, curly quotes, emojis, "delve", "tapestry",
+  "navigating the landscape", "let's explore", rule-of-three
+  pile-ups, inline-header bullet lists, title-case headings,
+  generic upbeat conclusions.
 - Use British/US English consistently — pick US (since `lang="en"`
   and the audience is largely expat/foreigner). Spell consistently.
 - Date references should use the actual current year. If today is
@@ -100,6 +103,45 @@ H2: Frequently asked questions
 
 End CTA card (already in template)
 ```
+
+### 4b. Humanizer pass (mandatory)
+
+After the draft is written and before you fill the template, run the
+draft through the humanizer process from `automation/HUMANIZER.md`:
+
+1. Read the draft top to bottom.
+2. Identify every instance of the 30 patterns in HUMANIZER.md (significance
+   inflation, copula avoidance, -ing endings, rule-of-three, vague
+   attributions, AI vocabulary, signposting, fragmented headers,
+   filler phrases, hedging, persuasive authority tropes, etc.).
+3. Write a draft rewrite that fixes each instance. Cover everything
+   the original covers; don't shrink the article by cutting whole
+   sections, rewrite them in plainer language.
+4. Ask: "What makes this still sound AI-generated?" Identify any
+   remaining tells in 1-3 short bullets.
+5. Write a final rewrite that addresses those remaining tells.
+
+Hard constraints the final rewrite must satisfy before you move to
+step 5:
+
+- Zero em dashes (`—`). Grep for them. If any hit, the draft isn't done.
+- Zero en dashes (`–`).
+- Zero curly quotes (`"` `"` `'` `'`). Use straight quotes only.
+- Zero emojis.
+- No inline-header vertical lists with bolded headers followed by colons.
+- No title-case headings (sentence case only).
+- No "Let's dive in", "Let's explore", "Here's what you need to know",
+  "In conclusion", "It's important to note that".
+- No fragmented headers (heading followed by a one-sentence restate).
+- No generic upbeat conclusions ("The future looks bright", "Exciting
+  times lie ahead").
+
+For peptide research articles specifically, the appropriate register
+is the *technical / encyclopedic* register from HUMANIZER.md — neutral,
+plain, sourced. Do NOT inject first-person opinion, slang, or
+editorial voice from the PERSONALITY AND SOUL section. That section
+is for blog/essay/opinion writing. Research articles read like an
+experienced lab tech wrote them, not like a personal blog.
 
 ### 5. Fill the template
 Copy `templates/article.html` to `resources/<slug>/index.html`.

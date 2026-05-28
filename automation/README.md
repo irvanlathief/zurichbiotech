@@ -13,8 +13,13 @@ SEO-tight article per run.
 - **`SOURCES.md`** — the source-authority hierarchy. Tier 1 is required,
   tier 4 is forbidden. Edit when you find new authoritative sources
   or want to ban a class of sites.
+- **`HUMANIZER.md`** — the anti-AI-writing pattern catalog (based on
+  Wikipedia's "Signs of AI writing" guide). PLAYBOOK step 4b requires
+  every draft to be run through this. Edit to ban new phrases or
+  tweak voice rules.
 - **`QUALITY_CHECKLIST.md`** — the pre-commit gate. Every checkbox
-  must pass before the article ships.
+  must pass before the article ships, including explicit em-dash,
+  curly-quote, and banned-phrase greps.
 - **`topics.json`** — the article queue. ~25 topics seeded, ordered
   by priority (calculator companion → compound deep-dives → how-tos
   → comparisons → city pages). Refill when you run low.
