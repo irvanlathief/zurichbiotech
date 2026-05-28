@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/0.9">
+  <url>
+    <loc>https://zurichbiotech.com/</loc>
+    <lastmod>2026-05-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://zurichbiotech.com/assets/hero-mots-c.png</image:loc>
+      <image:title>Zurich Biotech research peptides</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://zurichbiotech.com/products.html</loc>
+    <lastmod>2026-05-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://zurichbiotech.com/assets/ghk-cu.png</image:loc>
+      <image:title>GHK-Cu peptide</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://zurichbiotech.com/assets/bpc157-tb500.png</image:loc>
+      <image:title>BPC-157 + TB-500 peptide</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://zurichbiotech.com/assets/retatrutide.png</image:loc>
+      <image:title>Retatrutide peptide</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://zurichbiotech.com/assets/mots-c.png</image:loc>
+      <image:title>MOTS-c peptide</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://zurichbiotech.com/assets/cjc1295-ipamorelin.png</image:loc>
+      <image:title>CJC-1295 / Ipamorelin peptide</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://zurichbiotech.com/assets/semax.png</image:loc>
+      <image:title>Semax peptide</image:title>
+    </image:image>
+  </url>
+</urlset>
