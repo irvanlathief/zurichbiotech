@@ -1457,9 +1457,19 @@ dd {
     padding: 16px;
   }
 
+  .protocol-images {
+    gap: 6px;
+  }
+
   .protocol-images img {
-    height: 220px;
-    clip-path: inset(0 15% 0 15%);
+    height: auto;
+    width: auto;
+    max-height: 220px;
+    max-width: 100%;
+    flex: 1 1 0;
+    min-width: 0;
+    clip-path: none;
+    object-fit: contain;
   }
 
   .product-focus {
