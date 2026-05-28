@@ -30,6 +30,10 @@
       .checkout-btn { display: inline-flex; width: 100%; max-width: 400px; min-height: 64px; align-items: center; justify-content: center; gap: 16px; border: 1px solid var(--black); background: var(--black); color: var(--white); padding: 18px 28px; font-family: var(--tech); font-weight: 700; text-transform: uppercase; transition: background 180ms ease, color 180ms ease, opacity 180ms ease; cursor: pointer; }
       .checkout-btn:hover:not(:disabled) { background: var(--white); color: var(--black); }
       .checkout-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+      .tc-wrap { display: flex; align-items: flex-start; gap: 12px; max-width: 400px; margin: 24px auto 0; text-align: left; }
+      .tc-wrap input[type="checkbox"] { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--black); flex-shrink: 0; cursor: pointer; }
+      .tc-wrap label { font-family: var(--tech); font-size: 13px; line-height: 1.5; color: var(--gray-700); cursor: pointer; }
+      .tc-wrap label a { color: var(--black); text-decoration: underline; }
       .nav-cta { position: relative; }
       .nav-cta .cart-count { position: absolute; top: -6px; right: -10px; }
       @media (max-width: 640px) {
@@ -73,6 +77,10 @@
           </div>
         </div>
 
+        <div class="tc-wrap">
+          <input type="checkbox" id="tcCheck" />
+          <label for="tcCheck">I have read and agree to the <a href="terms.html" target="_blank" rel="noopener noreferrer">Terms & Conditions</a>. I understand these products are for research use only and not for human consumption.</label>
+        </div>
         <div style="margin-top:24px;">
           <button class="checkout-btn" id="checkoutBtn" disabled>Proceed to Checkout <span>+</span></button>
         </div>
@@ -156,17 +164,20 @@
       /* ─────────── form validation ─────────── */
       const fullNameInput = document.getElementById("fullName");
       const villaLocationInput = document.getElementById("villaLocation");
+      const tcCheck = document.getElementById("tcCheck");
       const checkoutBtn = document.getElementById("checkoutBtn");
 
       function validateCheckoutForm() {
         const name = fullNameInput.value.trim();
         const location = villaLocationInput.value.trim();
+        const tcAgreed = tcCheck.checked;
         const isValidUrl = location.startsWith("http://") || location.startsWith("https://") || location.startsWith("maps.google") || location.startsWith("www.google.com/maps");
-        checkoutBtn.disabled = !(name && location && isValidUrl);
+        checkoutBtn.disabled = !(name && location && isValidUrl && tcAgreed);
       }
 
       fullNameInput.addEventListener("input", validateCheckoutForm);
       villaLocationInput.addEventListener("input", validateCheckoutForm);
+      tcCheck.addEventListener("change", validateCheckoutForm);
 
       /* ─────────── WhatsApp checkout ─────────── */
       const WHATSAPP_CONFIG = {
