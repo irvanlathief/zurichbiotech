@@ -12,11 +12,52 @@ isn't ready — don't ship it.
 - [ ] At least 5 `<h2>` sections (excluding the FAQ H2).
 - [ ] No paragraph is longer than 4 sentences.
 - [ ] No bullet list has more than 7 items without an intro paragraph.
-- [ ] No "AI tells" in the body: "delve into", "navigating the
-      landscape", "in the realm of", "ever-evolving", "tapestry",
-      "unleash", "embark on a journey", "let's explore", "in today's
-      world", "in conclusion", "It's important to note that". Rewrite
-      or delete.
+- [ ] No "AI tells" in the body. Run a grep against the rendered
+      article HTML for the following banned phrases. **Any hit = fix
+      before commit.** This list comes from `automation/HUMANIZER.md`;
+      read that file for the full catalog and the rewrite patterns.
+      - "delve" / "delving"
+      - "navigating the landscape" / "evolving landscape"
+      - "in the realm of"
+      - "ever-evolving"
+      - "tapestry"
+      - "unleash" / "unlocking"
+      - "embark on a journey"
+      - "let's explore" / "let's dive" / "let's break this down"
+      - "in today's world" / "in today's"
+      - "in conclusion"
+      - "It's important to note that"
+      - "stands as a testament" / "is a testament to"
+      - "marking a pivotal moment"
+      - "at its core" / "the real question is" / "fundamentally"
+      - "boasts a" / "features" (used as a fancy "has")
+      - "showcasing" / "highlighting" / "underscoring" / "emphasizing"
+        (as tacked-on -ing phrases)
+      - "Not only X but Y" constructions
+      - "from X to Y" false ranges
+      - "could potentially possibly"
+- [ ] Em-dash count is **zero**. Run `grep -c '—' resources/<slug>/index.html`
+      — must return 0.
+- [ ] En-dash count is **zero**. Run `grep -c '–' resources/<slug>/index.html`
+      — must return 0.
+- [ ] Curly quote count is **zero**. Run `grep -cE '[""'"'"''"'"']'
+      resources/<slug>/index.html` — must return 0. Use straight quotes
+      (`"` and `'`) in HTML.
+- [ ] Emoji count is **zero** in the article body. (Decorative emojis
+      in headings or bullets are an AI tell.)
+- [ ] No inline-header vertical lists where each bullet starts with
+      `**Bold header:**` followed by a colon. Convert to prose or plain
+      bullets.
+- [ ] All H2 / H3 headings are sentence case, not title case.
+- [ ] No fragmented headers — no heading immediately followed by a
+      one-sentence paragraph that just restates the heading.
+- [ ] No rule-of-three pile-ups (multiple consecutive three-item lists
+      or three-adjective clusters).
+- [ ] No generic upbeat conclusions ("The future looks bright",
+      "Exciting times lie ahead", "represents a major step").
+- [ ] Voice is technical / encyclopedic, not blog / opinion. No
+      first-person editorial voice, no "I think" / "I genuinely",
+      no slang. Reads like a lab tech wrote it.
 - [ ] Specific numbers used at least 3 times (sample sizes, percentages,
       doses from literature, years, half-lives). Vague "many studies"
       / "research has shown" is replaced with cited specifics.
