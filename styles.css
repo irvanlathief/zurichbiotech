@@ -763,8 +763,6 @@ small {
 .outcome-tab:hover,
 .outcome-tab.active {
   border-color: var(--black);
-  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.06);
-  transform: translateY(-2px);
 }
 
 .outcome-tab strong {
