@@ -12,8 +12,8 @@
       .compounds-section h2 { font-size: clamp(32px, 3.5vw, 56px); font-weight: 400; margin: 0 0 40px; }
       .compounds-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
       @media (max-width: 1200px) { .compounds-grid { grid-template-columns: repeat(3, 1fr); } }
-      @media (max-width: 720px) { .compounds-grid { grid-template-columns: repeat(2, 1fr); } }
-      @media (max-width: 480px) { .compounds-section { padding-inline: 16px; } .compounds-grid { grid-template-columns: 1fr; } }
+      @media (max-width: 900px) { .compounds-grid { grid-template-columns: repeat(2, 1fr); } }
+      @media (max-width: 640px) { .compounds-section { padding-inline: 16px; } .compounds-grid { grid-template-columns: 1fr; } }
       .compound-card { display: flex; flex-direction: column; border: 1px solid var(--gray-200); padding: 0; }
       .compound-card .card-visual { display: grid; aspect-ratio: 1 / 1; min-height: 0; place-items: center; background: #f7f7f7; position: relative; overflow: hidden; }
       .compound-card .card-visual img { width: 100%; height: 100%; object-fit: contain; display: block; }
@@ -48,7 +48,7 @@
           <div class="hero-content">
             <p class="hero-kicker">[ Research use only ]</p>
             <h1 id="hero-title">Research-grade Peptides<span>+</span></h1>
-            <p>peptide protocols designed for strength, recovery, and biological control.</p>
+            <p>Peptide protocols for strength, recovery, and metabolic control.</p>
             <p class="research-note">Research use only<br />Not for human consumption</p>
           </div>
           <div class="hero-product-card">
@@ -68,7 +68,7 @@
               <p class="product-card-price">Rp1.800.000</p>
               <p class="product-card-note">For research purpose only</p>
             </div>
-            <button class="product-card-cta add-protocol-btn" data-key="ghk-cu" data-title="GHK-CU" data-type="Single Vial" data-goal="Recovery &amp; Tissue Repair" data-price="1800000">Add to Protocol</button>
+            <button class="product-card-cta add-protocol-btn" data-key="ghk-cu" data-title="GHK-CU" data-type="Single Vial" data-goal="Recovery &amp; Tissue Repair" data-price="1800000">Add to Cart</button>
           </div>
         </div>
       </section>
@@ -78,37 +78,28 @@
         <div class="science-copy">
           <aside class="peptide-list" aria-label="Select protocol">
             <span>Select protocols</span>
-            <button class="active" type="button" data-peptide="ghk">GHK-CU — inflammation <span>+</span></button>
-            <button type="button" data-peptide="recovery">BPC157+TB500 — recovery <span>+</span></button>
-            <button type="button" data-peptide="growth">CJC1295/Ipamorelin — growth <span>+</span></button>
-            <button type="button" data-peptide="metabolic">MOTS-C — metabolic <span>+</span></button>
-            <button type="button" data-peptide="bodycomp">Retatrutide — body comp <span>+</span></button>
+            <button class="active" type="button" data-peptide="ghk">GHK-CU: inflammation <span>+</span></button>
+            <button type="button" data-peptide="recovery">BPC157+TB500: recovery <span>+</span></button>
+            <button type="button" data-peptide="growth">CJC1295/Ipamorelin: growth <span>+</span></button>
+            <button type="button" data-peptide="metabolic">MOTS-C: metabolic <span>+</span></button>
+            <button type="button" data-peptide="bodycomp">Retatrutide: body comp <span>+</span></button>
           </aside>
-          <div class="science-text">
-            <h2 id="science-title">Decline<span>+</span></h2>
-            <p id="scienceBody">The repair protocol maps tissue repair, collagen signaling, and recovery quality after 30.</p>
-            <ul id="scienceMetrics">
-              <li><span>+</span> Tissue repair</li>
-              <li><span>+</span> Collagen signaling</li>
-              <li><span>+</span> Recovery quality</li>
-              <li><span>+</span> Skin resilience</li>
-            </ul>
-          </div>
         </div>
-        <div class="viz-panel">
-          <div class="viz-header">
-            <div>
-              <h3 id="vizTitle">Repair Protocol Intervention Model</h3>
-              <p id="vizSubtitle">Tissue repair score vs. age</p>
-            </div>
-            <div class="legend">
-              <span id="lineLegend"><i class="dot red"></i> GHK-CU / TB-500 / BPC-157</span>
-              <span><i class="dot blue"></i> Without support</span>
-            </div>
+        <div class="science-text">
+          <h2 id="science-title">Decline<span>+</span></h2>
+          <p id="scienceBody">The repair protocol maps tissue repair, collagen signaling, and recovery quality after age 30.</p>
+        </div>
+        <div class="timeline-panel" id="timelinePanel">
+          <div class="timeline-header">
+            <h3 id="timelineTitle">GHK-CU Protocol Timeline</h3>
+            <p id="timelineSubtitle">Biomarker progression over 16 weeks</p>
           </div>
-          <canvas id="performanceChart" width="1180" height="720" aria-label="Protocol performance data visualization"></canvas>
-          <div id="chartTooltip" class="chart-tooltip"></div>
-          <div class="viz-callout" id="vizCallout">+ Repair window<br /><small>30-48 years</small></div>
+          <div class="chart-wrap">
+            <canvas id="biomarkerChart" aria-label="Biomarker progression chart"></canvas>
+            <div id="chartTooltip" class="chart-tooltip"></div>
+          </div>
+          <div class="biomarker-legend" id="biomarkerLegend"></div>
+          <div class="biomarker-mobile" id="biomarkerMobile"></div>
         </div>
       </section>
 
@@ -139,7 +130,7 @@
             <span class="signal green"></span>
             <small>Less downtime. More progress.</small>
           </button>
-          <button class="outcome-tab" type="button" data-protocol="skin" role="tab" aria-selected="false">
+          <button class="outcome-tab" type="button" data-protocol="metabolic" role="tab" aria-selected="false">
             <strong>Look<br />Better.</strong>
             <span class="signal orange"></span>
             <small>Healthier skin. Sharper you.</small>
@@ -162,8 +153,10 @@
               </div>
             </div>
           </div>
-          <div class="image-placeholder" aria-label="Protocol image placeholder">
-            <span>Image placeholder</span>
+          <div class="protocol-images" id="protocolImages" aria-label="Protocol product images">
+            <img src="assets/ghk-cu.png" alt="GHK-CU" loading="lazy" />
+            <img src="assets/bpc157-tb500.png" alt="BPC157+TB500" loading="lazy" />
+            <img src="assets/cjc1295-ipamorelin.png" alt="CJC1295/Ipamorelin" loading="lazy" />
           </div>
           <aside class="included">
             <span>What's included</span>
@@ -173,7 +166,7 @@
               <li><b>+</b> CJC1295 / Ipamorelin <strong>10mg Blend</strong></li>
             </ul>
             <p><strong id="protocolPrice">Rp5.200.000</strong> / protocol</p>
-            <button class="button add-protocol-btn" data-key="strength" id="protocolAddBtn" data-price="5200000">Add Protocol <span>+</span></button>
+            <button class="button add-protocol-btn" data-key="strength" id="protocolAddBtn" data-price="5200000">Add to Cart</button>
           </aside>
         </div>
       </section>
@@ -192,8 +185,8 @@
             <div><dt>Storage</dt><dd>-20°C</dd></div>
             <div><dt>Purity</dt><dd>&gt; 99%</dd></div>
           </dl>
-          <p>Copper peptide support for tissue repair, skin quality, and recovery signaling within a structured protocol.</p>
-          <button class="button button-red add-protocol-btn" data-key="ghk-cu" data-title="GHK-CU" data-type="Single Vial" data-goal="Recovery & Tissue Repair" data-price="1800000">Add <span>+</span></button>
+          <p>Copper peptide that supports tissue repair, skin quality, and recovery signaling.</p>
+          <button class="button button-red add-protocol-btn" data-key="ghk-cu" data-title="GHK-CU" data-type="Single Vial" data-goal="Recovery & Tissue Repair" data-price="1800000">Add to Cart</button>
         </div>
       </section>
 
@@ -205,66 +198,66 @@
             <div class="card-visual"><img src="assets/ghk-cu.png" alt="GHK-CU vial" loading="lazy" /></div>
             <div class="card-body">
               <h3>GHK-CU<span style="color:var(--red)">+</span></h3>
-              <div class="category">Recovery — Recover Faster</div>
+              <div class="category">Recovery: Recover Faster</div>
               <span class="category-line" style="background:#138f2d"></span>
               <div class="meta">10mg / vial</div>
               <div class="price">Rp1.800.000</div>
-              <button class="add-btn add-protocol-btn" data-key="ghk-cu" data-title="GHK-CU" data-type="Single Vial" data-goal="Recovery &amp; Tissue Repair" data-price="1800000">Add <span>+</span></button>
+              <button class="add-btn add-protocol-btn" data-key="ghk-cu" data-title="GHK-CU" data-type="Single Vial" data-goal="Recovery &amp; Tissue Repair" data-price="1800000">Add to Cart</button>
             </div>
           </article>
           <article class="compound-card">
             <div class="card-visual"><img src="assets/semax.png" alt="SEMAX vial" loading="lazy" /></div>
             <div class="card-body">
               <h3>SEMAX<span style="color:var(--red)">+</span></h3>
-              <div class="category">Cognitive — Wake Up Sharp</div>
+              <div class="category">Cognitive: Wake Up Sharp</div>
               <span class="category-line" style="background:#ffd21a"></span>
               <div class="meta">5mg / vial</div>
               <div class="price">Rp1.000.000</div>
-              <button class="add-btn add-protocol-btn" data-key="semax" data-title="SEMAX" data-type="Single Vial" data-goal="Cognitive &amp; Energy" data-price="1000000">Add <span>+</span></button>
+              <button class="add-btn add-protocol-btn" data-key="semax" data-title="SEMAX" data-type="Single Vial" data-goal="Cognitive &amp; Energy" data-price="1000000">Add to Cart</button>
             </div>
           </article>
           <article class="compound-card">
             <div class="card-visual"><img src="assets/bpc157-tb500.png" alt="BPC157+TB500 vial" loading="lazy" /></div>
             <div class="card-body">
               <h3>BPC157+TB500<span style="color:var(--red)">+</span></h3>
-              <div class="category">Recovery — Recover Faster</div>
+              <div class="category">Recovery: Recover Faster</div>
               <span class="category-line" style="background:#138f2d"></span>
               <div class="meta">10mg / vial</div>
               <div class="price">Rp1.900.000</div>
-              <button class="add-btn add-protocol-btn" data-key="bpc157-tb500" data-title="BPC157+TB500" data-type="Single Vial" data-goal="Recovery &amp; Tissue Repair" data-price="1900000">Add <span>+</span></button>
+              <button class="add-btn add-protocol-btn" data-key="bpc157-tb500" data-title="BPC157+TB500" data-type="Single Vial" data-goal="Recovery &amp; Tissue Repair" data-price="1900000">Add to Cart</button>
             </div>
           </article>
           <article class="compound-card">
             <div class="card-visual"><img src="assets/mots-c.png" alt="MOTS-C vial" loading="lazy" /></div>
             <div class="card-body">
               <h3>MOTS-C<span style="color:var(--red)">+</span></h3>
-              <div class="category">Longevity — Look Better</div>
+              <div class="category">Longevity: Look Better</div>
               <span class="category-line" style="background:#ffd21a"></span>
               <div class="meta">10mg / vial</div>
               <div class="price">Rp2.000.000</div>
-              <button class="add-btn add-protocol-btn" data-key="mots-c" data-title="MOTS-C" data-type="Single Vial" data-goal="Longevity &amp; Metabolic Health" data-price="2000000">Add <span>+</span></button>
+              <button class="add-btn add-protocol-btn" data-key="mots-c" data-title="MOTS-C" data-type="Single Vial" data-goal="Longevity &amp; Metabolic Health" data-price="2000000">Add to Cart</button>
             </div>
           </article>
           <article class="compound-card">
             <div class="card-visual"><img src="assets/retatrutide.png" alt="RETATRUTIDE vial" loading="lazy" /></div>
             <div class="card-body">
               <h3>RETATRUTIDE<span style="color:var(--red)">+</span></h3>
-              <div class="category">Longevity — Look Better</div>
+              <div class="category">Longevity: Look Better</div>
               <span class="category-line" style="background:#ff4a12"></span>
               <div class="meta">10mg / vial</div>
               <div class="price">Rp3.800.000</div>
-              <button class="add-btn add-protocol-btn" data-key="retatrutide" data-title="RETATRUTIDE" data-type="Single Vial" data-goal="Longevity &amp; Body Composition" data-price="3800000">Add <span>+</span></button>
+              <button class="add-btn add-protocol-btn" data-key="retatrutide" data-title="RETATRUTIDE" data-type="Single Vial" data-goal="Longevity &amp; Body Composition" data-price="3800000">Add to Cart</button>
             </div>
           </article>
           <article class="compound-card">
             <div class="card-visual"><img src="assets/cjc1295-ipamorelin.png" alt="CJC1295/IPAMORELIN vial" loading="lazy" /></div>
             <div class="card-body">
               <h3>CJC1295/IPAMORELIN<span style="color:var(--red)">+</span></h3>
-              <div class="category">Growth — Lift Heavier</div>
+              <div class="category">Growth: Lift Heavier</div>
               <span class="category-line" style="background:#1158d8"></span>
               <div class="meta">5mg + 5mg / vial</div>
               <div class="price">Rp1.500.000</div>
-              <button class="add-btn add-protocol-btn" data-key="cjc1295-ipamorelin" data-title="CJC1295/IPAMORELIN" data-type="Single Vial" data-goal="Growth &amp; Strength" data-price="1500000">Add <span>+</span></button>
+              <button class="add-btn add-protocol-btn" data-key="cjc1295-ipamorelin" data-title="CJC1295/IPAMORELIN" data-type="Single Vial" data-goal="Growth &amp; Strength" data-price="1500000">Add to Cart</button>
             </div>
           </article>
         </div>
@@ -278,70 +271,116 @@
             <span class="resource-line" style="background:var(--blue)"></span>
             <div class="resource-badge">
               <span class="resource-format">PDF</span>
-              <span class="resource-pages">12 PAGES</span>
+              <span class="resource-pages">16 PAGES</span>
             </div>
             <div class="resource-body">
-              <p class="resource-category">Clinical Overview</p>
-              <h3>Protocol Primer</h3>
-              <p class="resource-desc">12-16 week protocol logic and selection criteria for research applications.</p>
+              <p class="resource-category">Starter Guide</p>
+              <h3>Peptide Researcher's Starter Guide</h3>
+              <p class="resource-desc">Essential knowledge for researchers beginning peptide investigation. Purity standards, handling protocols, safety systems, and a complete reference glossary.</p>
               <dl class="resource-specs">
                 <div><dt>Format</dt><dd>PDF</dd></div>
-                <div><dt>Size</dt><dd>1.2 MB</dd></div>
+                <div><dt>Size</dt><dd>261 KB</dd></div>
               </dl>
-              <a class="resource-cta" href="resources/protocol-primer.txt" download>Download Free <span>+</span></a>
+              <a class="resource-cta" href="resources/01-Peptide-Researchers-Starter-Guide.pdf" download>Download Free <span>+</span></a>
             </div>
           </article>
           <article class="resource-card">
             <span class="resource-line" style="background:var(--green)"></span>
             <div class="resource-badge">
               <span class="resource-format">PDF</span>
-              <span class="resource-pages">08 PAGES</span>
+              <span class="resource-pages">11 PAGES</span>
             </div>
             <div class="resource-body">
-              <p class="resource-category">Reference Guide</p>
-              <h3>Stack Compatibility</h3>
-              <p class="resource-desc">Grouping matrix by outcome and biological pathway for common research peptides.</p>
+              <p class="resource-category">Quick Reference</p>
+              <h3>Peptide Applications Quick Reference</h3>
+              <p class="resource-desc">A researcher's field guide to peptide categories, mechanisms, and therapeutic research areas. Mechanism, application domain, and clinical evidence at a glance.</p>
               <dl class="resource-specs">
                 <div><dt>Format</dt><dd>PDF</dd></div>
-                <div><dt>Size</dt><dd>0.8 MB</dd></div>
+                <div><dt>Size</dt><dd>237 KB</dd></div>
               </dl>
-              <a class="resource-cta" href="resources/stack-compatibility.txt" download>Download Free <span>+</span></a>
+              <a class="resource-cta" href="resources/02-Peptide-Applications-Quick-Reference.pdf" download>Download Free <span>+</span></a>
             </div>
           </article>
           <article class="resource-card">
             <span class="resource-line" style="background:var(--yellow)"></span>
             <div class="resource-badge">
               <span class="resource-format">PDF</span>
-              <span class="resource-pages">06 PAGES</span>
+              <span class="resource-pages">18 PAGES</span>
             </div>
             <div class="resource-body">
-              <p class="resource-category">Lab Checklist</p>
-              <h3>Batch Transparency</h3>
-              <p class="resource-desc">Identity, purity, and storage verification checklist for lab-report review.</p>
+              <p class="resource-category">Technical Reference</p>
+              <h3>Synthesis &amp; QC Protocol Library</h3>
+              <p class="resource-desc">Solid-phase peptide synthesis fundamentals, analytical techniques, quality control systems, and troubleshooting protocols for research-grade production.</p>
               <dl class="resource-specs">
                 <div><dt>Format</dt><dd>PDF</dd></div>
-                <div><dt>Size</dt><dd>0.5 MB</dd></div>
+                <div><dt>Size</dt><dd>318 KB</dd></div>
               </dl>
-              <a class="resource-cta" href="resources/batch-transparency.txt" download>Download Free <span>+</span></a>
+              <a class="resource-cta" href="resources/03-Synthesis-QC-Protocol-Library.pdf" download>Download Free <span>+</span></a>
             </div>
           </article>
           <article class="resource-card">
             <span class="resource-line" style="background:var(--orange)"></span>
             <div class="resource-badge">
               <span class="resource-format">PDF</span>
-              <span class="resource-pages">10 PAGES</span>
+              <span class="resource-pages">14 PAGES</span>
             </div>
             <div class="resource-body">
-              <p class="resource-category">Compliance</p>
-              <h3>Research Use Guide</h3>
-              <p class="resource-desc">Handling notes, compliance language, and research-only positioning guidelines.</p>
+              <p class="resource-category">Intelligence Brief</p>
+              <h3>2026 Peptide Research Trends Brief</h3>
+              <p class="resource-desc">The state of peptide science: next-generation compounds, AI-accelerated discovery, oral delivery breakthroughs, and the regulatory landscape shaping research access.</p>
               <dl class="resource-specs">
                 <div><dt>Format</dt><dd>PDF</dd></div>
-                <div><dt>Size</dt><dd>0.9 MB</dd></div>
+                <div><dt>Size</dt><dd>233 KB</dd></div>
               </dl>
-              <a class="resource-cta" href="resources/research-use-guide.txt" download>Download Free <span>+</span></a>
+              <a class="resource-cta" href="resources/04-2026-Peptide-Research-Trends-Brief.pdf" download>Download Free <span>+</span></a>
             </div>
           </article>
+        </div>
+      </section>
+
+      <section class="dosing-calculator" id="dosing-calculator" aria-labelledby="calculator-title">
+        <div class="section-kicker">[ Dosing Calculator ]</div>
+        <h2 id="calculator-title">Calculate your research dosing.<span>+</span></h2>
+        <div class="calculator-body">
+          <div class="calculator-form" id="calculatorForm">
+            <div class="form-group">
+              <label for="calcCompound">Compound</label>
+              <select id="calcCompound">
+                <option value="" data-conc="0" data-unit="">Select a compound</option>
+                <option value="ghk-cu" data-conc="10" data-unit="mg/vial" data-range="1-2">GHK-CU: 10mg/vial</option>
+                <option value="semax" data-conc="5" data-unit="mg/vial" data-range="0.3-0.6">Semax: 5mg/vial</option>
+                <option value="bpc157-tb500" data-conc="10" data-unit="mg/vial" data-range="5-10">BPC157+TB500: 10mg/vial</option>
+                <option value="mots-c" data-conc="10" data-unit="mg/vial" data-range="0.2-0.3">MOTS-C: 10mg/vial</option>
+                <option value="retatrutide" data-conc="10" data-unit="mg/vial" data-range="1-2">Retatrutide: 10mg/vial</option>
+                <option value="cjc1295-ipamorelin" data-conc="10" data-unit="mg Blend/vial" data-range="1-2">CJC1295/Ipamorelin: 10mg Blend/vial</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="calcDose">Desired dose <small id="doseRangeHint">(mg / day)</small></label>
+              <input type="number" id="calcDose" step="0.01" min="0.01" placeholder="e.g. 1.5">
+            </div>
+            <div class="form-group">
+              <label for="calcSyringe">Syringe size</label>
+              <select id="calcSyringe">
+                <option value="0.5">0.5ml U-100 (50 units)</option>
+                <option value="1">1.0ml U-100 (100 units)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="calcBac">BAC water per vial <small>(ml)</small></label>
+              <input type="number" id="calcBac" step="0.1" min="0.5" value="2" placeholder="2">
+            </div>
+          </div>
+          <div class="calculator-results" id="calculatorResults">
+            <article class="calc-result-card">
+              <span class="resource-line" style="background:var(--gray-400)"></span>
+              <div class="resource-body">
+                <p class="resource-category">Research Dosing</p>
+                <h3>Enter values to calculate</h3>
+                <p class="resource-desc">Select a compound and enter your desired dose to see exact syringe measurements.</p>
+              </div>
+            </article>
+          </div>
         </div>
       </section>
 

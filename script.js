@@ -3,16 +3,30 @@ function formatPrice(price) {
   return "Rp" + price.toLocaleString("id-ID");
 }
 
+/* ─────────── compound prices (single-vial) ─────────── */
+const COMPOUND_PRICES = {
+  "GHK-CU": 1800000,
+  "Semax": 1000000,
+  "BPC157 + TB500": 1900000,
+  "MOTS-C": 2000000,
+  "Retatrutide": 3800000,
+  "CJC1295 / Ipamorelin": 1500000,
+};
+
+function calculateProtocolPrice(stack) {
+  return stack.reduce((total, [name]) => total + (COMPOUND_PRICES[name] || 0), 0);
+}
+
 /* ─────────── protocols data ─────────── */
 const protocols = {
   strength: {
     type: "Strength protocol",
     title: "Lift Heavier.",
     description:
-      "Targets strength, muscle density, and recovery so you can train harder, recover stronger, and keep progressing.",
+      "Strength and muscle density. Train harder, recover faster.",
     duration: "12-16 Weeks",
     goal: "Strength & Muscle Performance",
-    price: 5200000,
+    get price() { return calculateProtocolPrice(this.stack); },
     stack: [
       ["GHK-CU", "10mg"],
       ["BPC157 + TB500", "5mg + 5mg"],
@@ -24,10 +38,10 @@ const protocols = {
     type: "Cognitive protocol",
     title: "Wake Up Sharp.",
     description:
-      "Supports clean morning output, attention, and resilient energy without turning the protocol into stimulation theater.",
+      "Clean morning output and sustained energy. No stimulation theater.",
     duration: "12-16 Weeks",
     goal: "Cognitive Output & Energy",
-    price: 4800000,
+    get price() { return calculateProtocolPrice(this.stack); },
     stack: [
       ["Semax", "5mg"],
       ["MOTS-C", "10mg"],
@@ -39,10 +53,10 @@ const protocols = {
     type: "Recovery protocol",
     title: "Recover Faster.",
     description:
-      "Built around tissue repair, inflammatory load, and readiness so hard training does not become a long recovery debt.",
+      "Tissue repair and inflammatory control. Hard training should not mean long recovery.",
     duration: "12 Weeks",
     goal: "Repair & Tissue Resilience",
-    price: 3700000,
+    get price() { return calculateProtocolPrice(this.stack); },
     stack: [
       ["BPC157 + TB500", "5mg + 5mg"],
       ["GHK-CU", "10mg"],
@@ -53,10 +67,10 @@ const protocols = {
     type: "Metabolic protocol",
     title: "Look Better.",
     description:
-      "Focuses on body composition, metabolic health, cellular repair, and the visible side of biological consistency.",
+      "Body composition and metabolic health. The visible side of biological consistency.",
     duration: "12-16 Weeks",
     goal: "Body Composition & Longevity",
-    price: 7600000,
+    get price() { return calculateProtocolPrice(this.stack); },
     stack: [
       ["Retatrutide", "10mg"],
       ["MOTS-C", "10mg"],
@@ -75,6 +89,21 @@ const durationEl = document.querySelector("#protocolDuration");
 const goalEl = document.querySelector("#protocolGoal");
 const stackEl = document.querySelector("#protocolStack");
 const protocolAddBtn = document.querySelector("#protocolAddBtn");
+const protocolImagesEl = document.querySelector("#protocolImages");
+
+const COMPOUND_IMAGES = {
+  "ghkcu": "assets/ghk-cu.png",
+  "bpc157tb500": "assets/bpc157-tb500.png",
+  "cjc1295ipamorelin": "assets/cjc1295-ipamorelin.png",
+  "semax": "assets/semax.png",
+  "motsc": "assets/mots-c.png",
+  "retatrutide": "assets/retatrutide.png",
+};
+
+function getCompoundImage(name) {
+  const key = name.toLowerCase().replace(/[^a-z0-9]/g, "");
+  return COMPOUND_IMAGES[key] || "";
+}
 
 function setProtocol(key) {
   const protocol = protocols[key];
@@ -94,11 +123,20 @@ function setProtocol(key) {
     protocolAddBtn.dataset.type = protocol.type;
     protocolAddBtn.dataset.goal = protocol.goal;
     protocolAddBtn.dataset.price = protocol.price;
-    updateButtonState(protocolAddBtn, key);
+    ensureQtyStepper(protocolAddBtn);
+  }
+
+  if (protocolImagesEl) {
+    protocolImagesEl.innerHTML = protocol.stack
+      .map(([name]) => {
+        const src = getCompoundImage(name);
+        return src ? `<img src="${src}" alt="${name}" loading="lazy" />` : "";
+      })
+      .join("");
   }
 
   const priceEl = document.querySelector("#protocolPrice");
-  if (priceEl) priceEl.textContent = formatPrice(protocol.price) + " / protocol";
+  if (priceEl) priceEl.textContent = formatPrice(protocol.price);
 
   tabs.forEach((tab) => {
     const isActive = tab.dataset.protocol === key;
@@ -110,6 +148,9 @@ function setProtocol(key) {
 tabs.forEach((tab) => {
   tab.addEventListener("click", () => setProtocol(tab.dataset.protocol));
 });
+
+// Initialize protocol section with default tab
+if (tabs.length) setProtocol("strength");
 
 /* ─────────── cart with quantities ─────────── */
 function getCart() {
@@ -155,36 +196,68 @@ function removeFromCart(key) {
 updateCartCount();
 
 /* ─────────── button state rendering ─────────── */
-function updateButtonState(btn, key) {
-  const qty = getCartQty(key);
-  const parent = btn.parentElement;
-  let removeBtn = parent.querySelector(".remove-btn");
+function buildQtyStepper() {
+  const stepper = document.createElement("div");
+  stepper.className = "qty-stepper";
+  stepper.innerHTML = `
+    <span class="qty-label">Quantity</span>
+    <div class="qty-row">
+      <button class="qty-btn qty-minus" type="button" aria-label="Decrease quantity">−</button>
+      <span class="qty-value">1</span>
+      <button class="qty-btn qty-plus" type="button" aria-label="Increase quantity">+</button>
+    </div>
+  `;
+  const minusBtn = stepper.querySelector(".qty-minus");
+  const plusBtn = stepper.querySelector(".qty-plus");
+  const valueEl = stepper.querySelector(".qty-value");
+  minusBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    let val = parseInt(valueEl.textContent) || 1;
+    if (val > 1) valueEl.textContent = val - 1;
+  });
+  plusBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    let val = parseInt(valueEl.textContent) || 1;
+    valueEl.textContent = val + 1;
+  });
+  return stepper;
+}
 
-  if (qty === 0) {
-    btn.innerHTML = btn.classList.contains("button-red") ? `Add <span>+</span>` : `Add Protocol <span>+</span>`;
-    if (removeBtn) removeBtn.style.display = "none";
-  } else {
-    btn.innerHTML = `In Cart <span style="color:var(--green)">(${qty})</span>`;
-    if (!removeBtn) {
-      removeBtn = document.createElement("button");
-      removeBtn.className = "remove-btn";
-      removeBtn.textContent = "−";
-      removeBtn.setAttribute("aria-label", "Remove one");
-      removeBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        removeOneFromCart(key);
-        updateButtonState(btn, key);
-      });
-      parent.appendChild(removeBtn);
+function ensureQtyStepper(btn) {
+  const heroCard = btn.closest(".hero-product-card");
+  if (heroCard) {
+    const body = heroCard.querySelector(".product-card-body");
+    if (body && !body.querySelector(".qty-stepper")) {
+      body.appendChild(buildQtyStepper());
     }
-    removeBtn.style.display = "inline-flex";
+    return;
   }
+  if (btn.closest(".add-cart-wrapper")) return;
+  const parent = btn.parentElement;
+  const wrapper = document.createElement("div");
+  wrapper.className = "add-cart-wrapper";
+  wrapper.appendChild(buildQtyStepper());
+  parent.insertBefore(wrapper, btn);
+  wrapper.appendChild(btn);
+}
+
+function getQtyFromStepper(btn) {
+  const heroCard = btn.closest(".hero-product-card");
+  const container = heroCard || btn.closest(".add-cart-wrapper");
+  const valueEl = container ? container.querySelector(".qty-value") : null;
+  return valueEl ? Math.max(1, parseInt(valueEl.textContent) || 1) : 1;
+}
+
+function resetQtyStepper(btn) {
+  const heroCard = btn.closest(".hero-product-card");
+  const container = heroCard || btn.closest(".add-cart-wrapper");
+  const valueEl = container ? container.querySelector(".qty-value") : null;
+  if (valueEl) valueEl.textContent = "1";
 }
 
 function syncAllButtonStates() {
   document.querySelectorAll(".add-protocol-btn").forEach((btn) => {
-    const key = btn.dataset.key;
-    if (key) updateButtonState(btn, key);
+    ensureQtyStepper(btn);
   });
 }
 
@@ -195,9 +268,15 @@ document.querySelectorAll(".add-protocol-btn").forEach((btn) => {
     const title = btn.dataset.title || (protocols[key] ? protocols[key].title.replace(".", "") : key);
     const type = btn.dataset.type || (protocols[key] ? protocols[key].type : "Peptide");
     const goal = btn.dataset.goal || (protocols[key] ? protocols[key].goal : "");
-    const price = parseFloat(btn.dataset.price) || PROTOCOL_PRICE;
-    addToCart({ key, title, type, goal, price });
-    updateButtonState(btn, key);
+    const price = parseFloat(btn.dataset.price) || (protocols[key] ? protocols[key].price : 0);
+    const stack = protocols[key] ? protocols[key].stack : null;
+    const qty = getQtyFromStepper(btn);
+
+    for (let i = 0; i < qty; i++) {
+      addToCart({ key, title, type, goal, price, stack });
+    }
+    updateCartCount();
+    resetQtyStepper(btn);
   });
 });
 
@@ -207,289 +286,431 @@ syncAllButtonStates();
 const peptideModels = {
   ghk: {
     title: "Chronic Inflammation",
-    body: "Anti-inflammatory protocol for tissue repair, collagen density, and recovery speed after 30.",
-    metrics: ["Tissue repair", "Collagen signaling", "Recovery quality", "Skin resilience"],
-    chartTitle: "GHK-CU Anti-Inflammatory Model",
-    chartSubtitle: "Tissue repair score vs. age",
-    callout: "Anti-inflammatory window",
-    window: [30, 48],
-    decline: 0.82,
-    lateDrop: 0.32,
-    spread: 18,
+    body: "GHK-CU binds damaged tissue sites and activates the TGF-beta pathway. Fibroblasts produce Type I and III collagen. Systemic IL-6 and TNF-alpha drop within days. DNA repair genes upregulate. Wound closure speeds up. Connective tissue gets denser. Skin barrier function and recovery speed both improve.",
     color: "#138f2d",
-    dose: "1–2 mg / day",
-    primaryPeptide: { name: "GHK-CU", color: "#138f2d", lift: 22, offset: 0 },
     peptides: [
-      { name: "GHK-CU", color: "#138f2d", lift: 22, offset: 0 },
-      { name: "BPC157+TB500", color: "#1158d8", lift: 17, offset: -5 },
-      { name: "MOTS-C", color: "#7a7f88", lift: 14, offset: -9 },
+      { name: "GHK-CU", color: "#138f2d" },
+      { name: "BPC157+TB500", color: "#1158d8" },
+      { name: "MOTS-C", color: "#7a7f88" },
     ],
   },
   recovery: {
     title: "Stalled Recovery",
-    body: "Tissue-remodeling protocol for when training load exceeds recovery capacity and performance flatlines.",
-    metrics: ["Strength output", "Training readiness", "Tissue remodeling", "Recovery velocity"],
-    chartTitle: "BPC157+TB500 Remodeling Model",
-    chartSubtitle: "Output score vs. age",
-    callout: "Remodeling window",
-    window: [32, 52],
-    decline: 0.96,
-    lateDrop: 0.26,
-    spread: 21,
+    body: "BPC-157 and TB-500 use different repair pathways. BPC-157 upregulates VEGF and nitric oxide synthase. New blood vessels form in damaged tendon and ligament tissue. TB-500 binds actin and speeds up cell migration to injury sites. Together they shorten inflammation, increase tensile strength of remodeled tissue, and cut recovery time between hard sessions.",
     color: "#1158d8",
-    dose: "5–10 mg / week",
-    primaryPeptide: { name: "BPC157+TB500", color: "#1158d8", lift: 20, offset: 1 },
     peptides: [
-      { name: "BPC157+TB500", color: "#1158d8", lift: 20, offset: 1 },
-      { name: "CJC1295/Ipamorelin", color: "#ffd21a", lift: 17, offset: -5 },
-      { name: "GHK-CU", color: "#ff4a12", lift: 13, offset: -10 },
-      { name: "MOTS-C", color: "#138f2d", lift: 11, offset: -14 },
+      { name: "BPC157+TB500", color: "#1158d8" },
+      { name: "CJC1295/Ipamorelin", color: "#ffd21a" },
+      { name: "GHK-CU", color: "#ff4a12" },
+      { name: "MOTS-C", color: "#138f2d" },
     ],
   },
   growth: {
     title: "Low Growth Signal",
-    body: "Growth-signaling protocol for sleep depth, lean-mass maintenance, and training output as GH declines with age.",
-    metrics: ["GH signaling", "Sleep quality", "Lean mass", "Training output"],
-    chartTitle: "CJC1295/Ipamorelin Signal Model",
-    chartSubtitle: "Recovery signal vs. age",
-    callout: "Signal window",
-    window: [35, 55],
-    decline: 1.08,
-    lateDrop: 0.2,
-    spread: 19,
+    body: "CJC-1295 extends GHRH pulse half-life. Ipamorelin triggers GH release without raising cortisol or prolactin. IGF-1 stays elevated. Nitrogen retention improves. Lipolysis increases. Slow-wave sleep deepens. Lean mass holds even in caloric deficit. Training recovery gets better as GH signaling returns to younger levels.",
     color: "#ffd21a",
-    dose: "1–2 mg / week",
-    primaryPeptide: { name: "CJC1295/Ipamorelin", color: "#ffd21a", lift: 19, offset: 2 },
     peptides: [
-      { name: "CJC1295/Ipamorelin", color: "#ffd21a", lift: 19, offset: 2 },
-      { name: "GHK-CU", color: "#ff4a12", lift: 15, offset: -5 },
-      { name: "MOTS-C", color: "#138f2d", lift: 10, offset: -12 },
+      { name: "CJC1295/Ipamorelin", color: "#ffd21a" },
+      { name: "GHK-CU", color: "#ff4a12" },
+      { name: "MOTS-C", color: "#138f2d" },
     ],
   },
   metabolic: {
     title: "Metabolic Drain",
-    body: "Readiness protocol for metabolic rhythm, morning energy, and recovery depth when baseline is never reached.",
-    metrics: ["Recovery depth", "Metabolic rhythm", "Morning energy", "Readiness"],
-    chartTitle: "MOTS-C Readiness Model",
-    chartSubtitle: "Readiness score vs. age",
-    callout: "Readiness window",
-    window: [30, 46],
-    decline: 0.74,
-    lateDrop: 0.38,
-    spread: 17,
+    body: "MOTS-C is a mitochondrial peptide that moves to the nucleus and regulates metabolic genes. Glucose uptake in skeletal muscle improves. Fatty acid oxidation increases. Insulin sensitivity returns. Morning energy gets better. Metabolic recovery between training blocks shortens. Basal metabolic rate shifts measurably. No stimulant side effects.",
     color: "#ff4a12",
-    dose: "200–300 mcg / day",
-    primaryPeptide: { name: "MOTS-C", color: "#ff4a12", lift: 18, offset: 0 },
     peptides: [
-      { name: "MOTS-C", color: "#ff4a12", lift: 18, offset: 0 },
-      { name: "Retatrutide", color: "#ffd21a", lift: 15, offset: -5 },
-      { name: "CJC1295/Ipamorelin", color: "#1158d8", lift: 12, offset: -11 },
+      { name: "MOTS-C", color: "#ff4a12" },
+      { name: "Retatrutide", color: "#ffd21a" },
+      { name: "CJC1295/Ipamorelin", color: "#1158d8" },
     ],
   },
   bodycomp: {
     title: "Body Composition",
-    body: "Metabolic protocol for body recomposition, fat metabolism, and visible changes in physique when diet and training are locked in.",
-    metrics: ["Fat metabolism", "Insulin sensitivity", "Appetite regulation", "Body composition"],
-    chartTitle: "Retatrutide Metabolic Model",
-    chartSubtitle: "Metabolic score vs. age",
-    callout: "Metabolic window",
-    window: [28, 50],
-    decline: 0.88,
-    lateDrop: 0.28,
-    spread: 20,
+    body: "Retatrutide is a triple GIP, GLP-1, and glucagon receptor agonist. It suppresses appetite at the hypothalamic level. Gastric emptying slows. Energy expenditure rises through brown adipose tissue activation. The glucagon component preserves lean mass. GLP-1/GIP activity drives fat oxidation. Body fat drops. Training capacity and metabolic health markers both improve.",
     color: "#ff4a12",
-    dose: "1–2 mg / week",
-    primaryPeptide: { name: "Retatrutide", color: "#ff4a12", lift: 20, offset: 1 },
     peptides: [
-      { name: "Retatrutide", color: "#ff4a12", lift: 20, offset: 1 },
-      { name: "MOTS-C", color: "#ffd21a", lift: 16, offset: -4 },
-      { name: "GHK-CU", color: "#138f2d", lift: 12, offset: -10 },
+      { name: "Retatrutide", color: "#ff4a12" },
+      { name: "MOTS-C", color: "#ffd21a" },
+      { name: "GHK-CU", color: "#138f2d" },
     ],
   },
 };
+
+const peptideBiomarkers = {
+  ghk: {
+    title: "GHK-CU",
+    color: "#138f2d",
+    primary: { name: "CRP", unit: "mg/L", min: 0, max: 16 },
+    markers: [
+      { name: "CRP", unit: "mg/L", values: [12.0, 9.5, 7.2, 5.1, 3.8, 2.8] },
+      { name: "IL-6", unit: "pg/mL", values: [8.4, 6.8, 5.2, 3.8, 2.8, 2.0] },
+      { name: "Collagen density", unit: "index", values: [100, 108, 118, 130, 140, 145] },
+      { name: "Skin hydration", unit: "AU", values: [32, 34, 38, 42, 46, 48] },
+    ],
+    narrative: [
+      { week: 2, label: "Initiation", text: "CRP and IL-6 start to drop. Skin texture shows subtle improvement." },
+      { week: 4, label: "Activation", text: "Collagen synthesis starts. Repair signaling is now measurable." },
+      { week: 8, label: "Response", text: "Recovery speeds up. Skin elasticity gets better." },
+      { week: 12, label: "Optimization", text: "Tissue remodeling peaks. DNA repair mechanisms are active." },
+      { week: 16, label: "Stabilization", text: "Anti-inflammatory state holds. Tissue architecture stabilizes." },
+    ],
+  },
+  recovery: {
+    title: "BPC157 + TB500",
+    color: "#1158d8",
+    primary: { name: "Tendon strength", unit: "index", min: 80, max: 180 },
+    markers: [
+      { name: "Tendon strength", unit: "index", values: [100, 112, 128, 148, 160, 168] },
+      { name: "Recovery time", unit: "hrs", values: [72, 62, 52, 42, 36, 32] },
+      { name: "VEGF", unit: "pg/mL", values: [45, 52, 62, 75, 82, 86] },
+      { name: "Tissue inflammation", unit: "mm", values: [15, 12, 9, 6, 4, 3] },
+    ],
+    narrative: [
+      { week: 2, label: "Initiation", text: "Inflammation drops at injury sites. Tissue responds." },
+      { week: 4, label: "Activation", text: "New capillaries form in damaged tissue." },
+      { week: 8, label: "Response", text: "Structural repair speeds up. Training recovery gets shorter." },
+      { week: 12, label: "Optimization", text: "Scar remodeling is active. Tensile strength improves." },
+      { week: 16, label: "Stabilization", text: "Tissue resilience peaks. Repair signaling stabilizes." },
+    ],
+  },
+  growth: {
+    title: "CJC1295 / Ipamorelin",
+    color: "#ffd21a",
+    primary: { name: "IGF-1", unit: "ng/mL", min: 100, max: 200 },
+    markers: [
+      { name: "IGF-1", unit: "ng/mL", values: [120, 132, 148, 165, 178, 185] },
+      { name: "Deep sleep", unit: "%", values: [12, 14, 16, 19, 21, 22] },
+      { name: "Lean mass", unit: "kg", values: [0, 0.4, 1.2, 2.1, 2.8, 3.2] },
+      { name: "GH pulse", unit: "mIU/L", values: [8, 10, 12, 14, 16, 18] },
+    ],
+    narrative: [
+      { week: 2, label: "Initiation", text: "Sleep gets deeper. Morning alertness improves." },
+      { week: 4, label: "Activation", text: "GH pulse amplitude goes up. IGF-1 rises." },
+      { week: 8, label: "Response", text: "Lean mass holds better. Body composition shifts." },
+      { week: 12, label: "Optimization", text: "Recovery windows get shorter. Sleep quality peaks." },
+      { week: 16, label: "Stabilization", text: "Anabolic signaling holds. Metabolic benefits stick." },
+    ],
+  },
+  metabolic: {
+    title: "MOTS-C",
+    color: "#ff4a12",
+    primary: { name: "VO2 max", unit: "ml/kg/min", min: 30, max: 50 },
+    markers: [
+      { name: "VO2 max", unit: "ml/kg/min", values: [38, 39.5, 41.5, 43.5, 45, 46] },
+      { name: "Fasting glucose", unit: "mg/dL", values: [102, 98, 94, 90, 88, 87] },
+      { name: "Mitochondrial eff.", unit: "index", values: [100, 108, 118, 128, 134, 138] },
+      { name: "hsCRP", unit: "mg/L", values: [3.2, 2.8, 2.2, 1.6, 1.3, 1.1] },
+    ],
+    narrative: [
+      { week: 2, label: "Initiation", text: "Mitochondrial efficiency goes up. Baseline energy improves." },
+      { week: 4, label: "Activation", text: "Metabolic flexibility improves. Glucose handling gets better." },
+      { week: 8, label: "Response", text: "Endurance improves measurably. Metabolic stress recovery shortens." },
+      { week: 12, label: "Optimization", text: "Metabolic inflammation drops. Repair pathways peak." },
+      { week: 16, label: "Stabilization", text: "Longevity set points lock in. Energy stays up." },
+    ],
+  },
+  bodycomp: {
+    title: "Retatrutide",
+    color: "#ff4a12",
+    primary: { name: "HbA1c", unit: "%", min: 4.8, max: 6.0 },
+    markers: [
+      { name: "HbA1c", unit: "%", values: [5.8, 5.6, 5.4, 5.3, 5.2, 5.15] },
+      { name: "Body fat", unit: "%", values: [28, 27, 25.5, 24, 22.5, 21.5] },
+      { name: "HOMA-IR", unit: "index", values: [3.2, 2.8, 2.4, 2.1, 1.9, 1.75] },
+      { name: "GLP-1 activity", unit: "index", values: [45, 55, 65, 74, 80, 83] },
+    ],
+    narrative: [
+      { week: 2, label: "Initiation", text: "Receptors activate. Appetite regulation shifts." },
+      { week: 4, label: "Activation", text: "Glucose stabilizes. Insulin sensitivity improves." },
+      { week: 8, label: "Response", text: "Body composition changes are visible. Fat oxidation goes up." },
+      { week: 12, label: "Optimization", text: "Metabolic set point shifts. Weight management pathways are active." },
+      { week: 16, label: "Stabilization", text: "Body composition optimizes. Metabolic markers peak." },
+    ],
+  },
+};
+
+const WEEKS = [0, 2, 4, 8, 12, 16];
+const CHART_PADDING = { top: 40, right: 30, bottom: 60, left: 70 };
+let CHART_WIDTH = 820;
+let CHART_HEIGHT = 420;
 
 /* ─────────── science section DOM refs ─────────── */
 const peptideButtons = document.querySelectorAll(".peptide-list button");
 const scienceTitle = document.querySelector("#science-title");
 const scienceBody = document.querySelector("#scienceBody");
-const scienceClaim = document.querySelector("#scienceClaim");
-const scienceMetrics = document.querySelector("#scienceMetrics");
-const vizTitle = document.querySelector("#vizTitle");
-const vizSubtitle = document.querySelector("#vizSubtitle");
-const vizCallout = document.querySelector("#vizCallout");
-const lineLegend = document.querySelector("#lineLegend");
-const canvas = document.querySelector("#performanceChart");
-const ctx = canvas ? canvas.getContext("2d") : null;
+
+const timelineTitle = document.querySelector("#timelineTitle");
+const bioCanvas = document.querySelector("#biomarkerChart");
+const bioCtx = bioCanvas ? bioCanvas.getContext("2d") : null;
+const bioTooltip = document.querySelector("#chartTooltip");
+const bioLegend = document.querySelector("#biomarkerLegend");
+const bioMobile = document.querySelector("#biomarkerMobile");
 let activePeptide = peptideModels.ghk;
 let activeKey = "ghk";
-let chartStart;
+let chartAnimProgress = 0;
+let chartAnimStart = null;
+
+/* ─────────── responsive canvas sizing ─────────── */
+function resizeCanvas() {
+  if (!bioCanvas) return;
+  const wrap = bioCanvas.parentElement;
+  const dpr = window.devicePixelRatio || 1;
+  const cssWidth = wrap.clientWidth;
+  const cssHeight = cssWidth * (420 / 820);
+  CHART_WIDTH = cssWidth;
+  CHART_HEIGHT = cssHeight;
+  bioCanvas.style.width = cssWidth + "px";
+  bioCanvas.style.height = cssHeight + "px";
+  bioCanvas.width = Math.round(cssWidth * dpr);
+  bioCanvas.height = Math.round(cssHeight * dpr);
+  if (bioCtx) bioCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+
+if (bioCanvas) {
+  resizeCanvas();
+  let resizeTimer;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      resizeCanvas();
+      drawChart(1);
+    }, 150);
+  });
+}
 
 /* ─────────── chart helpers ─────────── */
-function mapX(age) {
-  return 104 + ((age - 18) / 54) * 930;
-}
-function mapY(score) {
-  return 612 - (score / 110) * 474;
-}
-function seededNoise(seed) {
-  const x = Math.sin(seed * 12.9898) * 43758.5453;
-  return x - Math.floor(x);
-}
-function supportFactor(age, window) {
-  const center = (window[0] + window[1]) / 2;
-  const halfRange = (window[1] - window[0]) / 2;
-  const distance = Math.abs(age - center);
-  const normalized = Math.max(0, 1 - distance / (halfRange + 10));
-  return 0.24 + normalized * 0.76;
-}
-function rgba(hex, alpha) {
-  const value = hex.replace("#", "");
-  const red = parseInt(value.slice(0, 2), 16);
-  const green = parseInt(value.slice(2, 4), 16);
-  const blue = parseInt(value.slice(4, 6), 16);
-  return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
-}
+function norm(val, min, max) { return (val - min) / (max - min); }
+function chartX(i) { return CHART_PADDING.left + (i / (WEEKS.length - 1)) * (CHART_WIDTH - CHART_PADDING.left - CHART_PADDING.right); }
+function chartY(val, min, max) { return CHART_PADDING.top + (1 - norm(val, min, max)) * (CHART_HEIGHT - CHART_PADDING.top - CHART_PADDING.bottom); }
 
-/* ─────────── chart drawing ─────────── */
-function drawChart(time = 0) {
-  const model = activePeptide;
-  const width = canvas.width;
-  const height = canvas.height;
-  const driftTime = time * 0.00008;
-  ctx.clearRect(0, 0, width, height);
-  ctx.fillStyle = "#fff";
-  ctx.fillRect(0, 0, width, height);
+/* ─────────── chart rendering ─────────── */
+function drawChart(progress = 1) {
+  if (!bioCtx) return;
+  const data = peptideBiomarkers[activeKey];
+  if (!data) return;
 
-  /* axes */
-  ctx.strokeStyle = "#d7d7d7";
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.moveTo(86, 612);
-  ctx.lineTo(1082, 612);
-  ctx.moveTo(1082, 112);
-  ctx.lineTo(1082, 612);
-  ctx.stroke();
+  bioCtx.clearRect(0, 0, CHART_WIDTH, CHART_HEIGHT);
 
-  /* age labels + grid */
-  ctx.fillStyle = "#666";
-  ctx.font = "18px Helvetica, Arial, sans-serif";
-  [20, 30, 40, 50, 60, 70].forEach((age) => {
-    const x = mapX(age);
-    ctx.fillText(age === 70 ? "70+" : age, x - 10, 662);
-    ctx.strokeStyle = "#ececec";
-    ctx.beginPath();
-    ctx.moveTo(x, 612);
-    ctx.lineTo(x, 118);
-    ctx.stroke();
+  // Grid
+  bioCtx.strokeStyle = "#ececec";
+  bioCtx.lineWidth = 1;
+  for (let i = 0; i < WEEKS.length; i++) {
+    const x = chartX(i);
+    bioCtx.beginPath();
+    bioCtx.moveTo(x, CHART_PADDING.top);
+    bioCtx.lineTo(x, CHART_HEIGHT - CHART_PADDING.bottom);
+    bioCtx.stroke();
+  }
+
+  // X labels
+  bioCtx.fillStyle = "#666";
+  bioCtx.font = "13px var(--tech), ui-monospace, monospace";
+  bioCtx.textAlign = "center";
+  WEEKS.forEach((w, i) => {
+    bioCtx.fillText(w === 0 ? "Baseline" : `Week ${w}`, chartX(i), CHART_HEIGHT - CHART_PADDING.bottom + 24);
   });
 
-  /* score labels */
-  [0, 20, 40, 60, 80, 100].forEach((score) => {
-    const y = mapY(score);
-    ctx.fillText(score, 1104, y + 5);
-    ctx.strokeStyle = "#e7e7e7";
-    ctx.beginPath();
-    ctx.moveTo(1088, y);
-    ctx.lineTo(1126, y);
-    ctx.stroke();
+  // Y labels (primary marker)
+  const primary = data.primary;
+  bioCtx.textAlign = "right";
+  const ySteps = 5;
+  for (let s = 0; s <= ySteps; s++) {
+    const val = primary.min + (primary.max - primary.min) * (s / ySteps);
+    const y = chartY(val, primary.min, primary.max);
+    bioCtx.fillText(val.toFixed(1), CHART_PADDING.left - 12, y + 4);
+    bioCtx.beginPath();
+    bioCtx.moveTo(CHART_PADDING.left, y);
+    bioCtx.lineTo(CHART_WIDTH - CHART_PADDING.right, y);
+    bioCtx.strokeStyle = s === 0 ? "#d7d7d7" : "#ececec";
+    bioCtx.stroke();
+  }
+
+  // Primary line + fill
+  const pIdx = 0;
+  const pMarker = data.markers[pIdx];
+  const pts = WEEKS.map((_, i) => ({ x: chartX(i), y: chartY(pMarker.values[i], primary.min, primary.max) }));
+
+  // Fill area
+  bioCtx.fillStyle = hexToRgba(data.color, 0.08);
+  bioCtx.beginPath();
+  bioCtx.moveTo(pts[0].x, CHART_HEIGHT - CHART_PADDING.bottom);
+  const maxI = Math.floor((pts.length - 1) * progress);
+  for (let i = 0; i <= maxI; i++) bioCtx.lineTo(pts[i].x, pts[i].y);
+  if (progress < 1 && maxI < pts.length - 1) {
+    const frac = (progress * (pts.length - 1)) - maxI;
+    const nextY = pts[maxI].y + (pts[maxI + 1].y - pts[maxI].y) * frac;
+    bioCtx.lineTo(pts[maxI].x + (pts[maxI + 1].x - pts[maxI].x) * frac, nextY);
+  }
+  bioCtx.lineTo(pts[Math.min(maxI + (progress < 1 ? 0 : 0), pts.length - 1)].x, CHART_HEIGHT - CHART_PADDING.bottom);
+  bioCtx.closePath();
+  bioCtx.fill();
+
+  // Primary line (straight segments)
+  bioCtx.strokeStyle = data.color;
+  bioCtx.lineWidth = 2.5;
+  bioCtx.lineJoin = "miter";
+  bioCtx.lineCap = "butt";
+  bioCtx.beginPath();
+  for (let i = 0; i < pts.length; i++) {
+    const targetX = pts[i].x;
+    const targetY = pts[i].y;
+    if (i === 0) { bioCtx.moveTo(targetX, targetY); continue; }
+    const segProgress = Math.min(1, Math.max(0, (progress * (pts.length - 1) - (i - 1))));
+    if (segProgress <= 0) break;
+    const prevX = pts[i - 1].x;
+    const prevY = pts[i - 1].y;
+    bioCtx.lineTo(prevX + (targetX - prevX) * segProgress, prevY + (targetY - prevY) * segProgress);
+  }
+  bioCtx.stroke();
+
+  // Secondary lines
+  data.markers.slice(1).forEach((marker, mi) => {
+    const secColor = ["#8d97a8", "#b8b8b8", "#d6d6d6"][mi] || "#d6d6d6";
+    const secMin = Math.min(...marker.values) * 0.9;
+    const secMax = Math.max(...marker.values) * 1.1;
+    const secPts = WEEKS.map((_, i) => ({ x: chartX(i), y: chartY(marker.values[i], secMin, secMax) }));
+    bioCtx.strokeStyle = secColor;
+    bioCtx.lineWidth = 1.2;
+    bioCtx.beginPath();
+    for (let i = 0; i < secPts.length; i++) {
+      if (i === 0) { bioCtx.moveTo(secPts[i].x, secPts[i].y); continue; }
+      const segProgress = Math.min(1, Math.max(0, (progress * (secPts.length - 1) - (i - 1))));
+      if (segProgress <= 0) break;
+      bioCtx.lineTo(secPts[i - 1].x + (secPts[i].x - secPts[i - 1].x) * segProgress, secPts[i - 1].y + (secPts[i].y - secPts[i - 1].y) * segProgress);
+    }
+    bioCtx.stroke();
   });
 
-  /* particles — more on the unsupported side */
-  const points = 7200;
-  for (let i = 0; i < points; i += 1) {
-    const age = 20 + seededNoise(i + 4) * 50;
-    const decline = 88 - (age - 20) * model.decline - Math.max(age - 35, 0) * model.lateDrop;
-    const spread = 8 + seededNoise(i + 19) * model.spread;
-    const base = decline + (seededNoise(i + 7) - 0.5) * spread;
-    const supported = i % 3 === 0; /* 1/3 supported, 2/3 unsupported */
-    const support = supportFactor(age, model.window);
-    const peptide = model.primaryPeptide;
-    const wave = Math.sin(driftTime + i * 0.017) * 1.6 + Math.cos(driftTime * 0.8 + i * 0.011) * 1.1;
-    const score = supported
-      ? base + peptide.lift * support + peptide.offset + seededNoise(i + 30) * 6 * support
-      : base;
-    const x = mapX(age + (seededNoise(i + 41) - 0.5) * 2 + Math.sin(driftTime + i) * 0.18);
-    const y = mapY(Math.max(8, Math.min(106, score + wave)));
-    const isActive = supported && support > 0.35;
-    ctx.fillStyle = isActive ? rgba(peptide.color, 0.48) : "rgba(140, 150, 168, 0.22)";
-    ctx.beginPath();
-    ctx.arc(x, y, isActive ? 2.6 : 1.7, 0, Math.PI * 2);
-    ctx.fill();
+  // Data points (dots)
+  const dotMaxI = Math.floor((pts.length - 1) * progress);
+  for (let i = 0; i <= dotMaxI; i++) {
+    bioCtx.fillStyle = data.color;
+    bioCtx.beginPath();
+    bioCtx.arc(pts[i].x, pts[i].y, 5, 0, Math.PI * 2);
+    bioCtx.fill();
+    bioCtx.strokeStyle = "#fff";
+    bioCtx.lineWidth = 2;
+    bioCtx.stroke();
   }
-
-  /* baseline curve (without support) */
-  drawBaselineCurve(time);
-
-  /* single protocol curve with pulse */
-  drawProtocolCurve(model.primaryPeptide, time);
-
-  /* window box */
-  ctx.setLineDash([8, 8]);
-  ctx.strokeStyle = "#777";
-  ctx.strokeRect(mapX(model.window[0]), 146, mapX(model.window[1]) - mapX(model.window[0]), 398);
-  ctx.setLineDash([]);
-
-  /* window dot */
-  ctx.fillStyle = "#090909";
-  ctx.beginPath();
-  ctx.arc(mapX(model.window[0]), 612, 5, 0, Math.PI * 2);
-  ctx.fill();
-
-  ctx.fillStyle = "#666";
-  ctx.fillText("AGE", 86, 662);
 }
 
-function drawProtocolCurve(peptide, time) {
-  const model = activePeptide;
-  const pulse = 0.5 + Math.sin(time * 0.0017) * 0.5;
-  ctx.strokeStyle = rgba(peptide.color, 0.55 + pulse * 0.36);
-  ctx.lineWidth = 2.2 + pulse * 1.6;
-  ctx.shadowColor = rgba(peptide.color, 0.16 + pulse * 0.24);
-  ctx.shadowBlur = 4 + pulse * 14;
-  ctx.lineJoin = "round";
-  ctx.lineCap = "round";
-  ctx.beginPath();
-  for (let step = 0; step <= 340; step += 1) {
-    const age = 20 + (step / 340) * 50;
-    const support = peptide.lift * supportFactor(age, model.window);
-    const baseline =
-      88 - (age - 20) * model.decline - Math.max(age - 35, 0) * model.lateDrop + support + peptide.offset;
-    const staticShape = Math.sin(step * 0.037 + 0.9) * 1.2 + Math.cos(step * 0.015) * 0.6;
-    const score = baseline + staticShape;
-    const x = mapX(age);
-    const y = mapY(Math.max(8, Math.min(106, score)));
-    if (step === 0) ctx.moveTo(x, y);
-    else ctx.lineTo(x, y);
-  }
-  ctx.stroke();
-  ctx.shadowBlur = 0;
-}
-
-function drawBaselineCurve(time) {
-  const model = activePeptide;
-  const pulse = 0.5 + Math.sin(time * 0.0013 + 1.7) * 0.5;
-  ctx.strokeStyle = `rgba(112, 124, 142, ${0.38 + pulse * 0.22})`;
-  ctx.lineWidth = 1.8 + pulse * 0.6;
-  ctx.lineJoin = "round";
-  ctx.lineCap = "round";
-  ctx.beginPath();
-  for (let step = 0; step <= 340; step += 1) {
-    const age = 20 + (step / 340) * 50;
-    const baseline = 82 - (age - 20) * model.decline - Math.max(age - 35, 0) * model.lateDrop - 8;
-    const staticShape = Math.sin(step * 0.035) * 0.7;
-    const x = mapX(age);
-    const y = mapY(Math.max(8, Math.min(106, baseline + staticShape)));
-    if (step === 0) ctx.moveTo(x, y);
-    else ctx.lineTo(x, y);
-  }
-  ctx.stroke();
+function hexToRgba(hex, alpha) {
+  const v = hex.replace("#", "");
+  const r = parseInt(v.slice(0, 2), 16);
+  const g = parseInt(v.slice(2, 4), 16);
+  const b = parseInt(v.slice(4, 6), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
 function animateChart(timestamp) {
-  chartStart ||= timestamp;
-  const progress = Math.min(1, (timestamp - chartStart) / 900);
-  drawChart(timestamp);
-  requestAnimationFrame(animateChart);
+  chartAnimStart ||= timestamp;
+  chartAnimProgress = Math.min(1, (timestamp - chartAnimStart) / 1400);
+  const eased = 1 - Math.pow(1 - chartAnimProgress, 3);
+  drawChart(eased);
+  if (chartAnimProgress < 1) requestAnimationFrame(animateChart);
+}
+
+function renderLegend() {
+  if (!bioLegend) return;
+  const data = peptideBiomarkers[activeKey];
+  bioLegend.innerHTML = data.markers.map((m, i) => `
+    <span class="legend-item" style="color:${i === 0 ? data.color : "#8d97a8"}">
+      <i class="legend-dot" style="background:${i === 0 ? data.color : "#8d97a8"}"></i>
+      ${m.name}
+    </span>
+  `).join("");
+}
+
+function renderMobileCards() {
+  if (!bioMobile) return;
+  const data = peptideBiomarkers[activeKey];
+  bioMobile.innerHTML = data.narrative.map((n) => `
+    <div class="bio-card">
+      <div class="bio-card-header">
+        <span class="bio-card-week">Week ${n.week}</span>
+        <span class="bio-card-label">${n.label}</span>
+      </div>
+      <p class="bio-card-text">${n.text}</p>
+      <div class="bio-card-values">
+        ${data.markers.map((m) => {
+          const weekIdx = WEEKS.indexOf(n.week);
+          return `<span><strong>${m.name}:</strong> ${m.values[weekIdx]} ${m.unit}</span>`;
+        }).join("")}
+      </div>
+    </div>
+  `).join("");
+}
+
+function showTooltip(weekIndex, x, y, rect) {
+  if (!bioTooltip) return;
+  const data = peptideBiomarkers[activeKey];
+  const week = WEEKS[weekIndex];
+  const narrative = data.narrative.find((n) => n.week === week);
+  const label = narrative ? narrative.label : "";
+  const text = narrative ? narrative.text : "";
+  bioTooltip.innerHTML = `<strong>Week ${week}${label ? ": " + label : ""}</strong><p>${text}</p>`;
+  bioTooltip.classList.add("visible");
+  const canvasRect = rect || bioCanvas.getBoundingClientRect();
+  let left = canvasRect.left + x + 16;
+  let top = canvasRect.top + y - 20;
+  if (left + 260 > window.innerWidth) left = canvasRect.left + x - 276;
+  if (top + 160 > window.innerHeight) top = canvasRect.top + y - 160;
+  bioTooltip.style.left = `${left}px`;
+  bioTooltip.style.top = `${top}px`;
+}
+
+function hideTooltip() {
+  if (bioTooltip) bioTooltip.classList.remove("visible");
+}
+
+if (bioCanvas) {
+  function getChartColumn(e) {
+    const rect = bioCanvas.getBoundingClientRect();
+    const clientX = e.clientX ?? (e.touches ? e.touches[0].clientX : 0);
+    const mx = clientX - rect.left;
+    const plotWidth = CHART_WIDTH - CHART_PADDING.left - CHART_PADDING.right;
+    const relX = mx - CHART_PADDING.left;
+    // Only check horizontal position; show tooltip for nearest column anywhere on canvas
+    if (relX < -30 || relX > plotWidth + 30) return null;
+    let idx = Math.round((relX / plotWidth) * (WEEKS.length - 1));
+    idx = Math.max(0, Math.min(WEEKS.length - 1, idx));
+    return { idx, rect };
+  }
+
+  let lastTooltipIdx = -1;
+
+  bioCanvas.addEventListener("mousemove", (e) => {
+    const col = getChartColumn(e);
+    if (!col) { hideTooltip(); lastTooltipIdx = -1; return; }
+    const { idx, rect } = col;
+    const data = peptideBiomarkers[activeKey];
+    if (!data) return;
+    const cx = chartX(idx);
+    const cy = chartY(data.markers[0].values[idx], data.primary.min, data.primary.max);
+    if (idx !== lastTooltipIdx) {
+      showTooltip(idx, cx, cy, rect);
+      lastTooltipIdx = idx;
+    }
+  });
+
+  bioCanvas.addEventListener("mouseleave", () => { hideTooltip(); lastTooltipIdx = -1; });
+
+  bioCanvas.addEventListener("touchstart", (e) => {
+    const col = getChartColumn(e);
+    if (!col) return;
+    const { idx, rect } = col;
+    const data = peptideBiomarkers[activeKey];
+    if (!data) return;
+    const cx = chartX(idx);
+    const cy = chartY(data.markers[0].values[idx], data.primary.min, data.primary.max);
+    showTooltip(idx, cx, cy, rect);
+    lastTooltipIdx = idx;
+  }, { passive: true });
+
+  bioCanvas.addEventListener("touchend", () => {
+    setTimeout(() => { hideTooltip(); lastTooltipIdx = -1; }, 2500);
+  });
 }
 
 /* ─────────── peptide switcher ─────────── */
@@ -499,31 +720,119 @@ function setPeptide(key) {
   document.documentElement.style.setProperty("--active-signal", activePeptide.color);
   scienceTitle.innerHTML = `${activePeptide.title}<span>+</span>`;
   scienceBody.textContent = activePeptide.body;
-  scienceMetrics.innerHTML = activePeptide.peptides
-    .map((p) => `<li><span style="color:${p.color}">+</span> ${p.name}</li>`)
-    .join("");
-  if (vizTitle) vizTitle.textContent = activePeptide.chartTitle;
-  if (vizSubtitle) vizSubtitle.textContent = activePeptide.chartSubtitle;
-  if (vizCallout)
-    vizCallout.innerHTML = `+ ${activePeptide.callout}<br /><small>${activePeptide.window[0]}-${activePeptide.window[1]} years</small>`;
-  if (lineLegend)
-    lineLegend.innerHTML = `<i class="dot red"></i> ${activePeptide.primaryPeptide.name}`;
+
+
+  if (timelineTitle) timelineTitle.textContent = `${peptideBiomarkers[activeKey].title} Biomarkers`;
+  chartAnimStart = null;
+  chartAnimProgress = 0;
+  renderLegend();
+  renderMobileCards();
+  if (bioCanvas) requestAnimationFrame(animateChart);
+
   peptideButtons.forEach((button) => {
     const isActive = button.dataset.peptide === key;
     button.classList.toggle("active", isActive);
     button.style.borderColor = isActive ? activePeptide.color : "transparent";
   });
-  chartStart = undefined;
 }
 
 peptideButtons.forEach((button) => {
   button.addEventListener("click", () => setPeptide(button.dataset.peptide));
 });
 
-if (scienceTitle && canvas) {
+if (scienceTitle && bioCanvas) {
   setPeptide("ghk");
-  requestAnimationFrame(animateChart);
 }
+
+/* ─────────── dosing calculator ─────────── */
+function initCalculator() {
+  const compoundSelect = document.getElementById("calcCompound");
+  const doseInput = document.getElementById("calcDose");
+  const syringeSelect = document.getElementById("calcSyringe");
+  const bacInput = document.getElementById("calcBac");
+  const doseRangeHint = document.getElementById("doseRangeHint");
+  const resultsEl = document.getElementById("calculatorResults");
+
+  if (!compoundSelect || !resultsEl) return;
+
+  const COMPOUND_NAMES = {
+    "ghk-cu": "GHK-CU",
+    "semax": "Semax",
+    "bpc157-tb500": "BPC157+TB500",
+    "mots-c": "MOTS-C",
+    "retatrutide": "Retatrutide",
+    "cjc1295-ipamorelin": "CJC1295/Ipamorelin",
+  };
+
+  compoundSelect.addEventListener("change", () => {
+    const opt = compoundSelect.options[compoundSelect.selectedIndex];
+    const range = opt.dataset.range || "";
+    const unit = opt.value === "semax" || opt.value === "mots-c" ? "mg / day" : "mg / day";
+    doseRangeHint.textContent = range ? `(typical ${range}${unit === "mg / day" ? "mg" : "mg"} / day)` : "(mg / day)";
+    calculate();
+  });
+
+  [doseInput, syringeSelect, bacInput].forEach((el) => {
+    if (el) el.addEventListener("input", calculate);
+  });
+
+  function calculate() {
+    const opt = compoundSelect.options[compoundSelect.selectedIndex];
+    const vialMg = parseFloat(opt.dataset.conc) || 0;
+    const unit = opt.dataset.unit || "";
+    const key = compoundSelect.value;
+    const doseMg = parseFloat(doseInput?.value) || 0;
+    const syringeMl = parseFloat(syringeSelect?.value) || 0.5;
+    const bacMl = parseFloat(bacInput?.value) || 2;
+
+    if (!key || !vialMg || doseMg <= 0 || bacMl <= 0) {
+      resultsEl.innerHTML = `
+        <article class="calc-result-card">
+          <span class="resource-line" style="background:var(--gray-400)"></span>
+          <div class="resource-body">
+            <p class="resource-category">Research Dosing</p>
+            <h3>Enter values to calculate</h3>
+            <p class="resource-desc">Select a compound and enter your desired dose to see exact syringe measurements.</p>
+          </div>
+        </article>
+      `;
+      return;
+    }
+
+    const name = COMPOUND_NAMES[key] || key;
+    const concMgPerMl = vialMg / bacMl;
+    const unitsPerMl = syringeMl <= 0.5 ? 50 : 100; // U-100: 0.5ml = 50 units, 1ml = 100 units
+    const mlPerDose = doseMg / concMgPerMl;
+    const unitsPerDose = mlPerDose * unitsPerMl;
+    const mcgPerUnit = (concMgPerMl * 1000) / unitsPerMl;
+    const daysPerVial = Math.floor(vialMg / doseMg);
+
+    resultsEl.innerHTML = `
+      <article class="calc-result-card">
+        <span class="resource-line" style="background:var(--black)"></span>
+        <div class="resource-badge">
+          <span class="resource-format">CALC</span>
+          <span class="resource-pages">${unitsPerDose < 1 ? unitsPerDose.toFixed(2) : Math.round(unitsPerDose)} UNITS</span>
+        </div>
+        <div class="resource-body">
+          <p class="resource-category">${name}: ${vialMg}${unit}</p>
+          <h3>Dosing Protocol</h3>
+          <dl class="resource-specs">
+            <div><dt>Concentration</dt><dd>${concMgPerMl.toFixed(2)} mg/ml</dd></div>
+            <div><dt>Dose per injection</dt><dd>${doseMg} mg</dd></div>
+            <div><dt>Syringe draw</dt><dd>${unitsPerDose < 1 ? unitsPerDose.toFixed(2) : Math.round(unitsPerDose)} units (${mlPerDose.toFixed(3)} ml)</dd></div>
+            <div><dt>Units per ml</dt><dd>${unitsPerMl} (U-100 ${syringeMl}ml)</dd></div>
+            <div><dt>mcg per unit</dt><dd>${Math.round(mcgPerUnit)} mcg</dd></div>
+            <div><dt>Vial duration</dt><dd>${daysPerVial} day${daysPerVial !== 1 ? "s" : ""}</dd></div>
+          </dl>
+          <p class="resource-desc">Reconstitute <strong>${vialMg}mg</strong> with <strong>${bacMl}ml</strong> bacteriostatic water. Draw <strong>${unitsPerDose < 1 ? unitsPerDose.toFixed(2) : Math.round(unitsPerDose)} units</strong> on a <strong>${syringeMl}ml U-100</strong> syringe for a <strong>${doseMg}mg</strong> dose.</p>
+        </div>
+      </article>
+    `;
+  }
+}
+
+initCalculator();
 
 
 /* ─────────── final-cta plus grid ─────────── */

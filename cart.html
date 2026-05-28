@@ -6,7 +6,7 @@
     <title>Zurich Biotech | Cart</title>
     <link rel="stylesheet" href="styles.css" />
     <style>
-      .cart-page { min-height: 100vh; padding-top: 120px; max-width: 900px; margin: 0 auto; }
+      .cart-page { min-height: 100vh; padding: 120px clamp(16px, 5vw, 48px) 80px; max-width: 900px; margin: 0 auto; }
       .cart-page h1 { font-size: clamp(36px, 4vw, 64px); font-weight: 400; margin-bottom: 48px; }
       .cart-item { display: grid; grid-template-columns: 1fr auto auto auto; gap: 24px; align-items: center; border-bottom: 1px solid var(--gray-200); padding: 24px 0; }
       .cart-item h3 { font-size: 24px; font-weight: 400; margin: 0; }
@@ -20,11 +20,25 @@
       .cart-summary strong { font-size: 32px; font-weight: 400; }
       .cart-summary p { color: var(--gray-700); margin: 8px 0 24px; }
       .cart-empty { color: var(--gray-700); font-family: var(--tech); margin-top: 48px; }
-      .checkout-btn { display: inline-flex; min-width: 280px; min-height: 64px; align-items: center; justify-content: center; gap: 16px; border: 1px solid var(--black); background: var(--black); color: var(--white); padding: 18px 28px; font-family: var(--tech); font-weight: 700; text-transform: uppercase; transition: background 180ms ease, color 180ms ease; cursor: pointer; }
-      .checkout-btn:hover { background: var(--white); color: var(--black); }
-      .checkout-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+      .checkout-form { margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--gray-200); }
+      .checkout-form h3 { font-size: 20px; font-weight: 500; margin: 0 0 24px; }
+      .form-group { margin-bottom: 20px; }
+      .form-group label { display: block; font-family: var(--tech); font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--gray-700); margin-bottom: 8px; }
+      .form-group input { width: 100%; padding: 14px 16px; border: 1px solid var(--gray-200); font-family: var(--mono); font-size: 15px; background: var(--white); transition: border-color 180ms ease; box-sizing: border-box; }
+      .form-group input:focus { outline: none; border-color: var(--black); }
+      .checkout-btn { display: inline-flex; width: 100%; max-width: 400px; min-height: 64px; align-items: center; justify-content: center; gap: 16px; border: 1px solid var(--black); background: var(--black); color: var(--white); padding: 18px 28px; font-family: var(--tech); font-weight: 700; text-transform: uppercase; transition: background 180ms ease, color 180ms ease, opacity 180ms ease; cursor: pointer; }
+      .checkout-btn:hover:not(:disabled) { background: var(--white); color: var(--black); }
+      .checkout-btn:disabled { opacity: 0.4; cursor: not-allowed; }
       .nav-cta { position: relative; }
       .nav-cta .cart-count { position: absolute; top: -6px; right: -10px; }
+      @media (max-width: 640px) {
+        .cart-item { grid-template-columns: 1fr auto; gap: 12px; padding: 20px 0; }
+        .cart-item .price { grid-column: 2; }
+        .cart-item .remove { grid-column: 2; justify-self: end; }
+        .cart-item .qty-control { grid-column: 1 / -1; justify-self: start; }
+        .checkout-btn { max-width: none; }
+        .cart-summary { text-align: left; }
+      }
     </style>
   </head>
   <body>
@@ -45,17 +59,30 @@
       <div class="cart-summary" id="cartSummary" style="display:none;">
         <p>Research use only. Not for human consumption.</p>
         <strong id="cartTotal">$0.00</strong>
+
+        <div class="checkout-form" id="checkoutForm">
+          <h3>Delivery Details</h3>
+          <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" placeholder="Enter your full name" />
+          </div>
+          <div class="form-group">
+            <label for="villaLocation">Google Maps Link of Your Villa</label>
+            <input type="url" id="villaLocation" placeholder="https://maps.google.com/..." />
+          </div>
+        </div>
+
         <div style="margin-top:24px;">
-          <button class="checkout-btn" id="checkoutBtn">Proceed to Checkout <span>+</span></button>
+          <button class="checkout-btn" id="checkoutBtn" disabled>Proceed to Checkout <span>+</span></button>
         </div>
       </div>
       <p class="cart-empty" id="cartEmpty">Your cart is empty. <a href="index.html#compounds" style="border-bottom:1px solid var(--black);">Browse compounds</a>.</p>
     </main>
 
-
-
     <script>
-      const PROTOCOL_PRICE = 249.0;
+      function formatPrice(price) {
+        return "Rp" + price.toLocaleString("id-ID");
+      }
 
       function getCart() {
         const raw = localStorage.getItem("zbCart");
@@ -98,30 +125,51 @@
         if (!items.length) { itemsEl.innerHTML = ""; summaryEl.style.display = "none"; emptyEl.style.display = "block"; return; }
         emptyEl.style.display = "none";
         summaryEl.style.display = "block";
-        itemsEl.innerHTML = items.map((item) => `
+        itemsEl.innerHTML = items.map((item) => {
+          const stackLine = item.stack
+            ? `<p style="font-size:13px;color:var(--gray-700);margin-top:6px;">${item.stack.map(([name, dose]) => `${name} ${dose}`).join(" · ")}</p>`
+            : (item.goal ? `<p style="font-size:13px;color:var(--gray-700);margin-top:6px;">${item.goal}</p>` : "");
+          return `
           <div class="cart-item">
             <div>
               <h3>${item.title}</h3>
               <p>${item.type}</p>
+              ${stackLine}
             </div>
             <div class="qty-control">
               <button onclick="subQty('${item.key}')">−</button>
               <span>${item.qty}</span>
               <button onclick="addQty('${item.key}')">+</button>
             </div>
-            <span class="price">$${(item.qty * item.price).toFixed(2)}</span>
+            <span class="price">${formatPrice(item.qty * item.price)}</span>
             <button class="remove" onclick="removeFromCart('${item.key}')">Remove</button>
           </div>
-        `).join("");
+        `;
+        }).join("");
         const total = items.reduce((sum, item) => sum + (item.qty * item.price), 0);
-        document.getElementById("cartTotal").textContent = "$" + total.toFixed(2);
+        document.getElementById("cartTotal").textContent = formatPrice(total);
       }
       updateCartCount();
       renderCart();
 
+      /* ─────────── form validation ─────────── */
+      const fullNameInput = document.getElementById("fullName");
+      const villaLocationInput = document.getElementById("villaLocation");
+      const checkoutBtn = document.getElementById("checkoutBtn");
+
+      function validateCheckoutForm() {
+        const name = fullNameInput.value.trim();
+        const location = villaLocationInput.value.trim();
+        const isValidUrl = location.startsWith("http://") || location.startsWith("https://") || location.startsWith("maps.google") || location.startsWith("www.google.com/maps");
+        checkoutBtn.disabled = !(name && location && isValidUrl);
+      }
+
+      fullNameInput.addEventListener("input", validateCheckoutForm);
+      villaLocationInput.addEventListener("input", validateCheckoutForm);
+
       /* ─────────── WhatsApp checkout ─────────── */
       const WHATSAPP_CONFIG = {
-        adminNumber: "",        // <-- Your WhatsApp number with country code, no + (e.g. "6281234567890")
+        adminNumber: "61408703955",        // <-- Your WhatsApp number with country code, no + (e.g. "6281234567890")
         useCallMeBot: false,    // <-- Set to true to also ping your own WhatsApp via CallMeBot
         callMeBotPhone: "",     // <-- Your phone number for CallMeBot (with country code)
         callMeBotApiKey: "",    // <-- API key from CallMeBot (get at callmebot.com)
@@ -138,17 +186,27 @@
         const items = Object.values(cart);
         if (!items.length) return;
 
+        const fullName = fullNameInput.value.trim();
+        const villaLocation = villaLocationInput.value.trim();
+        if (!fullName || !villaLocation) return;
+
         const orderId = generateOrderId();
         const total = items.reduce((s, it) => s + it.qty * it.price, 0);
 
-        const itemLines = items.map(it => `• ${it.title} — Qty: ${it.qty} — $${(it.qty * it.price).toFixed(2)}`);
+        const itemLines = items.map(it => {
+          const stackPart = it.stack ? ` (${it.stack.map(([n, d]) => `${n} ${d}`).join(", ")})` : "";
+          return `• ${it.title}${stackPart} | Qty: ${it.qty} | ${formatPrice(it.qty * it.price)}`;
+        });
 
         const message = [
           `Hi Zurich Biotech, I'd like to place an order:`,
           ``,
+          `Name: ${fullName}`,
+          `Villa Location: ${villaLocation}`,
+          ``,
           ...itemLines,
           ``,
-          `Total: $${total.toFixed(2)}`,
+          `Total: ${formatPrice(total)}`,
           ``,
           `Order ref: ${orderId}`,
           `Please send me the payment link. Thanks!`,
@@ -157,13 +215,15 @@
         // Optional: notify admin via CallMeBot
         if (WHATSAPP_CONFIG.useCallMeBot && WHATSAPP_CONFIG.callMeBotPhone && WHATSAPP_CONFIG.callMeBotApiKey) {
           const adminMsg = [
-            `🧬 NEW ORDER — ${orderId}`,
+            `🧬 NEW ORDER: ${orderId}`,
+            `Name: ${fullName}`,
+            `Villa: ${villaLocation}`,
             `Items: ${items.map(it => `${it.title} x${it.qty}`).join(", ")}`,
-            `Total: $${total.toFixed(2)}`,
+            `Total: ${formatPrice(total)}`,
           ].join("\n");
 
           fetch(`https://api.callmebot.com/whatsapp.php?phone=${WHATSAPP_CONFIG.callMeBotPhone}&apikey=${WHATSAPP_CONFIG.callMeBotApiKey}&text=${encodeURIComponent(adminMsg)}`)
-            .catch(() => {}); // Silent fail — customer flow is the priority
+            .catch(() => {}); // Silent fail. Customer flow is the priority.
         }
 
         // Open WhatsApp for customer
@@ -176,7 +236,7 @@
         renderCart();
       }
 
-      document.getElementById("checkoutBtn").addEventListener("click", proceedToCheckout);
+      checkoutBtn.addEventListener("click", proceedToCheckout);
     </script>
   </body>
 </html>
