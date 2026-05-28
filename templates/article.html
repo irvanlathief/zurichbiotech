@@ -1,0 +1,176 @@
+<!doctype html>
+<!--
+  Zurich Biotech article template.
+
+  Replace every {{ PLACEHOLDER }} below with real content, then save as:
+    /resources/<slug>/index.html
+
+  After saving the file, append the URL to /sitemap.xml under the
+  <urlset> root. Example:
+
+    <url>
+      <loc>https://zurichbiotech.com/resources/{{SLUG}}/</loc>
+      <lastmod>{{ISO_DATE}}</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.7</priority>
+    </url>
+
+  Also add a card to /resources/index.html inside the <div id="articlesGrid">
+  block (between the ARTICLES_START / ARTICLES_END comments).
+
+  Required replacements:
+    {{TITLE}}            — page title, ~60 chars, include primary keyword + brand
+    {{META_DESC}}        — meta description, ~150-160 chars, primary keyword + city
+    {{KEYWORDS}}         — comma-separated, ~10 terms
+    {{SLUG}}             — URL slug, kebab-case, no trailing slash (e.g. "bpc-157-bali")
+    {{ISO_DATE}}         — ISO 8601, e.g. "2026-05-28"
+    {{HUMAN_DATE}}       — display date, e.g. "May 28, 2026"
+    {{OG_IMAGE}}         — full URL to a 1200x630 image; default to /assets/hero-mots-c.png
+    {{H1}}               — H1 heading, can match TITLE without brand suffix
+    {{LEDE}}             — 1-2 sentence intro paragraph; should include primary keyword once
+    {{BODY_HTML}}        — main body, use <h2>/<h3>/<p>/<ul>; aim for >800 words
+    {{FAQ_JSONLD}}       — array of {question, answer} objects for FAQ schema
+    {{FAQ_HTML}}         — visible FAQ block matching the schema entries
+    {{BREADCRUMB_NAME}}  — short label for breadcrumb, e.g. "BPC-157 in Bali"
+    {{CATEGORY}}         — Article category, e.g. "Protocol", "City Guide", "Compound Guide"
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{TITLE}} | Zurich Biotech</title>
+    <meta name="description" content="{{META_DESC}}" />
+    <meta name="keywords" content="{{KEYWORDS}}" />
+    <link rel="canonical" href="https://zurichbiotech.com/resources/{{SLUG}}/" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    <meta name="author" content="Zurich Biotech" />
+
+    <meta name="geo.region" content="ID-BA" />
+    <meta name="geo.placename" content="Canggu, Bali, Indonesia" />
+    <meta name="geo.position" content="-8.6478;115.1385" />
+    <meta name="ICBM" content="-8.6478, 115.1385" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Zurich Biotech" />
+    <meta property="og:title" content="{{TITLE}}" />
+    <meta property="og:description" content="{{META_DESC}}" />
+    <meta property="og:url" content="https://zurichbiotech.com/resources/{{SLUG}}/" />
+    <meta property="og:image" content="{{OG_IMAGE}}" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="article:published_time" content="{{ISO_DATE}}" />
+    <meta property="article:section" content="{{CATEGORY}}" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{TITLE}}" />
+    <meta name="twitter:description" content="{{META_DESC}}" />
+    <meta name="twitter:image" content="{{OG_IMAGE}}" />
+
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+
+    <style>
+      .article-page { padding: 120px clamp(16px, 5vw, 88px) 80px; max-width: 760px; margin: 0 auto; }
+      .article-page h1 { font-size: clamp(32px, 3.5vw, 52px); font-weight: 400; margin: 16px 0 24px; line-height: 1.1; }
+      .article-page h1 span { color: var(--red); }
+      .article-page .article-meta { font-family: var(--tech); font-size: 12px; text-transform: uppercase; color: var(--gray-700); letter-spacing: 0.04em; }
+      .article-page .lede { font-size: clamp(17px, 1.5vw, 19px); line-height: 1.6; color: var(--gray-900, #222); margin: 0 0 40px; }
+      .article-page h2 { font-size: clamp(22px, 2.2vw, 30px); font-weight: 500; margin: 48px 0 16px; line-height: 1.25; }
+      .article-page h3 { font-size: clamp(18px, 1.8vw, 22px); font-weight: 500; margin: 32px 0 12px; }
+      .article-page p, .article-page li { font-size: 16px; line-height: 1.7; color: var(--gray-900, #222); }
+      .article-page p { margin: 0 0 18px; }
+      .article-page ul, .article-page ol { padding-left: 22px; margin: 0 0 24px; }
+      .article-page li { margin-bottom: 8px; }
+      .article-page a { color: var(--black); text-decoration: underline; text-underline-offset: 3px; }
+      .article-page a:hover { color: var(--red); }
+      .article-page blockquote { border-left: 3px solid var(--red); padding: 4px 0 4px 20px; margin: 24px 0; font-style: italic; color: var(--gray-700); }
+      .article-page .faq { margin-top: 64px; padding-top: 40px; border-top: 1px solid var(--gray-200); }
+      .article-page .faq h2 { margin-top: 0; }
+      .article-page .faq details { padding: 16px 0; border-bottom: 1px solid var(--gray-200); }
+      .article-page .faq summary { font-family: var(--tech); font-size: 14px; font-weight: 700; cursor: pointer; }
+      .article-page .faq details[open] summary { color: var(--red); }
+      .article-page .faq details p { margin: 12px 0 0; }
+      .article-page .end-cta { margin-top: 64px; padding: 32px clamp(20px, 4vw, 48px); border: 1px solid var(--gray-200); background: #f7f7f7; }
+      .article-page .end-cta h3 { margin: 0 0 8px; }
+      .article-page .end-cta p { font-family: var(--tech); text-transform: uppercase; font-size: 12px; letter-spacing: 0.04em; color: var(--gray-700); margin: 0 0 16px; }
+      .article-page .end-cta a { display: inline-block; font-family: var(--tech); font-size: 13px; font-weight: 700; text-transform: uppercase; background: var(--black); color: var(--white); padding: 14px 22px; text-decoration: none; }
+      .article-page .end-cta a:hover { background: var(--red); }
+      .article-breadcrumbs { font-family: var(--tech); font-size: 11px; text-transform: uppercase; color: var(--gray-700); letter-spacing: 0.04em; margin: 0 0 8px; }
+      .article-breadcrumbs a { color: var(--gray-700); text-decoration: none; }
+      .article-breadcrumbs a:hover { color: var(--black); }
+    </style>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://zurichbiotech.com/" },
+            { "@type": "ListItem", "position": 2, "name": "Resources", "item": "https://zurichbiotech.com/resources/" },
+            { "@type": "ListItem", "position": 3, "name": "{{BREADCRUMB_NAME}}", "item": "https://zurichbiotech.com/resources/{{SLUG}}/" }
+          ]
+        },
+        {
+          "@type": "Article",
+          "@id": "https://zurichbiotech.com/resources/{{SLUG}}/#article",
+          "headline": "{{TITLE}}",
+          "description": "{{META_DESC}}",
+          "image": "{{OG_IMAGE}}",
+          "datePublished": "{{ISO_DATE}}",
+          "dateModified": "{{ISO_DATE}}",
+          "author": { "@id": "https://zurichbiotech.com/#organization" },
+          "publisher": { "@id": "https://zurichbiotech.com/#organization" },
+          "mainEntityOfPage": "https://zurichbiotech.com/resources/{{SLUG}}/",
+          "articleSection": "{{CATEGORY}}",
+          "inLanguage": "en",
+          "isPartOf": { "@id": "https://zurichbiotech.com/resources/#blog" }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": {{FAQ_JSONLD}}
+        }
+      ]
+    }
+    </script>
+  </head>
+  <body>
+    <header class="site-header" aria-label="Primary navigation">
+      <a class="brand" href="/" aria-label="Zurich Biotech home">Zurich Biotech<span>+</span></a>
+      <nav>
+        <a href="/#protocols">Protocols</a>
+        <a href="/#science">Science</a>
+        <a href="/#compounds">Compounds</a>
+        <a href="/resources/">Resources</a>
+        <a href="/#truth">About</a>
+        <a class="nav-cta" href="/cart.html" aria-label="Cart">Your Cart <span class="cart-count" id="cartCount">0</span></a>
+      </nav>
+    </header>
+
+    <main class="article-page" id="top">
+      <nav class="article-breadcrumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a> / <a href="/resources/">Resources</a> / <span>{{BREADCRUMB_NAME}}</span>
+      </nav>
+      <p class="article-meta">{{CATEGORY}} · {{HUMAN_DATE}}</p>
+      <h1>{{H1}}<span>+</span></h1>
+      <p class="lede">{{LEDE}}</p>
+
+      <article>
+        {{BODY_HTML}}
+      </article>
+
+      <section class="faq" aria-labelledby="faq-title">
+        <h2 id="faq-title">FAQ</h2>
+        {{FAQ_HTML}}
+      </section>
+
+      <aside class="end-cta" aria-label="Browse compounds">
+        <h3>Browse the research peptide catalog</h3>
+        <p>Shipped across Bali, Jakarta, Surabaya, Yogyakarta and tier-1 Indonesia. Research use only.</p>
+        <a href="/#compounds">View Compounds +</a>
+      </aside>
+    </main>
+
+    <script src="/script.js"></script>
+  </body>
+</html>

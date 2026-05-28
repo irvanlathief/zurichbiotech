@@ -321,6 +321,7 @@
         <a href="#protocols">Protocols</a>
         <a href="#science">Science</a>
         <a href="#compounds">Compounds</a>
+        <a href="/resources/">Resources</a>
         <a href="#truth">About</a>
         <a class="nav-cta" href="cart.html" aria-label="Cart">Your Cart <span class="cart-count" id="cartCount">0</span></a>
       </nav>
@@ -623,49 +624,24 @@
         </div>
       </section>
 
-      <section class="dosing-calculator" id="dosing-calculator" aria-labelledby="calculator-title">
+      <section class="calc-teaser" aria-labelledby="calc-teaser-title">
+        <style>
+          .calc-teaser { padding: 80px clamp(24px, 5vw, 88px); }
+          .calc-teaser h2 { font-size: clamp(28px, 3vw, 44px); font-weight: 400; margin: 8px 0 12px; }
+          .calc-teaser h2 span { color: var(--red); }
+          .calc-teaser p { font-family: var(--tech); font-size: 13px; text-transform: uppercase; color: var(--gray-700); letter-spacing: 0.04em; margin: 0 0 24px; }
+          .calc-teaser .calc-teaser-row { display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; padding: 40px clamp(24px, 4vw, 56px); border: 1px solid var(--gray-200); }
+          .calc-teaser .calc-teaser-cta { font-family: var(--tech); font-size: 13px; font-weight: 700; text-transform: uppercase; background: var(--black); color: var(--white); padding: 16px 28px; text-decoration: none; white-space: nowrap; }
+          .calc-teaser .calc-teaser-cta:hover { background: var(--red); }
+          @media (max-width: 640px) { .calc-teaser { padding-inline: 16px; } .calc-teaser .calc-teaser-row { padding: 28px 20px; } }
+        </style>
         <div class="section-kicker">[ Dosing Calculator ]</div>
-        <h2 id="calculator-title">Calculate your research dosing.<span>+</span></h2>
-        <div class="calculator-body">
-          <div class="calculator-form" id="calculatorForm">
-            <div class="form-group">
-              <label for="calcCompound">Compound</label>
-              <select id="calcCompound">
-                <option value="" data-conc="0" data-unit="">Select a compound</option>
-                <option value="ghk-cu" data-conc="10" data-unit="mg/vial" data-range="1-2">GHK-CU: 10mg/vial</option>
-                <option value="semax" data-conc="5" data-unit="mg/vial" data-range="0.3-0.6">Semax: 5mg/vial</option>
-                <option value="bpc157-tb500" data-conc="10" data-unit="mg/vial" data-range="5-10">BPC157+TB500: 10mg/vial</option>
-                <option value="mots-c" data-conc="10" data-unit="mg/vial" data-range="0.2-0.3">MOTS-C: 10mg/vial</option>
-                <option value="retatrutide" data-conc="10" data-unit="mg/vial" data-range="1-2">Retatrutide: 10mg/vial</option>
-                <option value="cjc1295-ipamorelin" data-conc="10" data-unit="mg Blend/vial" data-range="1-2">CJC1295/Ipamorelin: 10mg Blend/vial</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="calcDose">Desired dose <small id="doseRangeHint">(mg / day)</small></label>
-              <input type="number" id="calcDose" step="0.01" min="0.01" placeholder="e.g. 1.5">
-            </div>
-            <div class="form-group">
-              <label for="calcSyringe">Syringe size</label>
-              <select id="calcSyringe">
-                <option value="0.5">0.5ml U-100 (50 units)</option>
-                <option value="1">1.0ml U-100 (100 units)</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="calcBac">BAC water per vial <small>(ml)</small></label>
-              <input type="number" id="calcBac" step="0.1" min="0.5" value="2" placeholder="2">
-            </div>
+        <div class="calc-teaser-row">
+          <div>
+            <h2 id="calc-teaser-title">Calculate your research dosing<span>+</span></h2>
+            <p>Syringe units · concentration · vial duration · for every compound</p>
           </div>
-          <div class="calculator-results" id="calculatorResults">
-            <article class="calc-result-card">
-              <span class="resource-line" style="background:var(--gray-400)"></span>
-              <div class="resource-body">
-                <p class="resource-category">Research Dosing</p>
-                <h3>Enter values to calculate</h3>
-                <p class="resource-desc">Select a compound and enter your desired dose to see exact syringe measurements.</p>
-              </div>
-            </article>
-          </div>
+          <a class="calc-teaser-cta" href="/dosing-calculator/">Open Calculator +</a>
         </div>
       </section>
 
