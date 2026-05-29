@@ -857,9 +857,11 @@ small {
 }
 
 .protocol-images img {
+  flex: 1 1 0;
+  min-width: 0;
   height: 300px;
-  width: auto;
-  flex: 0 0 auto;
+  object-fit: contain;
+  object-position: bottom center;
   clip-path: inset(0 18% 0 18%);
   display: block;
 }
