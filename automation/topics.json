@@ -34,7 +34,11 @@
       "priority": 1,
       "intent": "informational",
       "internal_link_targets": ["/#compounds", "/resources/peptide-reconstitution-bac-water-guide/"],
-      "status": "pending",
+      "status": "done",
+      "published": {
+        "date": "2026-05-30",
+        "url": "https://zurichbiotech.com/resources/lyophilized-peptide-storage/"
+      },
       "notes": "Genuine Indonesia angle — high humidity/heat actually matters for shelf life. Cite manufacturer COA data."
     },
     {
