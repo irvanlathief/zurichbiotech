@@ -83,7 +83,11 @@
       "priority": 2,
       "intent": "informational",
       "internal_link_targets": ["/#bpc157-tb500", "/dosing-calculator/", "/resources/peptide-reconstitution-bac-water-guide/"],
-      "status": "pending",
+      "status": "done",
+      "published": {
+        "date": "2026-06-02",
+        "url": "https://zurichbiotech.com/resources/bpc-157-research-overview/"
+      },
       "notes": "Sikiric et al. is the dominant research group. Be honest about animal-only vs human-trial state."
     },
     {
