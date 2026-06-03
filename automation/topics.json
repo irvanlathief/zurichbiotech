@@ -100,7 +100,11 @@
       "priority": 2,
       "intent": "informational",
       "internal_link_targets": ["/#retatrutide", "/dosing-calculator/", "/resources/retatrutide-vs-semaglutide/"],
-      "status": "pending",
+      "status": "done",
+      "published": {
+        "date": "2026-06-03",
+        "url": "https://zurichbiotech.com/resources/retatrutide-research-overview/"
+      },
       "notes": "Cite NEJM Jastreboff et al. 2023 Phase 2. Reference current Phase 3 NCT numbers from ClinicalTrials.gov."
     },
     {
