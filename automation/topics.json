@@ -117,7 +117,11 @@
       "priority": 2,
       "intent": "informational",
       "internal_link_targets": ["/#ghk-cu", "/dosing-calculator/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-06-04",
+        "url": "https://zurichbiotech.com/resources/ghk-cu-research-overview/"
+      }
     },
     {
       "id": 8,
