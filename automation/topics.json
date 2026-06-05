@@ -133,7 +133,11 @@
       "priority": 2,
       "intent": "informational",
       "internal_link_targets": ["/#mots-c", "/dosing-calculator/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-06-05",
+        "url": "https://zurichbiotech.com/resources/mots-c-research-overview/"
+      }
     },
     {
       "id": 9,
