@@ -149,7 +149,11 @@
       "priority": 2,
       "intent": "informational",
       "internal_link_targets": ["/#cjc1295-ipamorelin", "/dosing-calculator/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-06-06",
+        "url": "https://zurichbiotech.com/resources/cjc1295-ipamorelin-research-overview/"
+      }
     },
     {
       "id": 10,
