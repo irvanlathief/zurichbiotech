@@ -245,7 +245,11 @@
       "priority": 3,
       "intent": "informational",
       "internal_link_targets": ["/resources/peptide-reconstitution-bac-water-guide/", "/resources/lyophilized-peptide-storage/", "/resources/peptide-purity-coa-explained/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-06-12",
+        "url": "https://zurichbiotech.com/resources/common-peptide-research-mistakes/"
+      }
     },
     {
       "id": 16,
