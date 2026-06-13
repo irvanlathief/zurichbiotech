@@ -261,7 +261,11 @@
       "priority": 4,
       "intent": "comparison",
       "internal_link_targets": ["/#retatrutide", "/resources/retatrutide-research-overview/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-06-13",
+        "url": "https://zurichbiotech.com/resources/retatrutide-vs-semaglutide/"
+      }
     },
     {
       "id": 17,
