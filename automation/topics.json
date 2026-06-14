@@ -277,7 +277,11 @@
       "priority": 4,
       "intent": "comparison",
       "internal_link_targets": ["/#retatrutide", "/resources/retatrutide-research-overview/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-06-14",
+        "url": "https://zurichbiotech.com/resources/retatrutide-vs-tirzepatide/"
+      }
     },
     {
       "id": 18,
