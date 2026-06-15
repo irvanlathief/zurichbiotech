@@ -293,7 +293,11 @@
       "priority": 4,
       "intent": "comparison",
       "internal_link_targets": ["/#bpc157-tb500", "/resources/bpc-157-research-overview/", "/resources/tb-500-thymosin-beta-4-research/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-06-15",
+        "url": "https://zurichbiotech.com/resources/bpc-157-vs-tb-500-recovery/"
+      }
     },
     {
       "id": 19,
