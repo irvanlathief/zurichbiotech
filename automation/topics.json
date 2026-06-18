@@ -342,7 +342,11 @@
       "intent": "navigational",
       "target_city": "Bali",
       "internal_link_targets": ["/#compounds", "/resources/lyophilized-peptide-storage/", "/dosing-calculator/"],
-      "status": "pending",
+      "status": "done",
+      "published": {
+        "date": "2026-06-18",
+        "url": "https://zurichbiotech.com/resources/research-peptides-bali-canggu/"
+      },
       "notes": "Cite BPOM research-use regulations honestly. Include Canggu / Seminyak / Ubud / Sanur / Uluwatu as sub-areas."
     },
     {
