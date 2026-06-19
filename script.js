@@ -764,6 +764,61 @@ function initCalculator() {
     "cjc1295-ipamorelin": "CJC1295/Ipamorelin",
   };
 
+  const COMPOUND_COLORS = {
+    "ghk-cu": "#138f2d",
+    "semax": "#ffd21a",
+    "bpc157-tb500": "#138f2d",
+    "mots-c": "#ffd21a",
+    "retatrutide": "#ff4a12",
+    "cjc1295-ipamorelin": "#1158d8",
+  };
+
+  // Draws a U-100 insulin syringe filled to `units` of a `maxUnits` barrel.
+  // The fill animates in via CSS (scaleX), the plunger sits at the draw mark,
+  // graduations are scaled to the chosen syringe, and a tag calls out the draw.
+  function buildSyringe(units, maxUnits, color, unitsLabel) {
+    const bx0 = 80, bx1 = 392, by0 = 52, by1 = 102;   // barrel interior box
+    const span = bx1 - bx0, h = by1 - by0, cy = (by0 + by1) / 2;
+    const over = units > maxUnits;
+    const frac = Math.max(0.012, Math.min(1, units / maxUnits));
+    const fillW = span * frac;
+    const fillX = bx0 + fillW;
+    const fillColor = over ? "var(--red)" : color;
+
+    const step = maxUnits <= 50 ? 5 : 10;
+    let ticks = "";
+    for (let u = 0; u <= maxUnits; u += step) {
+      const x = (bx0 + span * (u / maxUnits)).toFixed(1);
+      const major = u % (step * 2) === 0 || u === maxUnits;
+      ticks += `<line x1="${x}" y1="${by0}" x2="${x}" y2="${by0 + (major ? 13 : 7)}" class="syr-grad"/>`;
+      if (major) ticks += `<text x="${x}" y="${by0 - 8}" class="syr-num">${u}</text>`;
+    }
+
+    // keep the callout tag inside the viewBox at the extremes
+    const tagX = Math.max(bx0 + 4, Math.min(bx1 - 4, fillX));
+
+    return `
+    <svg class="syringe" viewBox="0 0 472 150" role="img" aria-label="U-100 syringe filled to ${unitsLabel} of ${maxUnits} units">
+      <defs><clipPath id="syrClip"><rect x="${bx0}" y="${by0}" width="${span}" height="${h}" rx="4"/></clipPath></defs>
+      <line x1="10" y1="${cy}" x2="50" y2="${cy}" class="syr-needle"/>
+      <rect x="50" y="${cy - 6}" width="14" height="12" class="syr-hub"/>
+      <path d="M64 ${cy - 6} L${bx0} ${by0} L${bx0} ${by1} L64 ${cy + 6} Z" class="syr-tip"/>
+      <rect x="${bx0}" y="${by0}" width="${span}" height="${h}" rx="4" class="syr-barrel"/>
+      <g clip-path="url(#syrClip)">
+        <rect x="${bx0}" y="${by0}" width="${fillW.toFixed(1)}" height="${h}" class="syr-fill" style="fill:${fillColor}"/>
+      </g>
+      ${ticks}
+      <rect x="${(fillX - 3).toFixed(1)}" y="${by0 - 2}" width="6" height="${h + 4}" class="syr-stopper"/>
+      <line x1="${fillX.toFixed(1)}" y1="${cy}" x2="448" y2="${cy}" class="syr-rod"/>
+      <rect x="448" y="${cy - 17}" width="10" height="34" class="syr-flange"/>
+      <line x1="${tagX.toFixed(1)}" y1="${by0}" x2="${tagX.toFixed(1)}" y2="30" class="syr-call"/>
+      <g transform="translate(${tagX.toFixed(1)},18)">
+        <rect x="-37" y="-13" width="74" height="24" rx="3" style="fill:${fillColor}"/>
+        <text x="0" y="4" class="syr-tag">${over ? "OVER MAX" : "DRAW " + unitsLabel}</text>
+      </g>
+    </svg>`;
+  }
+
   compoundSelect.addEventListener("change", () => {
     const opt = compoundSelect.options[compoundSelect.selectedIndex];
     const range = opt.dataset.range || "";
@@ -800,32 +855,43 @@ function initCalculator() {
     }
 
     const name = COMPOUND_NAMES[key] || key;
+    const color = COMPOUND_COLORS[key] || "#1158d8";
     const concMgPerMl = vialMg / bacMl;
-    const unitsPerMl = syringeMl <= 0.5 ? 50 : 100; // U-100: 0.5ml = 50 units, 1ml = 100 units
+    const unitsPerMl = 100; // U-100 standard: 100 units = 1 ml, independent of barrel size
+    const maxUnits = Math.round(syringeMl * 100); // barrel capacity: 0.5ml = 50u, 1.0ml = 100u
     const mlPerDose = doseMg / concMgPerMl;
     const unitsPerDose = mlPerDose * unitsPerMl;
     const mcgPerUnit = (concMgPerMl * 1000) / unitsPerMl;
     const daysPerVial = Math.floor(vialMg / doseMg);
+    const over = unitsPerDose > maxUnits;
+    const unitsLabel = (unitsPerDose < 1 ? unitsPerDose.toFixed(2) : Math.round(unitsPerDose)) + " u";
+    const doseMcg = Math.round(doseMg * 1000);
 
     resultsEl.innerHTML = `
       <article class="calc-result-card">
-        <span class="resource-line" style="background:var(--black)"></span>
+        <span class="resource-line" style="background:${over ? "var(--red)" : color}"></span>
         <div class="resource-badge">
           <span class="resource-format">CALC</span>
-          <span class="resource-pages">${unitsPerDose < 1 ? unitsPerDose.toFixed(2) : Math.round(unitsPerDose)} UNITS</span>
+          <span class="resource-pages">${over ? "OVER MAX" : unitsLabel}</span>
         </div>
         <div class="resource-body">
           <p class="resource-category">${name}: ${vialMg}${unit}</p>
-          <h3>Dosing Protocol</h3>
+          <h3>Dosing protocol</h3>
+          <div class="syringe-viz">
+            <p class="syr-title">${syringeMl}ml U-100 syringe · draw to the mark</p>
+            ${buildSyringe(unitsPerDose, maxUnits, color, unitsLabel)}
+          </div>
           <dl class="resource-specs">
             <div><dt>Concentration</dt><dd>${concMgPerMl.toFixed(2)} mg/ml</dd></div>
-            <div><dt>Dose per injection</dt><dd>${doseMg} mg</dd></div>
-            <div><dt>Syringe draw</dt><dd>${unitsPerDose < 1 ? unitsPerDose.toFixed(2) : Math.round(unitsPerDose)} units (${mlPerDose.toFixed(3)} ml)</dd></div>
-            <div><dt>Units per ml</dt><dd>${unitsPerMl} (U-100 ${syringeMl}ml)</dd></div>
+            <div><dt>Dose per injection</dt><dd>${doseMg} mg (${doseMcg} mcg)</dd></div>
+            <div><dt>Syringe draw</dt><dd>${unitsLabel} (${mlPerDose.toFixed(3)} ml)</dd></div>
+            <div><dt>Syringe capacity</dt><dd>${maxUnits} u (${syringeMl}ml U-100)</dd></div>
             <div><dt>mcg per unit</dt><dd>${Math.round(mcgPerUnit)} mcg</dd></div>
             <div><dt>Vial duration</dt><dd>${daysPerVial} day${daysPerVial !== 1 ? "s" : ""}</dd></div>
           </dl>
-          <p class="resource-desc">Reconstitute <strong>${vialMg}mg</strong> with <strong>${bacMl}ml</strong> bacteriostatic water. Draw <strong>${unitsPerDose < 1 ? unitsPerDose.toFixed(2) : Math.round(unitsPerDose)} units</strong> on a <strong>${syringeMl}ml U-100</strong> syringe for a <strong>${doseMg}mg</strong> dose.</p>
+          ${over
+            ? `<p class="resource-desc syr-warn">This dose needs <strong>${unitsLabel}</strong>, beyond the <strong>${maxUnits}-unit</strong> capacity of a ${syringeMl}ml syringe. Use a larger syringe, split the dose across injections, or add more BAC water to lower the concentration.</p>`
+            : `<p class="resource-desc">Reconstitute <strong>${vialMg}mg</strong> with <strong>${bacMl}ml</strong> bacteriostatic water. Draw <strong>${unitsLabel}</strong> on a <strong>${syringeMl}ml U-100</strong> syringe for a <strong>${doseMg}mg</strong> dose.</p>`}
         </div>
       </article>
     `;

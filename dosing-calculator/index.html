@@ -43,6 +43,25 @@
       .calc-cta p { margin: 0; font-family: var(--tech); text-transform: uppercase; font-size: 13px; letter-spacing: 0.04em; }
       .calc-cta a { font-family: var(--tech); font-size: 13px; font-weight: 700; text-transform: uppercase; background: var(--black); color: var(--white); padding: 14px 22px; text-decoration: none; }
       .calc-cta a:hover { background: var(--red); }
+
+      /* syringe visualization */
+      .syringe-viz { margin: 4px 0 22px; padding: 18px 18px 10px; border: 1px solid var(--gray-200); background: #fafafa; }
+      .syringe-viz .syr-title { margin: 0 0 6px; font-family: var(--tech); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray-700); }
+      .syringe { width: 100%; height: auto; display: block; overflow: visible; }
+      .syr-barrel { fill: #fff; stroke: var(--black); stroke-width: 2; }
+      .syr-needle { stroke: var(--gray-400); stroke-width: 3; stroke-linecap: round; }
+      .syr-hub { fill: var(--gray-400); }
+      .syr-tip { fill: #ededed; stroke: var(--black); stroke-width: 1.5; stroke-linejoin: round; }
+      .syr-fill { opacity: 0.82; transform-box: fill-box; transform-origin: left center; animation: syrFill 0.7s cubic-bezier(0.2, 0.85, 0.25, 1) both; }
+      .syr-grad { stroke: var(--gray-400); stroke-width: 1; }
+      .syr-num { font-family: var(--tech); font-size: 11px; fill: var(--gray-700); text-anchor: middle; }
+      .syr-stopper { fill: var(--black); }
+      .syr-rod { stroke: var(--black); stroke-width: 4; }
+      .syr-flange { fill: var(--black); }
+      .syr-call { stroke: var(--black); stroke-width: 1; stroke-dasharray: 3 3; }
+      .syr-tag { font-family: var(--tech); font-size: 12px; font-weight: 700; fill: #fff; text-anchor: middle; letter-spacing: 0.02em; }
+      .syr-warn { color: var(--red); }
+      @keyframes syrFill { from { transform: scaleX(0); } }
     </style>
 
     <script type="application/ld+json">
