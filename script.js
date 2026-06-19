@@ -819,12 +819,33 @@ function initCalculator() {
     </svg>`;
   }
 
-  compoundSelect.addEventListener("change", () => {
-    const opt = compoundSelect.options[compoundSelect.selectedIndex];
-    const range = opt.dataset.range || "";
-    const unit = opt.value === "semax" || opt.value === "mots-c" ? "mg / day" : "mg / day";
-    doseRangeHint.textContent = range ? `(typical ${range}${unit === "mg / day" ? "mg" : "mg"} / day)` : "(mg / day)";
-    calculate();
+  let doseMode = "mg"; // "mg" or "units"
+
+  function updateDoseHint() {
+    if (doseMode === "units") {
+      doseRangeHint.textContent = "(units to draw on the syringe)";
+      if (doseInput) { doseInput.placeholder = "e.g. 30"; doseInput.step = "1"; }
+    } else {
+      const opt = compoundSelect.options[compoundSelect.selectedIndex];
+      const range = opt ? opt.dataset.range || "" : "";
+      doseRangeHint.textContent = range ? `(typical ${range} mg / day)` : "(mg / day)";
+      if (doseInput) { doseInput.placeholder = "e.g. 1.5"; doseInput.step = "0.01"; }
+    }
+  }
+
+  compoundSelect.addEventListener("change", () => { updateDoseHint(); calculate(); });
+
+  document.querySelectorAll(".unit-toggle .unit-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      doseMode = btn.dataset.mode;
+      document.querySelectorAll(".unit-toggle .unit-btn").forEach((b) => {
+        const on = b === btn;
+        b.classList.toggle("active", on);
+        b.setAttribute("aria-pressed", String(on));
+      });
+      updateDoseHint();
+      calculate();
+    });
   });
 
   [doseInput, syringeSelect, bacInput].forEach((el) => {
@@ -836,11 +857,11 @@ function initCalculator() {
     const vialMg = parseFloat(opt.dataset.conc) || 0;
     const unit = opt.dataset.unit || "";
     const key = compoundSelect.value;
-    const doseMg = parseFloat(doseInput?.value) || 0;
+    const rawDose = parseFloat(doseInput?.value) || 0;
     const syringeMl = parseFloat(syringeSelect?.value) || 0.5;
     const bacMl = parseFloat(bacInput?.value) || 2;
 
-    if (!key || !vialMg || doseMg <= 0 || bacMl <= 0) {
+    if (!key || !vialMg || rawDose <= 0 || bacMl <= 0) {
       resultsEl.innerHTML = `
         <article class="calc-result-card">
           <span class="resource-line" style="background:var(--gray-400)"></span>
@@ -859,13 +880,24 @@ function initCalculator() {
     const concMgPerMl = vialMg / bacMl;
     const unitsPerMl = 100; // U-100 standard: 100 units = 1 ml, independent of barrel size
     const maxUnits = Math.round(syringeMl * 100); // barrel capacity: 0.5ml = 50u, 1.0ml = 100u
-    const mlPerDose = doseMg / concMgPerMl;
-    const unitsPerDose = mlPerDose * unitsPerMl;
+
+    // dose can be entered in mg or directly in syringe units
+    let doseMg, mlPerDose, unitsPerDose;
+    if (doseMode === "units") {
+      unitsPerDose = rawDose;
+      mlPerDose = unitsPerDose / unitsPerMl;
+      doseMg = mlPerDose * concMgPerMl;
+    } else {
+      doseMg = rawDose;
+      mlPerDose = doseMg / concMgPerMl;
+      unitsPerDose = mlPerDose * unitsPerMl;
+    }
     const mcgPerUnit = (concMgPerMl * 1000) / unitsPerMl;
     const daysPerVial = Math.floor(vialMg / doseMg);
     const over = unitsPerDose > maxUnits;
     const unitsLabel = (unitsPerDose < 1 ? unitsPerDose.toFixed(2) : Math.round(unitsPerDose)) + " u";
     const doseMcg = Math.round(doseMg * 1000);
+    const doseMgDisp = parseFloat(doseMg.toFixed(3)).toString();
 
     resultsEl.innerHTML = `
       <article class="calc-result-card">
@@ -883,7 +915,7 @@ function initCalculator() {
           </div>
           <dl class="resource-specs">
             <div><dt>Concentration</dt><dd>${concMgPerMl.toFixed(2)} mg/ml</dd></div>
-            <div><dt>Dose per injection</dt><dd>${doseMg} mg (${doseMcg} mcg)</dd></div>
+            <div><dt>Dose per injection</dt><dd>${doseMgDisp} mg (${doseMcg} mcg)</dd></div>
             <div><dt>Syringe draw</dt><dd>${unitsLabel} (${mlPerDose.toFixed(3)} ml)</dd></div>
             <div><dt>Syringe capacity</dt><dd>${maxUnits} u (${syringeMl}ml U-100)</dd></div>
             <div><dt>mcg per unit</dt><dd>${Math.round(mcgPerUnit)} mcg</dd></div>
@@ -891,7 +923,7 @@ function initCalculator() {
           </dl>
           ${over
             ? `<p class="resource-desc syr-warn">This dose needs <strong>${unitsLabel}</strong>, beyond the <strong>${maxUnits}-unit</strong> capacity of a ${syringeMl}ml syringe. Use a larger syringe, split the dose across injections, or add more BAC water to lower the concentration.</p>`
-            : `<p class="resource-desc">Reconstitute <strong>${vialMg}mg</strong> with <strong>${bacMl}ml</strong> bacteriostatic water. Draw <strong>${unitsLabel}</strong> on a <strong>${syringeMl}ml U-100</strong> syringe for a <strong>${doseMg}mg</strong> dose.</p>`}
+            : `<p class="resource-desc">Reconstitute <strong>${vialMg}mg</strong> with <strong>${bacMl}ml</strong> bacteriostatic water. Draw <strong>${unitsLabel}</strong> on a <strong>${syringeMl}ml U-100</strong> syringe for a <strong>${doseMgDisp}mg</strong> dose.</p>`}
         </div>
       </article>
     `;
