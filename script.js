@@ -1167,7 +1167,7 @@ function initAnalysis() {
   tool.querySelectorAll(".an-back").forEach((b) => b.addEventListener("click", () => showStep(Number(b.dataset.back))));
 
   // step 3: email gate, then WhatsApp hand-off
-  document.getElementById("anGate").addEventListener("submit", (e) => {
+  document.getElementById("anGate").addEventListener("submit", async (e) => {
     e.preventDefault();
     const name = document.getElementById("anName").value.trim();
     const email = document.getElementById("anEmail").value.trim();
@@ -1179,9 +1179,23 @@ function initAnalysis() {
     const profile = QUESTIONS.map((q) => `${q.q}: ${answers[q.id] || "-"}`).join(", ");
     const lead = { name, email, goal: g.label, profile, protocol: protocol ? protocol.title.replace(".", "") : "", ts: new Date().toISOString() };
 
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    const originalLabel = submitBtn ? submitBtn.textContent : "";
+    if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Sending your guide..."; }
+
+    let emailSent = false;
+    try {
+      const r = await fetch("/api/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, goal: goalKey, profile, consent: true }),
+      });
+      emailSent = r.ok;
+    } catch (_) {}
+
     try {
       const arr = JSON.parse(localStorage.getItem("zbLeads") || "[]");
-      arr.push(lead);
+      arr.push({ ...lead, emailSent });
       localStorage.setItem("zbLeads", JSON.stringify(arr));
       localStorage.setItem("zbAnalysisUnlocked", "true");
     } catch (_) {}
@@ -1190,8 +1204,10 @@ function initAnalysis() {
       fetch(LEAD_WEBHOOK, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(lead) }).catch(() => {});
     }
 
+    if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = originalLabel; }
+
     window.open(buildWaUrl(name, email), "_blank", "noopener");
-    renderResult();
+    renderResult({ emailSent, email });
     showStep(4);
   });
 
@@ -1222,7 +1238,7 @@ function initAnalysis() {
   }
 
   // step 4: the free guide
-  function renderResult() {
+  function renderResult(opts = {}) {
     const g = GOALS[goalKey];
     const protocol = protocols[g.protocolKey];
     const profileLine = QUESTIONS.map((q) => answers[q.id]).filter(Boolean).join(" · ");
@@ -1265,6 +1281,9 @@ function initAnalysis() {
         <a class="an-back" style="display:inline-block" href="/#protocols">See the full protocol and biomarker chart +</a>
       </div>
 
+      ${opts.email ? `<div class="an-tailored" style="border-left-color:${opts.emailSent ? "#138f2d" : "#e10600"};margin-top:24px"><strong>${opts.emailSent ? "Email on the way" : "Email could not be sent"}</strong>${opts.emailSent
+          ? `We just sent your <strong>${g.label}</strong> guide to <strong>${opts.email}</strong>. Check your inbox in the next minute. If it does not arrive, look in spam, or grab it on WhatsApp below.`
+          : `We could not deliver your guide to <strong>${opts.email}</strong> just now. Grab it on WhatsApp below and we will follow up by email.`}</div>` : ""}
       <a class="an-wa" href="${buildWaUrl(
         (document.getElementById("anName") || {}).value ? document.getElementById("anName").value.trim() : "",
         (document.getElementById("anEmail") || {}).value ? document.getElementById("anEmail").value.trim() : ""
