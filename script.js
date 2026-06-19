@@ -1020,3 +1020,258 @@ function initPlusGrid() {
 }
 
 initPlusGrid();
+
+
+/* ─────────── peptide research analysis ─────────── */
+function initAnalysis() {
+  const tool = document.getElementById("analysis-tool");
+  if (!tool) return;
+
+  const WA_NUMBER = "61408703955";
+  const LEAD_WEBHOOK = ""; // optional: set to a POST endpoint to also push leads to a CRM / automation
+
+  // backbone: goal -> protocol (keys match the `protocols` object) + the free guide content
+  const GOALS = {
+    recovery: {
+      label: "Recover faster",
+      color: "#138f2d",
+      protocolKey: "recovery",
+      focus: "getting back to training faster and settling nagging soft-tissue issues",
+      doNow: [
+        "Protect sleep first. Most tissue repair and natural growth-hormone release happens in deep sleep, so aim for 7-9 hours on a consistent schedule.",
+        "Eat enough protein, roughly 1.6 to 2.2 g per kg of bodyweight per day, spread across your meals.",
+        "Manage training load. A lighter deload week every 4 to 6 weeks beats grinding through accumulated fatigue.",
+        "Use easy movement on rest days (walking, light cycling) to push blood flow through recovering tissue.",
+      ],
+      research: [
+        { name: "BPC-157", note: "studied in animal models for tendon, ligament, and gut tissue repair", href: "/resources/bpc-157-research-overview/" },
+        { name: "TB-500 (Thymosin Beta-4)", note: "researched for cell migration and soft-tissue repair", href: "/resources/tb-500-thymosin-beta-4-research/" },
+        { name: "GHK-Cu", note: "copper peptide studied for collagen synthesis and tissue remodeling", href: "/resources/ghk-cu-research-overview/" },
+      ],
+    },
+    strength: {
+      label: "Build strength",
+      color: "#1158d8",
+      protocolKey: "strength",
+      focus: "adding strength and lean mass across a training block",
+      doNow: [
+        "Drive progressive overload. Add a little weight or a rep most weeks on your main lifts; that single habit accounts for most of the result.",
+        "Anchor the week around compound movements (squat, hinge, press, pull) rather than chasing isolation work.",
+        "Eat at maintenance or a slight surplus with adequate protein. You cannot out-supplement an under-fed program.",
+        "Be patient and consistent. Strength is built over months of 3 to 4 quality sessions a week, not in a single block.",
+      ],
+      research: [
+        { name: "CJC-1295 / Ipamorelin", note: "studied as a GHRH analog plus GH secretagogue for the GH/IGF-1 axis", href: "/resources/cjc1295-ipamorelin-research-overview/" },
+        { name: "GHK-Cu", note: "copper peptide studied for recovery and connective-tissue support", href: "/resources/ghk-cu-research-overview/" },
+        { name: "BPC-157", note: "researched in models for tendon and joint resilience under load", href: "/resources/bpc-157-research-overview/" },
+      ],
+    },
+    energy: {
+      label: "Sharper energy",
+      color: "#ffd21a",
+      protocolKey: "energy",
+      focus: "steadier focus and cleaner energy through the day",
+      doNow: [
+        "Keep a consistent sleep and wake time, even on weekends. Regularity matters more than the occasional long lie-in.",
+        "Get daylight in your eyes within an hour of waking to anchor your circadian rhythm.",
+        "Keep caffeine before noon and avoid it late; it has a long tail that quietly erodes deep sleep.",
+        "Add 2 to 3 easy zone-2 cardio sessions a week. Aerobic base work improves day-to-day energy more than people expect.",
+      ],
+      research: [
+        { name: "Semax", note: "Russian-developed peptide researched for cognition and focus", href: "/resources/semax-research-overview/" },
+        { name: "MOTS-c", note: "mitochondrial-derived peptide studied for metabolism and energy regulation", href: "/resources/mots-c-research-overview/" },
+        { name: "GHK-Cu", note: "studied for recovery, which underpins steadier daily energy", href: "/resources/ghk-cu-research-overview/" },
+      ],
+    },
+    metabolic: {
+      label: "Body composition",
+      color: "#ff4a12",
+      protocolKey: "metabolic",
+      focus: "improving body composition and metabolic health",
+      doNow: [
+        "Build meals around protein and fiber first; both improve fullness and make a calorie deficit far easier to hold.",
+        "Keep resistance training in the plan. It preserves lean mass so the weight you lose comes from fat, not muscle.",
+        "Raise daily steps and general movement (NEAT). It often moves the needle more than any single workout.",
+        "Protect sleep. Short sleep reliably worsens appetite signaling and insulin sensitivity.",
+      ],
+      research: [
+        { name: "Retatrutide", note: "triple GIP / GLP-1 / glucagon receptor agonist studied in obesity trials", href: "/resources/retatrutide-research-overview/" },
+        { name: "MOTS-c", note: "mitochondrial peptide researched for glucose handling and metabolism", href: "/resources/mots-c-research-overview/" },
+        { name: "GHK-Cu", note: "copper peptide studied for recovery and skin/tissue quality", href: "/resources/ghk-cu-research-overview/" },
+      ],
+    },
+  };
+
+  const QUESTIONS = [
+    { id: "age", q: "Age range", opts: ["Under 30", "30-44", "45+"] },
+    { id: "train", q: "Training frequency", opts: ["Rarely", "1-3x / week", "4+ / week"] },
+    { id: "sleep", q: "Sleep quality lately", opts: ["Poor", "Okay", "Good"] },
+    { id: "blocker", q: "Biggest blocker right now", opts: ["Slow recovery", "Low energy", "Strength plateau", "Body composition", "Sleep"] },
+  ];
+
+  const steps = tool.querySelectorAll(".an-step");
+  const dots = tool.querySelectorAll(".an-step-dot");
+  const questionsEl = document.getElementById("anQuestions");
+  const step2Next = document.getElementById("anStep2Next");
+  let goalKey = null;
+  const answers = {};
+
+  function showStep(n) {
+    steps.forEach((s) => { s.hidden = Number(s.dataset.step) !== n; });
+    dots.forEach((d) => d.classList.toggle("active", Number(d.dataset.step) <= n));
+    tool.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  // step 1: pick a goal
+  tool.querySelectorAll(".an-goal").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      goalKey = btn.dataset.goal;
+      tool.querySelectorAll(".an-goal").forEach((b) => b.classList.toggle("selected", b === btn));
+      renderQuestions();
+      showStep(2);
+    });
+  });
+
+  // step 2: self-assessment
+  function renderQuestions() {
+    questionsEl.innerHTML = QUESTIONS.map((q) => `
+      <div class="an-q" data-q="${q.id}">
+        <p class="an-q-label">${q.q}</p>
+        <div class="an-q-options">
+          ${q.opts.map((o) => `<button type="button" class="an-opt" data-q="${q.id}" data-val="${o}">${o}</button>`).join("")}
+        </div>
+      </div>`).join("");
+    questionsEl.querySelectorAll(".an-opt").forEach((opt) => {
+      opt.addEventListener("click", () => {
+        answers[opt.dataset.q] = opt.dataset.val;
+        questionsEl.querySelectorAll(`.an-opt[data-q="${opt.dataset.q}"]`).forEach((x) => x.classList.toggle("selected", x === opt));
+        step2Next.disabled = QUESTIONS.some((q) => !answers[q.id]);
+      });
+    });
+    step2Next.disabled = true;
+  }
+
+  step2Next.addEventListener("click", () => {
+    if (QUESTIONS.some((q) => !answers[q.id])) return;
+    if (localStorage.getItem("zbAnalysisUnlocked") === "true") {
+      renderResult();
+      showStep(4);
+    } else {
+      const g = GOALS[goalKey];
+      document.getElementById("anTeaser").innerHTML =
+        `Your research focus is <strong>${g.label}</strong>. Your free guide covers what to do now, what to research, and the protocol we would point you to. Add your details and we will send it on WhatsApp.`;
+      showStep(3);
+    }
+  });
+
+  tool.querySelectorAll(".an-back").forEach((b) => b.addEventListener("click", () => showStep(Number(b.dataset.back))));
+
+  // step 3: email gate, then WhatsApp hand-off
+  document.getElementById("anGate").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const name = document.getElementById("anName").value.trim();
+    const email = document.getElementById("anEmail").value.trim();
+    const consent = document.getElementById("anConsent").checked;
+    if (!name || !/.+@.+\..+/.test(email) || !consent) return;
+
+    const g = GOALS[goalKey];
+    const protocol = protocols[g.protocolKey];
+    const profile = QUESTIONS.map((q) => `${q.q}: ${answers[q.id] || "-"}`).join(", ");
+    const lead = { name, email, goal: g.label, profile, protocol: protocol ? protocol.title.replace(".", "") : "", ts: new Date().toISOString() };
+
+    try {
+      const arr = JSON.parse(localStorage.getItem("zbLeads") || "[]");
+      arr.push(lead);
+      localStorage.setItem("zbLeads", JSON.stringify(arr));
+      localStorage.setItem("zbAnalysisUnlocked", "true");
+    } catch (_) {}
+
+    if (LEAD_WEBHOOK) {
+      fetch(LEAD_WEBHOOK, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(lead) }).catch(() => {});
+    }
+
+    window.open(buildWaUrl(name, email), "_blank", "noopener");
+    renderResult();
+    showStep(4);
+  });
+
+  function buildWaUrl(name, email) {
+    const g = GOALS[goalKey];
+    const protocol = protocols[g.protocolKey];
+    const profile = QUESTIONS.map((q) => `${q.q}: ${answers[q.id] || "-"}`).join("\n");
+    const msg = [
+      "Hi Zurich Biotech, I just finished the research analysis.",
+      `Please send my free "${g.label}" starter guide.`,
+      "",
+      name ? `Name: ${name}` : "",
+      email ? `Email: ${email}` : "",
+      `Focus: ${g.label}`,
+      profile,
+      protocol ? `Suggested protocol: ${protocol.title.replace(".", "")}` : "",
+    ].filter(Boolean).join("\n");
+    return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+  }
+
+  // light personalization from the self-assessment
+  function tailoredNote() {
+    if (answers.sleep === "Poor") return "You flagged sleep as a weak point. Fixing sleep moves recovery, energy, and body composition more than any compound, so make that the first lever you pull.";
+    if (answers.age === "45+") return "After about 45, natural recovery and growth-hormone output slow down, so the recovery and longevity angles are especially worth your attention.";
+    if (answers.train === "Rarely") return "Training frequency is low right now. A simple 2-3x per week resistance routine will compound faster than anything you could add on top of it.";
+    if (answers.blocker === "Strength plateau") return "Plateaus usually break with a change in stimulus or better recovery, not more volume. Review your progression and sleep before adding anything.";
+    return "";
+  }
+
+  // step 4: the free guide
+  function renderResult() {
+    const g = GOALS[goalKey];
+    const protocol = protocols[g.protocolKey];
+    const profileLine = QUESTIONS.map((q) => answers[q.id]).filter(Boolean).join(" · ");
+    const tailored = tailoredNote();
+
+    const doNow = g.doNow.map((t) => `<li>${t}</li>`).join("");
+    const research = g.research.map((r) =>
+      `<li><span class="an-r-name">${r.name}:</span> <span class="an-r-note">${r.note}.</span> <a href="${r.href}">Read the overview &rarr;</a></li>`
+    ).join("");
+    const stack = protocol
+      ? protocol.stack.map(([n, d]) => `<li><span><b>+</b>${n}</span> <span>${d}</span></li>`).join("")
+      : "";
+
+    document.getElementById("anResult").innerHTML = `
+      <div class="an-focus">
+        <span class="an-focus-line" style="background:${g.color}"></span>
+        <p class="an-kicker">Your research focus</p>
+        <h2>${g.label}</h2>
+        <p class="an-profile">Profile: ${profileLine}</p>
+      </div>
+
+      <div class="an-section">
+        <h3>What you can do now</h3>
+        <p class="an-note">No peptides required. These are the levers with the most evidence behind them, and they cost nothing.</p>
+        <ul class="an-donow">${doNow}</ul>
+        ${tailored ? `<div class="an-tailored"><strong>Tailored to your answers</strong>${tailored}</div>` : ""}
+      </div>
+
+      <div class="an-section">
+        <h3>If you want to explore peptides, here is what to research</h3>
+        <p class="an-note">Start with the science, not the syringe. These are the compounds most relevant to ${g.focus}. Everything below is for research use only.</p>
+        <ul class="an-research">${research}</ul>
+      </div>
+
+      <div class="an-section an-why">
+        <h3>Why we would point you to the ${protocol ? protocol.title.replace(".", "") : g.label} protocol</h3>
+        <p>${protocol ? protocol.description : ""}</p>
+        <ul class="an-stack">${stack}</ul>
+        ${protocol ? `<p class="an-price"><strong>${formatPrice(protocol.price)}</strong> / protocol</p>` : ""}
+        <a class="an-back" style="display:inline-block" href="/#protocols">See the full protocol and biomarker chart +</a>
+      </div>
+
+      <a class="an-wa" href="${buildWaUrl(
+        (document.getElementById("anName") || {}).value ? document.getElementById("anName").value.trim() : "",
+        (document.getElementById("anEmail") || {}).value ? document.getElementById("anEmail").value.trim() : ""
+      )}" target="_blank" rel="noopener">Get your free guide on WhatsApp +</a>
+      <p class="an-disclaimer">Zurich Biotech supplies research-grade materials for laboratory research only. Nothing here is medical advice, and these compounds are not for human consumption. See our <a href="/terms.html">terms</a> for the full research-use policy.</p>
+    `;
+  }
+}
+
+initAnalysis();
