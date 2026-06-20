@@ -5,8 +5,8 @@
 //
 // Required env vars (set in Vercel project settings):
 //   RESEND_API_KEY        - "re_..." key from resend.com/api-keys
-//   RESEND_FROM_EMAIL     - e.g. "Zurich Biotech <hello@send.zurichbiotech.com>"
-//                           (sender subdomain must be verified in Resend)
+//   RESEND_FROM_EMAIL     - e.g. "Zurich Biotech <hello@zurichbiotech.com>"
+//                           (sender domain must be verified in Resend)
 // Optional:
 //   RESEND_REPLY_TO       - reply-to address (default: info@zurichbiotech.com)
 //   RESEND_AUDIENCE_ID    - if set, adds the contact to this Resend Audience
@@ -81,7 +81,7 @@ export default async function handler(req, res) {
   if (!GOALS[goal]) return res.status(400).json({ error: "unknown_goal" });
 
   const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.RESEND_FROM_EMAIL || "Zurich Biotech <hello@send.zurichbiotech.com>";
+  const from = process.env.RESEND_FROM_EMAIL || "Zurich Biotech <hello@zurichbiotech.com>";
   const replyTo = process.env.RESEND_REPLY_TO || "info@zurichbiotech.com";
   if (!apiKey) return res.status(500).json({ error: "not_configured" });
 
