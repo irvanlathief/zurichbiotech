@@ -73,10 +73,13 @@ export default async function handler(req, res) {
   const email = typeof body.email === "string" ? body.email.trim() : "";
   const goal = typeof body.goal === "string" ? body.goal : "";
   const profile = typeof body.profile === "string" ? body.profile : "";
+  const phone = typeof body.phone === "string" ? body.phone.trim() : "";
+  const phoneDigits = phone.replace(/\D/g, "");
   const consent = body.consent === true;
 
   if (!name || name.length > 120) return res.status(400).json({ error: "invalid_name" });
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 200) return res.status(400).json({ error: "invalid_email" });
+  if (phoneDigits.length < 8 || phoneDigits.length > 15) return res.status(400).json({ error: "invalid_phone" });
   if (!consent) return res.status(400).json({ error: "consent_required" });
   if (!GOALS[goal]) return res.status(400).json({ error: "unknown_goal" });
 
@@ -131,11 +134,13 @@ export default async function handler(req, res) {
           "",
           `Name:    ${name}`,
           `Email:   ${email}`,
+          `Phone:   ${phone}`,
+          `Chat:    https://wa.me/${phoneDigits}`,
           `Goal:    ${g.label}`,
           `Profile: ${profile || "-"}`,
           `Time:    ${new Date().toISOString()}`,
           "",
-          "Reply to this email to reach them directly.",
+          "Reply to this email to reach the lead, or tap the Chat link to WhatsApp them.",
         ].join("\n"),
         tags: [{ name: "type", value: "lead-notification" }],
       }),

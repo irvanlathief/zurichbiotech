@@ -1171,13 +1171,15 @@ function initAnalysis() {
     e.preventDefault();
     const name = document.getElementById("anName").value.trim();
     const email = document.getElementById("anEmail").value.trim();
+    const phone = document.getElementById("anPhone").value.trim();
     const consent = document.getElementById("anConsent").checked;
-    if (!name || !/.+@.+\..+/.test(email) || !consent) return;
+    const phoneDigits = phone.replace(/\D/g, "");
+    if (!name || !/.+@.+\..+/.test(email) || phoneDigits.length < 8 || !consent) return;
 
     const g = GOALS[goalKey];
     const protocol = protocols[g.protocolKey];
     const profile = QUESTIONS.map((q) => `${q.q}: ${answers[q.id] || "-"}`).join(", ");
-    const lead = { name, email, goal: g.label, profile, protocol: protocol ? protocol.title.replace(".", "") : "", ts: new Date().toISOString() };
+    const lead = { name, email, phone, goal: g.label, profile, protocol: protocol ? protocol.title.replace(".", "") : "", ts: new Date().toISOString() };
 
     const submitBtn = e.target.querySelector('button[type="submit"]');
     const originalLabel = submitBtn ? submitBtn.textContent : "";
@@ -1188,7 +1190,7 @@ function initAnalysis() {
       const r = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, goal: goalKey, profile, consent: true }),
+        body: JSON.stringify({ name, email, phone, goal: goalKey, profile, consent: true }),
       });
       emailSent = r.ok;
     } catch (_) {}
@@ -1206,12 +1208,12 @@ function initAnalysis() {
 
     if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = originalLabel; }
 
-    window.open(buildWaUrl(name, email), "_blank", "noopener");
+    window.open(buildWaUrl(name, email, phone), "_blank", "noopener");
     renderResult({ emailSent, email });
     showStep(4);
   });
 
-  function buildWaUrl(name, email) {
+  function buildWaUrl(name, email, phone) {
     const g = GOALS[goalKey];
     const protocol = protocols[g.protocolKey];
     const profile = QUESTIONS.map((q) => `${q.q}: ${answers[q.id] || "-"}`).join("\n");
@@ -1221,6 +1223,7 @@ function initAnalysis() {
       "",
       name ? `Name: ${name}` : "",
       email ? `Email: ${email}` : "",
+      phone ? `WhatsApp: ${phone}` : "",
       `Focus: ${g.label}`,
       profile,
       protocol ? `Suggested protocol: ${protocol.title.replace(".", "")}` : "",
@@ -1285,8 +1288,9 @@ function initAnalysis() {
           ? `We just sent your <strong>${g.label}</strong> guide to <strong>${opts.email}</strong>. Check your inbox in the next minute. If it does not arrive, look in spam, or grab it on WhatsApp below.`
           : `We could not deliver your guide to <strong>${opts.email}</strong> just now. Grab it on WhatsApp below and we will follow up by email.`}</div>` : ""}
       <a class="an-wa" href="${buildWaUrl(
-        (document.getElementById("anName") || {}).value ? document.getElementById("anName").value.trim() : "",
-        (document.getElementById("anEmail") || {}).value ? document.getElementById("anEmail").value.trim() : ""
+        document.getElementById("anName") ? document.getElementById("anName").value.trim() : "",
+        document.getElementById("anEmail") ? document.getElementById("anEmail").value.trim() : "",
+        document.getElementById("anPhone") ? document.getElementById("anPhone").value.trim() : ""
       )}" target="_blank" rel="noopener">Get your free guide on WhatsApp +</a>
       <p class="an-disclaimer">Zurich Biotech supplies research-grade materials for laboratory research only. Nothing here is medical advice, and these compounds are not for human consumption. See our <a href="/terms.html">terms</a> for the full research-use policy.</p>
     `;
