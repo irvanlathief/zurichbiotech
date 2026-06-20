@@ -113,6 +113,35 @@ export default async function handler(req, res) {
     return res.status(502).json({ error: "send_failed", status: resp.status, detail });
   }
 
+  // Internal notification so the team sees every lead (same details as the
+  // WhatsApp hand-off). Reply-to is the lead so you can answer them directly.
+  // Set LEAD_NOTIFY_EMAIL to the inbox you actually monitor.
+  const notifyTo = process.env.LEAD_NOTIFY_EMAIL || "info@zurichbiotech.com";
+  try {
+    await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
+      body: JSON.stringify({
+        from,
+        to: [notifyTo],
+        reply_to: email,
+        subject: `New lead: ${name} - ${g.label}`,
+        text: [
+          "New analysis lead from zurichbiotech.com",
+          "",
+          `Name:    ${name}`,
+          `Email:   ${email}`,
+          `Goal:    ${g.label}`,
+          `Profile: ${profile || "-"}`,
+          `Time:    ${new Date().toISOString()}`,
+          "",
+          "Reply to this email to reach them directly.",
+        ].join("\n"),
+        tags: [{ name: "type", value: "lead-notification" }],
+      }),
+    });
+  } catch (_) {}
+
   const audienceId = process.env.RESEND_AUDIENCE_ID;
   if (audienceId) {
     const [firstName, ...rest] = name.split(/\s+/);
