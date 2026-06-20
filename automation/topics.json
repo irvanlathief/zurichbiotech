@@ -360,7 +360,11 @@
       "intent": "navigational",
       "target_city": "Jakarta",
       "internal_link_targets": ["/#compounds", "/resources/lyophilized-peptide-storage/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-06-19",
+        "url": "https://zurichbiotech.com/resources/research-peptides-jakarta/"
+      }
     },
     {
       "id": 23,
@@ -373,7 +377,11 @@
       "intent": "navigational",
       "target_city": "Surabaya",
       "internal_link_targets": ["/#compounds", "/resources/lyophilized-peptide-storage/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-06-20",
+        "url": "https://zurichbiotech.com/resources/research-peptides-surabaya/"
+      }
     },
     {
       "id": 24,
