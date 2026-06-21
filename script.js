@@ -1022,279 +1022,552 @@ function initPlusGrid() {
 initPlusGrid();
 
 
-/* ─────────── peptide research analysis ─────────── */
+/* ─────────── recovery intelligence assessment ─────────── */
 function initAnalysis() {
   const tool = document.getElementById("analysis-tool");
   if (!tool) return;
 
   const WA_NUMBER = "61408703955";
-  const LEAD_WEBHOOK = ""; // optional: set to a POST endpoint to also push leads to a CRM / automation
+  const LEAD_WEBHOOK = ""; // optional: POST endpoint to also push leads to a CRM
 
-  // backbone: goal -> protocol (keys match the `protocols` object) + the free guide content
-  const GOALS = {
-    recovery: {
-      label: "Recover faster",
+  // Signal tags accumulated from answers; drive routing.
+  // SLEEP, STRESS -> Sleep & Stress | TISSUE -> Tissue | HORMONAL -> Hormonal
+  // METABOLIC -> Metabolic | SYSTEMIC -> Systemic
+
+  // Question flow. Each option: { label, points?, tags?, subFocus?, bias? }.
+  // showIf(answers) gates branching questions (Q3a, Q4a).
+  const QUESTIONS = [
+    {
+      id: "age",
+      title: "How old are you?",
+      help: "Recovery capacity and hormonal output shift with age.",
+      options: [
+        { label: "25-34", points: 0 },
+        { label: "35-44", points: 1, tags: ["HORMONAL"] },
+        { label: "45-54", points: 2, tags: ["HORMONAL"] },
+        { label: "55+", points: 3, tags: ["HORMONAL"] },
+      ],
+    },
+    {
+      id: "goal",
+      title: "What's your main goal right now?",
+      help: "We use this to break any ties at the end.",
+      options: [
+        { label: "Fat loss", bias: "METABOLIC" },
+        { label: "Muscle & strength", bias: "TISSUE" },
+        { label: "Faster recovery & performance", bias: "TISSUE" },
+        { label: "Energy & focus", bias: "STRESS" },
+        { label: "Better sleep", bias: "SLEEP" },
+      ],
+    },
+    {
+      id: "rundown",
+      title: "Do you regularly feel run-down, foggy, or unmotivated during the day?",
+      options: [
+        { label: "Yes", points: 2, tags: ["STRESS"] },
+        { label: "No", points: 0 },
+      ],
+    },
+    {
+      id: "worst",
+      title: "When is it worst?",
+      showIf: (a) => a.rundown === "Yes",
+      options: [
+        { label: "First thing in the morning", tags: ["HORMONAL"] },
+        { label: "Afternoon crash", tags: ["STRESS", "METABOLIC"] },
+        { label: "All day", points: 1, tags: ["SYSTEMIC"] },
+      ],
+    },
+    {
+      id: "post48",
+      title: "How do you feel about 48 hours after a hard training session?",
+      options: [
+        { label: "Still wrecked", points: 3, tags: ["TISSUE", "SYSTEMIC"] },
+        { label: "Beat up", points: 2, tags: ["TISSUE"] },
+        { label: "A little sore but mostly fine", points: 1 },
+        { label: "Fully recovered", points: 0 },
+      ],
+    },
+    {
+      id: "where",
+      title: "Where do you feel it most?",
+      showIf: (a) => a.post48 === "Still wrecked" || a.post48 === "Beat up",
+      options: [
+        { label: "Muscle soreness", tags: ["TISSUE"], subFocus: "muscle" },
+        { label: "Joints & connective tissue", tags: ["TISSUE"], subFocus: "joints" },
+        { label: "Whole-body fatigue", tags: ["SYSTEMIC"] },
+      ],
+    },
+    {
+      id: "sleepq",
+      title: "How's your sleep been lately?",
+      options: [
+        { label: "Restless, wake up tired", points: 3, tags: ["SLEEP"] },
+        { label: "Hit or miss", points: 2, tags: ["SLEEP"] },
+        { label: "Decent", points: 1 },
+        { label: "Solid", points: 0 },
+      ],
+    },
+    {
+      id: "duration",
+      title: "How long has your recovery or energy felt off?",
+      options: [
+        { label: "Over a year", points: 3 },
+        { label: "Several months", points: 2 },
+        { label: "Just recently", points: 1 },
+        { label: "Not sure", points: 1 },
+      ],
+    },
+    {
+      id: "improve",
+      title: "If you fixed this, what would improve first?",
+      help: "Used only as a final tie-breaker.",
+      options: [
+        { label: "Energy all day", bias: "STRESS" },
+        { label: "Faster recovery and training", bias: "TISSUE" },
+        { label: "Leaner, stronger body composition", bias: "METABOLIC" },
+        { label: "Sharper focus and mood", bias: "STRESS" },
+        { label: "All of the above" },
+      ],
+    },
+  ];
+
+  const MAX_SCORE = 15; // 3 + 2 + 1 + 3 + 3 + 3 across scoring questions
+  const SIGNAL_TO_TRACK = { SLEEP: "sleep", STRESS: "sleep", TISSUE: "tissue", HORMONAL: "hormonal", METABOLIC: "metabolic", SYSTEMIC: "systemic" };
+
+  // Recovery tracks. protocolKey maps to the existing product `protocols`.
+  const TRACKS = {
+    sleep: {
+      name: "Sleep & Stress Recovery",
+      color: "#1158d8",
+      protocolKey: "energy",
+      focus: ["Circadian rhythm", "Stress load", "Sleep quality"],
+      priorities: ["Anchor a consistent sleep and wake time", "Lower evening stimulation and stress load", "Protect deep sleep for hormone and tissue repair"],
+      chart: { label: "Sleep quality index", color: "#1158d8", values: [52, 58, 66, 74, 80, 84] },
+      articles: [
+        { name: "Lyophilized peptide storage", href: "/resources/lyophilized-peptide-storage/" },
+        { name: "Semax research overview", href: "/resources/semax-research-overview/" },
+      ],
+    },
+    tissue: {
+      name: "Training & Tissue Recovery",
       color: "#138f2d",
       protocolKey: "recovery",
-      focus: "getting back to training faster and settling nagging soft-tissue issues",
-      doNow: [
-        "Protect sleep first. Most tissue repair and natural growth-hormone release happens in deep sleep, so aim for 7-9 hours on a consistent schedule.",
-        "Eat enough protein, roughly 1.6 to 2.2 g per kg of bodyweight per day, spread across your meals.",
-        "Manage training load. A lighter deload week every 4 to 6 weeks beats grinding through accumulated fatigue.",
-        "Use easy movement on rest days (walking, light cycling) to push blood flow through recovering tissue.",
-      ],
-      research: [
-        { name: "BPC-157", note: "studied in animal models for tendon, ligament, and gut tissue repair", href: "/resources/bpc-157-research-overview/" },
-        { name: "TB-500 (Thymosin Beta-4)", note: "researched for cell migration and soft-tissue repair", href: "/resources/tb-500-thymosin-beta-4-research/" },
-        { name: "GHK-Cu", note: "copper peptide studied for collagen synthesis and tissue remodeling", href: "/resources/ghk-cu-research-overview/" },
+      focus: ["Recovery between sessions", "Load management", "Connective tissue resilience"],
+      priorities: ["Reduce accumulated recovery debt", "Support connective tissue between sessions", "Match training load to recovery capacity"],
+      chart: { label: "Tissue recovery index", color: "#138f2d", values: [48, 55, 64, 74, 82, 88] },
+      articles: [
+        { name: "BPC-157 research overview", href: "/resources/bpc-157-research-overview/" },
+        { name: "BPC-157 vs TB-500 for recovery", href: "/resources/bpc-157-vs-tb-500-recovery/" },
       ],
     },
-    strength: {
-      label: "Build strength",
-      color: "#1158d8",
+    hormonal: {
+      name: "Energy & Hormonal Optimization",
+      color: "#e5bd00",
       protocolKey: "strength",
-      focus: "adding strength and lean mass across a training block",
-      doNow: [
-        "Drive progressive overload. Add a little weight or a rep most weeks on your main lifts; that single habit accounts for most of the result.",
-        "Anchor the week around compound movements (squat, hinge, press, pull) rather than chasing isolation work.",
-        "Eat at maintenance or a slight surplus with adequate protein. You cannot out-supplement an under-fed program.",
-        "Be patient and consistent. Strength is built over months of 3 to 4 quality sessions a week, not in a single block.",
-      ],
-      research: [
-        { name: "CJC-1295 / Ipamorelin", note: "studied as a GHRH analog plus GH secretagogue for the GH/IGF-1 axis", href: "/resources/cjc1295-ipamorelin-research-overview/" },
-        { name: "GHK-Cu", note: "copper peptide studied for recovery and connective-tissue support", href: "/resources/ghk-cu-research-overview/" },
-        { name: "BPC-157", note: "researched in models for tendon and joint resilience under load", href: "/resources/bpc-157-research-overview/" },
-      ],
-    },
-    energy: {
-      label: "Sharper energy",
-      color: "#ffd21a",
-      protocolKey: "energy",
-      focus: "steadier focus and cleaner energy through the day",
-      doNow: [
-        "Keep a consistent sleep and wake time, even on weekends. Regularity matters more than the occasional long lie-in.",
-        "Get daylight in your eyes within an hour of waking to anchor your circadian rhythm.",
-        "Keep caffeine before noon and avoid it late; it has a long tail that quietly erodes deep sleep.",
-        "Add 2 to 3 easy zone-2 cardio sessions a week. Aerobic base work improves day-to-day energy more than people expect.",
-      ],
-      research: [
-        { name: "Semax", note: "Russian-developed peptide researched for cognition and focus", href: "/resources/semax-research-overview/" },
-        { name: "MOTS-c", note: "mitochondrial-derived peptide studied for metabolism and energy regulation", href: "/resources/mots-c-research-overview/" },
-        { name: "GHK-Cu", note: "studied for recovery, which underpins steadier daily energy", href: "/resources/ghk-cu-research-overview/" },
+      focus: ["Daytime energy", "Drive and resilience", "Healthy aging"],
+      priorities: ["Rebuild morning energy and drive", "Support the GH/IGF-1 axis through sleep and training", "Track the trend over a full training block"],
+      chart: { label: "Daytime energy index", color: "#e5bd00", values: [50, 55, 62, 71, 78, 82] },
+      articles: [
+        { name: "CJC-1295 / Ipamorelin overview", href: "/resources/cjc1295-ipamorelin-research-overview/" },
+        { name: "CJC-1295 with vs without DAC", href: "/resources/cjc-1295-with-vs-without-dac/" },
       ],
     },
     metabolic: {
-      label: "Body composition",
+      name: "Metabolic Optimization",
       color: "#ff4a12",
       protocolKey: "metabolic",
-      focus: "improving body composition and metabolic health",
-      doNow: [
-        "Build meals around protein and fiber first; both improve fullness and make a calorie deficit far easier to hold.",
-        "Keep resistance training in the plan. It preserves lean mass so the weight you lose comes from fat, not muscle.",
-        "Raise daily steps and general movement (NEAT). It often moves the needle more than any single workout.",
-        "Protect sleep. Short sleep reliably worsens appetite signaling and insulin sensitivity.",
+      focus: ["Body composition", "Nutrition", "Metabolic health"],
+      priorities: ["Build meals around protein and fiber", "Keep resistance training to protect lean mass", "Raise daily movement (steps / NEAT)"],
+      chart: { label: "Metabolic health index", color: "#ff4a12", values: [47, 52, 60, 69, 77, 82] },
+      articles: [
+        { name: "Retatrutide research overview", href: "/resources/retatrutide-research-overview/" },
+        { name: "Retatrutide vs tirzepatide", href: "/resources/retatrutide-vs-tirzepatide/" },
       ],
-      research: [
-        { name: "Retatrutide", note: "triple GIP / GLP-1 / glucagon receptor agonist studied in obesity trials", href: "/resources/retatrutide-research-overview/" },
-        { name: "MOTS-c", note: "mitochondrial peptide researched for glucose handling and metabolism", href: "/resources/mots-c-research-overview/" },
-        { name: "GHK-Cu", note: "copper peptide studied for recovery and skin/tissue quality", href: "/resources/ghk-cu-research-overview/" },
+    },
+    systemic: {
+      name: "Systemic Recovery",
+      color: "#7a7f88",
+      protocolKey: "recovery",
+      focus: ["Whole-body recovery", "Recovery debt", "Resilience"],
+      priorities: ["Address whole-body recovery debt first", "Reduce total training and life stress load", "Rebuild a consistent sleep and nutrition base"],
+      chart: { label: "Recovery capacity index", color: "#7a7f88", values: [45, 51, 60, 70, 78, 83] },
+      articles: [
+        { name: "Common peptide research mistakes", href: "/resources/common-peptide-research-mistakes/" },
+        { name: "MOTS-c research overview", href: "/resources/mots-c-research-overview/" },
+      ],
+    },
+    foundations: {
+      name: "Recovery Foundations",
+      color: "#138f2d",
+      protocolKey: null,
+      focus: ["Sleep", "Nutrition", "Training consistency"],
+      priorities: ["Lock in 7-9 hours of consistent sleep", "Hit a protein and whole-food target daily", "Build a repeatable 2-4x / week training rhythm"],
+      chart: { label: "Recovery capacity index", color: "#138f2d", values: [55, 62, 70, 78, 84, 88] },
+      articles: [
+        { name: "Common peptide research mistakes", href: "/resources/common-peptide-research-mistakes/" },
+        { name: "Peptide reconstitution guide", href: "/resources/peptide-reconstitution-bac-water-guide/" },
       ],
     },
   };
 
-  const QUESTIONS = [
-    { id: "age", q: "Age range", opts: ["Under 30", "30-44", "45+"] },
-    { id: "train", q: "Training frequency", opts: ["Rarely", "1-3x / week", "4+ / week"] },
-    { id: "sleep", q: "Sleep quality lately", opts: ["Poor", "Okay", "Good"] },
-    { id: "blocker", q: "Biggest blocker right now", opts: ["Slow recovery", "Low energy", "Strength plateau", "Body composition", "Sleep"] },
+  const TIERS = [
+    { key: "FOUNDATIONS", min: 0, max: 4, label: "Foundations", note: "Your responses suggest the fundamentals are the highest-leverage place to focus right now." },
+    { key: "MILD", min: 5, max: 8, label: "Mild", note: "A few signals stand out. Small, consistent changes should move the needle." },
+    { key: "MODERATE", min: 9, max: 12, label: "Moderate", note: "Several signals are stacking up and may be limiting your performance." },
+    { key: "HIGH", min: 13, max: 99, label: "High", note: "Multiple strong signals. Worth a structured plan and a conversation with a professional." },
   ];
 
-  const steps = tool.querySelectorAll(".an-step");
-  const dots = tool.querySelectorAll(".an-step-dot");
-  const questionsEl = document.getElementById("anQuestions");
-  const step2Next = document.getElementById("anStep2Next");
-  let goalKey = null;
-  const answers = {};
+  const WEEKS = [0, 2, 4, 8, 12, 16];
 
-  function showStep(n) {
-    steps.forEach((s) => { s.hidden = Number(s.dataset.step) !== n; });
-    dots.forEach((d) => d.classList.toggle("active", Number(d.dataset.step) <= n));
+  // ----- state -----
+  const answers = {};
+  let currentId = QUESTIONS[0].id;
+
+  const progressBar = document.getElementById("anProgressBar");
+  const stepCount = document.getElementById("anStepCount");
+  const qTitle = document.getElementById("anQTitle");
+  const qHelp = document.getElementById("anQHelp");
+  const optionsEl = document.getElementById("anOptions");
+  const backBtn = document.getElementById("anBack");
+  const qScreen = document.getElementById("anQuestionScreen");
+  const gateScreen = document.getElementById("anGateScreen");
+  const resultScreen = document.getElementById("anResultScreen");
+
+  function visibleQuestions() {
+    return QUESTIONS.filter((q) => !q.showIf || q.showIf(answers));
+  }
+  function optionFor(qid) {
+    const q = QUESTIONS.find((x) => x.id === qid);
+    return q ? q.options.find((o) => o.label === answers[qid]) : null;
+  }
+
+  function showScreen(which) {
+    qScreen.hidden = which !== "q";
+    gateScreen.hidden = which !== "gate";
+    resultScreen.hidden = which !== "result";
     tool.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
-  // step 1: pick a goal
-  tool.querySelectorAll(".an-goal").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      goalKey = btn.dataset.goal;
-      tool.querySelectorAll(".an-goal").forEach((b) => b.classList.toggle("selected", b === btn));
-      renderQuestions();
-      showStep(2);
-    });
-  });
-
-  // step 2: self-assessment
-  function renderQuestions() {
-    questionsEl.innerHTML = QUESTIONS.map((q) => `
-      <div class="an-q" data-q="${q.id}">
-        <p class="an-q-label">${q.q}</p>
-        <div class="an-q-options">
-          ${q.opts.map((o) => `<button type="button" class="an-opt" data-q="${q.id}" data-val="${o}">${o}</button>`).join("")}
-        </div>
-      </div>`).join("");
-    questionsEl.querySelectorAll(".an-opt").forEach((opt) => {
-      opt.addEventListener("click", () => {
-        answers[opt.dataset.q] = opt.dataset.val;
-        questionsEl.querySelectorAll(`.an-opt[data-q="${opt.dataset.q}"]`).forEach((x) => x.classList.toggle("selected", x === opt));
-        step2Next.disabled = QUESTIONS.some((q) => !answers[q.id]);
+  function renderQuestion(qid) {
+    const q = QUESTIONS.find((x) => x.id === qid);
+    if (!q) return;
+    currentId = qid;
+    const vis = visibleQuestions();
+    const idx = vis.findIndex((x) => x.id === qid);
+    progressBar.style.width = `${Math.round(((idx + 1) / (vis.length + 1)) * 100)}%`;
+    stepCount.textContent = `Question ${idx + 1} of ${vis.length}`;
+    qTitle.textContent = q.title;
+    qHelp.textContent = q.help || "";
+    qHelp.style.display = q.help ? "block" : "none";
+    optionsEl.innerHTML = q.options
+      .map((o) => `<button type="button" class="an-opt${answers[qid] === o.label ? " selected" : ""}" data-val="${o.label.replace(/"/g, "&quot;")}">${o.label}<span class="an-opt-tick">+</span></button>`)
+      .join("");
+    optionsEl.querySelectorAll(".an-opt").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        answers[qid] = btn.dataset.val;
+        optionsEl.querySelectorAll(".an-opt").forEach((b) => b.classList.toggle("selected", b === btn));
+        setTimeout(advance, 220);
       });
     });
-    step2Next.disabled = true;
+    backBtn.style.visibility = idx === 0 ? "hidden" : "visible";
+    showScreen("q");
   }
 
-  step2Next.addEventListener("click", () => {
-    if (QUESTIONS.some((q) => !answers[q.id])) return;
+  function advance() {
+    const order = QUESTIONS.map((q) => q.id);
+    const from = order.indexOf(currentId);
+    for (let i = from + 1; i < QUESTIONS.length; i++) {
+      const q = QUESTIONS[i];
+      if (!q.showIf || q.showIf(answers)) { renderQuestion(q.id); return; }
+    }
+    // no more questions -> gate (or straight to result if already unlocked)
     if (localStorage.getItem("zbAnalysisUnlocked") === "true") {
       renderResult();
-      showStep(4);
+      showScreen("result");
     } else {
-      const g = GOALS[goalKey];
-      document.getElementById("anTeaser").innerHTML =
-        `Your research focus is <strong>${g.label}</strong>. Your free guide covers what to do now, what to research, and the protocol we would point you to. Add your details and we will send it on WhatsApp.`;
-      showStep(3);
+      document.getElementById("anTeaser").innerHTML = teaserText();
+      progressBar.style.width = "100%";
+      showScreen("gate");
     }
-  });
+  }
 
-  tool.querySelectorAll(".an-back").forEach((b) => b.addEventListener("click", () => showStep(Number(b.dataset.back))));
+  function goBack() {
+    const order = QUESTIONS.map((q) => q.id);
+    const from = order.indexOf(currentId);
+    for (let i = from - 1; i >= 0; i--) {
+      const q = QUESTIONS[i];
+      if (!q.showIf || q.showIf(answers)) { renderQuestion(q.id); return; }
+    }
+  }
+  backBtn.addEventListener("click", goBack);
 
-  // step 3: email gate, then WhatsApp hand-off
-  document.getElementById("anGate").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const name = document.getElementById("anName").value.trim();
-    const email = document.getElementById("anEmail").value.trim();
-    const phone = document.getElementById("anPhone").value.trim();
-    const consent = document.getElementById("anConsent").checked;
-    const phoneDigits = phone.replace(/\D/g, "");
-    if (!name || !/.+@.+\..+/.test(email) || phoneDigits.length < 8 || !consent) return;
+  // ----- scoring + routing -----
+  function score() {
+    let total = 0;
+    for (const q of visibleQuestions()) {
+      const o = optionFor(q.id);
+      if (o && o.points) total += o.points;
+    }
+    return total;
+  }
+  function tierFor(s) {
+    return TIERS.find((t) => s >= t.min && s <= t.max) || TIERS[TIERS.length - 1];
+  }
+  function trackTallies() {
+    const t = { sleep: 0, tissue: 0, hormonal: 0, metabolic: 0, systemic: 0 };
+    for (const q of visibleQuestions()) {
+      const o = optionFor(q.id);
+      if (o && o.tags) for (const tag of o.tags) t[SIGNAL_TO_TRACK[tag]] += 1;
+    }
+    return t;
+  }
+  function subFocus() {
+    const o = optionFor("where");
+    return o && o.subFocus ? o.subFocus : null;
+  }
+  function routeTrack(s) {
+    if (s <= 4) return "foundations";
+    const t = trackTallies();
+    let best = null, bestN = -1, tie = false;
+    for (const k of Object.keys(t)) {
+      if (t[k] > bestN) { best = k; bestN = t[k]; tie = false; }
+      else if (t[k] === bestN) tie = true;
+    }
+    if (bestN === 0) best = null;
+    if (tie || !best) {
+      const goalBias = optionFor("goal");
+      const improveBias = optionFor("improve");
+      const biasTrack = (o) => (o && o.bias ? SIGNAL_TO_TRACK[o.bias] : null);
+      best = biasTrack(goalBias) || biasTrack(improveBias) || best || "systemic";
+    }
+    return best;
+  }
 
-    const g = GOALS[goalKey];
-    const protocol = protocols[g.protocolKey];
-    const profile = QUESTIONS.map((q) => `${q.q}: ${answers[q.id] || "-"}`).join(", ");
-    const lead = { name, email, phone, goal: g.label, profile, protocol: protocol ? protocol.title.replace(".", "") : "", ts: new Date().toISOString() };
+  function computeResult() {
+    const s = score();
+    const tier = tierFor(s);
+    const trackKey = routeTrack(s);
+    const track = TRACKS[trackKey];
+    const protocol = track.protocolKey ? protocols[track.protocolKey] : null;
+    return { score: s, max: MAX_SCORE, tier, trackKey, track, protocol, subFocus: subFocus() };
+  }
 
-    const submitBtn = e.target.querySelector('button[type="submit"]');
-    const originalLabel = submitBtn ? submitBtn.textContent : "";
-    if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Sending your guide..."; }
+  function profileSummary(r) {
+    const bits = [];
+    if (answers.post48 === "Still wrecked" || answers.post48 === "Beat up") bits.push("delayed recovery after hard sessions");
+    if (answers.sleepq === "Restless, wake up tired" || answers.sleepq === "Hit or miss") bits.push("disrupted sleep");
+    if (answers.rundown === "Yes") bits.push("daytime fatigue");
+    if (r.subFocus === "joints") bits.push("connective-tissue load");
+    if (r.subFocus === "muscle") bits.push("muscle soreness");
+    if (answers.duration === "Over a year" || answers.duration === "Several months") bits.push("a long-standing pattern");
+    const lead = r.trackKey === "foundations"
+      ? "Your responses suggest the fundamentals (sleep, nutrition, training consistency) are the highest-leverage place to start."
+      : `Your responses suggest recovery capacity may be limiting your results more than training effort itself. The strongest signals point to ${r.track.name.toLowerCase()}.`;
+    const detail = bits.length ? ` The clearest markers in your answers: ${bits.slice(0, 3).join(", ")}.` : "";
+    return lead + detail;
+  }
 
-    let emailSent = false;
-    try {
-      const r = await fetch("/api/lead", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, phone, goal: goalKey, profile, consent: true }),
+  function teaserText() {
+    const r = computeResult();
+    return `Your recovery assessment is ready. Primary limiter: <strong>${r.track.name}</strong> at the <strong>${r.tier.label}</strong> tier. Add your details and we'll send the full breakdown and your starter guide.`;
+  }
+
+  // ----- recovery chart (self-contained, canvas) -----
+  function createRecoveryChart(canvas, ds) {
+    if (!canvas || !canvas.getContext) return;
+    const ctx = canvas.getContext("2d");
+    const PAD = { t: 24, r: 18, b: 34, l: 40 };
+    let W = 640, H = 280, start = null;
+    const vmin = Math.min(...ds.values) * 0.9;
+    const vmax = Math.max(...ds.values) * 1.05;
+    function size() {
+      const dpr = window.devicePixelRatio || 1;
+      W = canvas.parentElement.clientWidth;
+      H = Math.max(220, Math.round(W * 0.42));
+      canvas.style.width = W + "px";
+      canvas.style.height = H + "px";
+      canvas.width = Math.round(W * dpr);
+      canvas.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    const x = (i) => PAD.l + (i / (WEEKS.length - 1)) * (W - PAD.l - PAD.r);
+    const y = (v) => PAD.t + (1 - (v - vmin) / (vmax - vmin)) * (H - PAD.t - PAD.b);
+    function draw(p) {
+      ctx.clearRect(0, 0, W, H);
+      ctx.strokeStyle = "#ececec"; ctx.lineWidth = 1;
+      ctx.fillStyle = "#888"; ctx.font = "11px ui-monospace, monospace"; ctx.textAlign = "center";
+      WEEKS.forEach((w, i) => {
+        ctx.beginPath(); ctx.moveTo(x(i), PAD.t); ctx.lineTo(x(i), H - PAD.b); ctx.stroke();
+        ctx.fillText(w === 0 ? "Now" : "W" + w, x(i), H - PAD.b + 18);
       });
-      emailSent = r.ok;
-    } catch (_) {}
-
-    try {
-      const arr = JSON.parse(localStorage.getItem("zbLeads") || "[]");
-      arr.push({ ...lead, emailSent });
-      localStorage.setItem("zbLeads", JSON.stringify(arr));
-      localStorage.setItem("zbAnalysisUnlocked", "true");
-    } catch (_) {}
-
-    if (LEAD_WEBHOOK) {
-      fetch(LEAD_WEBHOOK, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(lead) }).catch(() => {});
+      const pts = ds.values.map((v, i) => ({ x: x(i), y: y(v) }));
+      const n = Math.max(1, Math.floor((pts.length - 1) * p));
+      // area
+      ctx.beginPath(); ctx.moveTo(pts[0].x, H - PAD.b);
+      for (let i = 0; i <= n; i++) ctx.lineTo(pts[i].x, pts[i].y);
+      ctx.lineTo(pts[n].x, H - PAD.b); ctx.closePath();
+      ctx.fillStyle = hexA(ds.color, 0.1); ctx.fill();
+      // line
+      ctx.beginPath(); ctx.moveTo(pts[0].x, pts[0].y);
+      for (let i = 1; i <= n; i++) ctx.lineTo(pts[i].x, pts[i].y);
+      ctx.strokeStyle = ds.color; ctx.lineWidth = 2.5; ctx.stroke();
+      for (let i = 0; i <= n; i++) {
+        ctx.beginPath(); ctx.arc(pts[i].x, pts[i].y, 4, 0, Math.PI * 2);
+        ctx.fillStyle = ds.color; ctx.fill();
+        ctx.strokeStyle = "#fff"; ctx.lineWidth = 2; ctx.stroke();
+      }
     }
+    function anim(ts) {
+      start ||= ts;
+      const p = Math.min(1, (ts - start) / 1100);
+      draw(1 - Math.pow(1 - p, 3));
+      if (p < 1) requestAnimationFrame(anim);
+    }
+    size(); requestAnimationFrame(anim);
+    let rt;
+    window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { size(); draw(1); }, 150); });
+  }
+  function hexA(hex, a) {
+    const v = hex.replace("#", "");
+    return `rgba(${parseInt(v.slice(0, 2), 16)},${parseInt(v.slice(2, 4), 16)},${parseInt(v.slice(4, 6), 16)},${a})`;
+  }
 
-    if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = originalLabel; }
-
-    window.open(buildWaUrl(name, email, phone), "_blank", "noopener");
-    renderResult({ emailSent, email });
-    showStep(4);
-  });
-
+  // ----- result render -----
   function buildWaUrl(name, email, phone) {
-    const g = GOALS[goalKey];
-    const protocol = protocols[g.protocolKey];
-    const profile = QUESTIONS.map((q) => `${q.q}: ${answers[q.id] || "-"}`).join("\n");
-    const msg = [
-      "Hi Zurich Biotech, I just finished the research analysis.",
-      `Please send my free "${g.label}" starter guide.`,
+    const r = computeResult();
+    const lines = [
+      "Hi Zurich Biotech, I just completed the Recovery Intelligence assessment.",
       "",
       name ? `Name: ${name}` : "",
       email ? `Email: ${email}` : "",
       phone ? `WhatsApp: ${phone}` : "",
-      `Focus: ${g.label}`,
-      profile,
-      protocol ? `Suggested protocol: ${protocol.title.replace(".", "")}` : "",
-    ].filter(Boolean).join("\n");
-    return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+      `Recovery score: ${r.score} / ${r.max} (${r.tier.label} tier)`,
+      `Primary limiter: ${r.track.name}`,
+    ];
+    if (r.protocol && r.trackKey !== "foundations") {
+      lines.push(`I'd like to order the "${r.protocol.title.replace(".", "")}" research protocol (${r.protocol.stack.map(([n, d]) => `${n} ${d}`).join(", ")}).`);
+    } else {
+      lines.push("I'd like the lifestyle starter guide for the Foundations track.");
+    }
+    return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(lines.filter(Boolean).join("\n"))}`;
   }
 
-  // light personalization from the self-assessment
-  function tailoredNote() {
-    if (answers.sleep === "Poor") return "You flagged sleep as a weak point. Fixing sleep moves recovery, energy, and body composition more than any compound, so make that the first lever you pull.";
-    if (answers.age === "45+") return "After about 45, natural recovery and growth-hormone output slow down, so the recovery and longevity angles are especially worth your attention.";
-    if (answers.train === "Rarely") return "Training frequency is low right now. A simple 2-3x per week resistance routine will compound faster than anything you could add on top of it.";
-    if (answers.blocker === "Strength plateau") return "Plateaus usually break with a change in stimulus or better recovery, not more volume. Review your progression and sleep before adding anything.";
-    return "";
-  }
-
-  // step 4: the free guide
   function renderResult(opts = {}) {
-    const g = GOALS[goalKey];
-    const protocol = protocols[g.protocolKey];
-    const profileLine = QUESTIONS.map((q) => answers[q.id]).filter(Boolean).join(" · ");
-    const tailored = tailoredNote();
+    const r = computeResult();
+    const t = r.track;
+    const showProtocol = r.protocol && (r.tier.key === "MODERATE" || r.tier.key === "HIGH");
+    const pct = Math.round((r.score / r.max) * 100);
 
-    const doNow = g.doNow.map((t) => `<li>${t}</li>`).join("");
-    const research = g.research.map((r) =>
-      `<li><span class="an-r-name">${r.name}:</span> <span class="an-r-note">${r.note}.</span> <a href="${r.href}">Read the overview &rarr;</a></li>`
-    ).join("");
-    const stack = protocol
-      ? protocol.stack.map(([n, d]) => `<li><span><b>+</b>${n}</span> <span>${d}</span></li>`).join("")
-      : "";
+    const priorities = t.priorities.map((p) => `<li>${p}</li>`).join("");
+    const articles = t.articles.map((a) => `<li><a href="${a.href}">${a.name} &rarr;</a></li>`).join("");
+    const stack = r.protocol ? r.protocol.stack.map(([n, d]) => `<li><span><b>+</b>${n}</span> <span>${d}</span></li>`).join("") : "";
+
+    const protocolBlock = showProtocol
+      ? `<div class="an-section an-why">
+           <h3>Advanced options to discuss with a healthcare professional</h3>
+           <p class="an-note">Research-grade compounds are not a substitute for the basics above and are sold for laboratory research only. For your limiter, the protocol most researchers in this area look at is:</p>
+           <p class="an-protocol-name"><strong>${r.protocol.title.replace(".", "")}</strong> &middot; ${r.protocol.duration}</p>
+           <ul class="an-stack">${stack}</ul>
+           <p class="an-price"><strong>${formatPrice(r.protocol.price)}</strong> / protocol</p>
+           ${r.tier.key === "HIGH" ? `<p class="an-note">At your tier we'd also suggest baseline bloodwork and a conversation with a qualified healthcare professional before starting anything.</p>` : ""}
+           <a class="an-wa" href="${buildWaUrl(gv("anName"), gv("anEmail"), gv("anPhone"))}" target="_blank" rel="noopener">Order on WhatsApp +</a>
+         </div>`
+      : `<div class="an-section an-why">
+           <h3>What about peptides?</h3>
+           <p class="an-note">At the ${r.tier.label} tier, the highest-leverage move is the foundational work above, not a compound. We're not going to point you at a protocol you don't need yet. When the basics are dialed in and you want to research further, the library below is the place to start.</p>
+           <a class="an-wa" href="${buildWaUrl(gv("anName"), gv("anEmail"), gv("anPhone"))}" target="_blank" rel="noopener">Get your starter guide on WhatsApp +</a>
+         </div>`;
 
     document.getElementById("anResult").innerHTML = `
       <div class="an-focus">
-        <span class="an-focus-line" style="background:${g.color}"></span>
-        <p class="an-kicker">Your research focus</p>
-        <h2>${g.label}</h2>
-        <p class="an-profile">Profile: ${profileLine}</p>
+        <span class="an-focus-line" style="background:${t.color}"></span>
+        <p class="an-kicker">Recovery assessment</p>
+        <h2>${t.name}</h2>
+        <div class="an-scorecard">
+          <div class="an-score"><span class="an-score-num" style="color:${t.color}">${r.score}</span><span class="an-score-den">/ ${r.max}</span><span class="an-score-lbl">Recovery score</span></div>
+          <div class="an-meta"><p><span>Tier</span><strong>${r.tier.label}</strong></p><p><span>Primary limiter</span><strong>${t.name}</strong></p></div>
+        </div>
+        <div class="an-scorebar"><div class="an-scorebar-fill" style="width:${pct}%;background:${t.color}"></div></div>
       </div>
 
       <div class="an-section">
-        <h3>What you can do now</h3>
-        <p class="an-note">No peptides required. These are the levers with the most evidence behind them, and they cost nothing.</p>
-        <ul class="an-donow">${doNow}</ul>
-        ${tailored ? `<div class="an-tailored"><strong>Tailored to your answers</strong>${tailored}</div>` : ""}
+        <h3>Your recovery profile</h3>
+        <p>${profileSummary(r)}</p>
+        <p class="an-note">${r.tier.note}</p>
       </div>
 
       <div class="an-section">
-        <h3>If you want to explore peptides, here is what to research</h3>
-        <p class="an-note">Start with the science, not the syringe. These are the compounds most relevant to ${g.focus}. Everything below is for research use only.</p>
-        <ul class="an-research">${research}</ul>
+        <h3>The reality: where this goes</h3>
+        <p class="an-note">Illustrative ${t.chart.label.toLowerCase()} over a typical 16-week timeline. This is a research-protocol pattern, not a prediction or guarantee; individual responses vary.</p>
+        <div class="an-chart-wrap"><canvas id="anRecoveryChart" aria-label="${t.chart.label} projection"></canvas></div>
       </div>
 
-      <div class="an-section an-why">
-        <h3>Why we would point you to the ${protocol ? protocol.title.replace(".", "") : g.label} protocol</h3>
-        <p>${protocol ? protocol.description : ""}</p>
-        <ul class="an-stack">${stack}</ul>
-        ${protocol ? `<p class="an-price"><strong>${formatPrice(protocol.price)}</strong> / protocol</p>` : ""}
-        <a class="an-back" style="display:inline-block" href="/#protocols">See the full protocol and biomarker chart +</a>
+      <div class="an-section">
+        <h3>Your priorities</h3>
+        <ol class="an-priorities">${priorities}</ol>
+        <div class="an-tailored"><strong>Lifestyle comes first</strong>Nothing beats 7-9 hours of quality sleep, solid nutrition, and consistent training. Peptides won't fix a shaky foundation, and you'll see most of your change from the basics before anything else.</div>
       </div>
 
-      ${opts.email ? `<div class="an-tailored" style="border-left-color:${opts.emailSent ? "#138f2d" : "#e10600"};margin-top:24px"><strong>${opts.emailSent ? "Email on the way" : "Email could not be sent"}</strong>${opts.emailSent
-          ? `We just sent your <strong>${g.label}</strong> guide to <strong>${opts.email}</strong>. Check your inbox in the next minute. If it does not arrive, look in spam, or grab it on WhatsApp below.`
-          : `We could not deliver your guide to <strong>${opts.email}</strong> just now. Grab it on WhatsApp below and we will follow up by email.`}</div>` : ""}
-      <a class="an-wa" href="${buildWaUrl(
-        document.getElementById("anName") ? document.getElementById("anName").value.trim() : "",
-        document.getElementById("anEmail") ? document.getElementById("anEmail").value.trim() : "",
-        document.getElementById("anPhone") ? document.getElementById("anPhone").value.trim() : ""
-      )}" target="_blank" rel="noopener">Get your free guide on WhatsApp +</a>
-      <p class="an-disclaimer">Zurich Biotech supplies research-grade materials for laboratory research only. Nothing here is medical advice, and these compounds are not for human consumption. See our <a href="/terms.html">terms</a> for the full research-use policy.</p>
+      ${protocolBlock}
+
+      <div class="an-section">
+        <h3>Research further</h3>
+        <p class="an-note">If you want to understand the science, start here. Everything is for research use only.</p>
+        <ul class="an-research">${articles}</ul>
+      </div>
+
+      ${opts.email ? `<div class="an-tailored" style="border-left-color:${opts.emailSent ? "#138f2d" : "#e10600"};margin-top:8px"><strong>${opts.emailSent ? "Full breakdown emailed" : "Email could not be sent"}</strong>${opts.emailSent ? `We sent your full breakdown to <strong>${opts.email}</strong>. Check your inbox (and spam) in the next minute.` : `We couldn't email <strong>${opts.email}</strong> just now, but you can continue on WhatsApp above.`}</div>` : ""}
+
+      <p class="an-disclaimer">This assessment is educational and is not a medical diagnosis, treatment, or prescription. Zurich Biotech supplies research-grade materials for laboratory research only; nothing here is medical advice and the compounds discussed are not for human consumption. Consult a qualified healthcare professional before changing your health routine. See our <a href="/terms.html">terms</a>.</p>
     `;
+    const c = document.getElementById("anRecoveryChart");
+    createRecoveryChart(c, t.chart);
   }
+
+  function gv(id) { const el = document.getElementById(id); return el ? el.value.trim() : ""; }
+
+  // ----- gate submit -----
+  document.getElementById("anGate").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const name = gv("anName"), email = gv("anEmail"), phone = gv("anPhone");
+    const consent = document.getElementById("anConsent").checked;
+    const phoneDigits = phone.replace(/\D/g, "");
+    if (!name || !/.+@.+\..+/.test(email) || phoneDigits.length < 8 || !consent) return;
+
+    const r = computeResult();
+    const payload = {
+      name, email, phone, consent: true,
+      result: {
+        trackKey: r.trackKey, track: r.track.name, score: r.score, max: r.max,
+        tier: r.tier.key, tierLabel: r.tier.label, protocolKey: r.track.protocolKey,
+        priorities: r.track.priorities, profile: profileSummary(r),
+      },
+    };
+
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    const orig = submitBtn ? submitBtn.textContent : "";
+    if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Sending your breakdown..."; }
+
+    let emailSent = false;
+    try { const res = await fetch("/api/lead", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) }); emailSent = res.ok; } catch (_) {}
+    try {
+      const arr = JSON.parse(localStorage.getItem("zbLeads") || "[]");
+      arr.push({ ...payload, emailSent, ts: new Date().toISOString() });
+      localStorage.setItem("zbLeads", JSON.stringify(arr));
+      localStorage.setItem("zbAnalysisUnlocked", "true");
+    } catch (_) {}
+    if (LEAD_WEBHOOK) { fetch(LEAD_WEBHOOK, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) }).catch(() => {}); }
+    if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = orig; }
+
+    renderResult({ email, emailSent });
+    showScreen("result");
+  });
+
+  tool.querySelectorAll(".an-gate-back").forEach((b) => b.addEventListener("click", () => renderQuestion(visibleQuestions().slice(-1)[0].id)));
+
+  // start
+  renderQuestion(QUESTIONS[0].id);
 }
 
 initAnalysis();

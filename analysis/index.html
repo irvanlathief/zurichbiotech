@@ -3,16 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Peptide Research Analysis: Find Your Protocol | Zurich Biotech</title>
-    <meta name="description" content="Free peptide research analysis. Pick your goal, answer a few questions, and get a practical starting guide plus what to research and which protocol fits. Research use only." />
-    <meta name="keywords" content="peptide analysis, which peptide should i research, peptide protocol finder, peptide goal quiz, research peptides bali" />
+    <title>Recovery Intelligence Quiz: Find Your Recovery Limiter | Zurich Biotech</title>
+    <meta name="description" content="A free recovery assessment. Answer a few questions to get your recovery score, your primary limiter, and a protocol track. Educational, research use only. Not medical advice." />
+    <meta name="keywords" content="recovery quiz, recovery assessment, peptide protocol finder, recovery score, training recovery, sleep recovery" />
     <link rel="canonical" href="https://zurichbiotech.com/analysis/" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Zurich Biotech" />
-    <meta property="og:title" content="Peptide Research Analysis: Find Your Protocol" />
-    <meta property="og:description" content="Pick your goal, answer a few questions, and get a free starting guide plus the protocol that fits your research." />
+    <meta property="og:title" content="Recovery Intelligence Quiz: Find Your Recovery Limiter" />
+    <meta property="og:description" content="Answer a few questions to get your recovery score, your primary limiter, and the protocol track that fits." />
     <meta property="og:url" content="https://zurichbiotech.com/analysis/" />
     <meta property="og:image" content="https://zurichbiotech.com/assets/hero-mots-c.png" />
     <meta property="og:image:width" content="1200" />
@@ -29,17 +29,18 @@
           "@type": "BreadcrumbList",
           "itemListElement": [
             { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://zurichbiotech.com/" },
-            { "@type": "ListItem", "position": 2, "name": "Peptide Research Analysis", "item": "https://zurichbiotech.com/analysis/" }
+            { "@type": "ListItem", "position": 2, "name": "Resources", "item": "https://zurichbiotech.com/resources/" },
+            { "@type": "ListItem", "position": 3, "name": "Recovery Intelligence Quiz", "item": "https://zurichbiotech.com/analysis/" }
           ]
         },
         {
           "@type": "WebApplication",
-          "name": "Peptide Research Analysis",
+          "name": "Recovery Intelligence Quiz",
           "url": "https://zurichbiotech.com/analysis/",
           "applicationCategory": "HealthApplication",
           "operatingSystem": "All",
           "browserRequirements": "Requires JavaScript",
-          "description": "A goal-based analysis tool that builds a free, practical starting guide and points to the research peptides and protocol most relevant to a stated goal. For laboratory research context only.",
+          "description": "An educational recovery self-assessment that produces a recovery score, a recovery tier, and a primary limiter, then maps it to a research protocol track. Not a medical diagnosis. For laboratory research context only.",
           "publisher": { "@id": "https://zurichbiotech.com/#organization" },
           "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
         }
@@ -48,79 +49,93 @@
     </script>
 
     <style>
-      .analysis-page { padding: 120px clamp(16px, 5vw, 88px) 80px; max-width: 1100px; margin: 0 auto; }
-      .analysis-page h1 { font-size: clamp(36px, 4vw, 64px); font-weight: 400; margin: 0; line-height: 1.05; }
+      .analysis-page { padding: 120px clamp(16px, 5vw, 88px) 80px; max-width: 880px; margin: 0 auto; }
+      .analysis-page h1 { font-size: clamp(34px, 4vw, 60px); font-weight: 400; margin: 0; line-height: 1.05; }
       .analysis-page h1 span { color: var(--red); }
-      .analysis-page .lede { max-width: 720px; font-size: clamp(15px, 1.4vw, 17px); color: var(--gray-700); margin: 12px 0 36px; line-height: 1.6; }
+      .analysis-page .lede { max-width: 680px; font-size: clamp(15px, 1.4vw, 17px); color: var(--gray-700); margin: 12px 0 36px; line-height: 1.6; }
 
-      .analysis-tool { border: 1px solid var(--gray-200); padding: clamp(20px, 4vw, 44px); }
-      .an-progress { display: flex; gap: 8px; margin-bottom: 28px; }
-      .an-step-dot { width: 34px; height: 4px; background: var(--gray-200); }
-      .an-step-dot.active { background: var(--black); }
+      .analysis-tool { border: 1px solid var(--gray-200); padding: clamp(22px, 4vw, 48px); min-height: 360px; }
 
-      .an-step h2 { font-size: clamp(22px, 2.5vw, 34px); font-weight: 400; margin: 0 0 6px; }
-      .an-help { font-family: var(--tech); font-size: 13px; color: var(--gray-700); margin: 0 0 24px; line-height: 1.6; }
+      /* progress */
+      .an-progress { height: 4px; background: var(--gray-200); margin-bottom: 14px; }
+      .an-progress-bar { height: 100%; width: 0; background: var(--black); transition: width 0.35s cubic-bezier(0.2, 0.8, 0.2, 1); }
+      .an-step-count { font-family: var(--tech); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gray-700); margin: 0 0 28px; }
 
-      .an-goals { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-      @media (max-width: 640px) { .an-goals { grid-template-columns: 1fr; } }
-      .an-goal { position: relative; display: block; text-align: left; border: 1px solid var(--gray-200); background: var(--white); padding: 22px 22px 24px; cursor: pointer; transition: border-color 160ms ease, background 160ms ease; }
-      .an-goal:hover, .an-goal.selected { border-color: var(--black); }
-      .an-goal-line { display: block; width: 40px; height: 3px; margin-bottom: 14px; }
-      .an-goal strong { display: block; font-size: 20px; font-weight: 500; letter-spacing: 0.01em; margin-bottom: 6px; }
-      .an-goal small { display: block; font-family: var(--tech); font-size: 12.5px; line-height: 1.55; color: var(--gray-700); }
-      .an-goal .an-plus { position: absolute; top: 16px; right: 18px; color: var(--red); font-weight: 700; }
-
-      .an-q { padding: 18px 0; border-bottom: 1px solid var(--gray-200); }
-      .an-q:first-child { padding-top: 0; }
-      .an-q-label { font-family: var(--tech); font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray-700); margin: 0 0 12px; }
-      .an-q-options { display: flex; flex-wrap: wrap; gap: 10px; }
-      .an-opt { font-family: var(--tech); font-size: 13px; padding: 9px 16px; min-height: 40px; border: 1px solid var(--gray-200); background: var(--white); color: var(--black); cursor: pointer; transition: background 140ms ease, color 140ms ease, border-color 140ms ease; }
-      .an-opt:hover { border-color: var(--black); }
+      /* question screen */
+      .an-qtitle { font-size: clamp(22px, 3vw, 36px); font-weight: 400; line-height: 1.15; margin: 0 0 8px; max-width: 16ch; }
+      .an-qhelp { font-family: var(--tech); font-size: 13px; color: var(--gray-700); margin: 0 0 28px; line-height: 1.6; }
+      .an-options { display: grid; gap: 12px; margin-bottom: 8px; }
+      .an-opt { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; text-align: left; padding: 18px 20px; min-height: 60px; border: 1px solid var(--gray-200); background: var(--white); color: var(--black); font-size: 16px; cursor: pointer; transition: border-color 140ms ease, background 140ms ease, color 140ms ease, transform 120ms ease; animation: anRise 0.32s ease both; }
+      .an-options .an-opt:nth-child(2) { animation-delay: 0.04s; }
+      .an-options .an-opt:nth-child(3) { animation-delay: 0.08s; }
+      .an-options .an-opt:nth-child(4) { animation-delay: 0.12s; }
+      .an-options .an-opt:nth-child(5) { animation-delay: 0.16s; }
+      .an-opt:hover { border-color: var(--black); transform: translateX(2px); }
       .an-opt.selected { background: var(--black); color: var(--white); border-color: var(--black); }
+      .an-opt-tick { font-family: var(--tech); font-weight: 700; color: var(--red); }
+      .an-opt.selected .an-opt-tick { color: var(--white); }
+      @keyframes anRise { from { opacity: 0; transform: translateY(8px); } }
 
-      .an-nav { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 28px; }
-      .an-back { background: none; border: 0; font-family: var(--tech); font-size: 13px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--gray-700); cursor: pointer; padding: 8px 4px; }
-      .an-back:hover { color: var(--black); }
-      .an-next { font-family: var(--tech); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; background: var(--black); color: var(--white); border: 1px solid var(--black); padding: 14px 26px; cursor: pointer; transition: background 160ms ease; }
+      .an-nav { margin-top: 24px; }
+      .an-back, .an-gate-back { background: none; border: 0; font-family: var(--tech); font-size: 13px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--gray-700); cursor: pointer; padding: 8px 4px; }
+      .an-back:hover, .an-gate-back:hover { color: var(--black); }
+
+      /* gate */
+      .an-gate-title { font-size: clamp(22px, 2.6vw, 32px); font-weight: 400; margin: 0 0 6px; }
+      .an-teaser { font-size: 15px; line-height: 1.6; margin: 0 0 24px; max-width: 620px; color: var(--gray-900, #222); }
+      .an-gate .form-group { display: grid; gap: 8px; margin-bottom: 16px; }
+      .an-gate label { font-family: var(--tech); font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray-700); }
+      .an-gate input[type="text"], .an-gate input[type="email"], .an-gate input[type="tel"] { width: 100%; height: 48px; border: 1px solid var(--gray-200); background: var(--white); color: var(--black); font-family: var(--tech); font-size: 14px; padding: 0 14px; border-radius: 0; }
+      .an-gate input:focus { outline: none; border-color: var(--black); }
+      .an-consent { display: flex; gap: 10px; align-items: flex-start; font-family: var(--tech); font-size: 12.5px; line-height: 1.5; color: var(--gray-700); margin: 8px 0; }
+      .an-consent input { margin-top: 2px; flex: none; }
+      .an-gate-actions { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 22px; }
+      .an-next { font-family: var(--tech); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; background: var(--black); color: var(--white); border: 1px solid var(--black); padding: 15px 28px; cursor: pointer; transition: background 160ms ease, border-color 160ms ease; }
       .an-next:hover { background: var(--red); border-color: var(--red); }
       .an-next:disabled { background: var(--gray-200); border-color: var(--gray-200); color: var(--gray-400); cursor: not-allowed; }
 
-      .an-teaser { font-size: 16px; line-height: 1.6; margin: 0 0 24px; max-width: 620px; }
-      .an-gate .form-group { margin-bottom: 18px; }
-      .an-consent { display: flex; gap: 10px; align-items: flex-start; font-family: var(--tech); font-size: 12.5px; line-height: 1.5; color: var(--gray-700); margin: 4px 0 4px; }
-      .an-consent input { margin-top: 2px; flex: none; }
-
-      .an-focus { position: relative; padding: 4px 0 20px; }
+      /* result */
+      .an-focus { position: relative; padding: 4px 0 8px; }
       .an-focus .an-kicker { font-family: var(--tech); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gray-700); margin: 0 0 6px; }
-      .an-focus h2 { font-size: clamp(26px, 3vw, 42px); font-weight: 400; margin: 0 0 10px; }
+      .an-focus h2 { font-size: clamp(26px, 3.2vw, 44px); font-weight: 400; margin: 0 0 18px; }
       .an-focus-line { display: block; width: 56px; height: 4px; margin-bottom: 16px; }
-      .an-profile { font-family: var(--tech); font-size: 13px; color: var(--gray-700); margin: 0; }
+      .an-scorecard { display: flex; flex-wrap: wrap; align-items: center; gap: 28px 40px; margin: 8px 0 16px; }
+      .an-score { display: flex; align-items: baseline; gap: 8px; }
+      .an-score-num { font-size: clamp(48px, 8vw, 76px); font-weight: 400; line-height: 1; }
+      .an-score-den { font-family: var(--tech); font-size: 18px; color: var(--gray-700); }
+      .an-score-lbl { font-family: var(--tech); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray-700); margin-left: 8px; align-self: center; }
+      .an-meta { display: flex; gap: 36px; }
+      .an-meta p { margin: 0; }
+      .an-meta span { display: block; font-family: var(--tech); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray-700); margin-bottom: 4px; }
+      .an-meta strong { font-size: 16px; font-weight: 500; }
+      .an-scorebar { height: 6px; background: var(--gray-200); margin: 4px 0 0; }
+      .an-scorebar-fill { height: 100%; width: 0; animation: anBar 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+      @keyframes anBar { from { width: 0; } }
 
       .an-section { padding: 28px 0; border-top: 1px solid var(--gray-200); }
       .an-section h3 { font-size: clamp(18px, 2vw, 24px); font-weight: 500; margin: 0 0 8px; }
+      .an-section p { line-height: 1.6; margin: 0 0 8px; }
       .an-section .an-note { font-family: var(--tech); font-size: 12.5px; color: var(--gray-700); margin: 0 0 16px; line-height: 1.6; }
-      .an-donow { margin: 0; padding-left: 20px; line-height: 1.7; }
-      .an-donow li { margin-bottom: 10px; }
+      .an-priorities { margin: 0; padding-left: 20px; line-height: 1.7; }
+      .an-priorities li { margin-bottom: 8px; }
+      .an-chart-wrap { margin-top: 8px; }
+      #anRecoveryChart { width: 100%; height: auto; display: block; }
       .an-tailored { margin-top: 16px; padding: 14px 16px; border-left: 3px solid var(--black); background: #f7f7f7; font-size: 14px; line-height: 1.6; }
       .an-tailored strong { font-family: var(--tech); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; display: block; margin-bottom: 4px; color: var(--gray-700); }
-
-      .an-research { list-style: none; margin: 0; padding: 0; }
-      .an-research li { padding: 14px 0; border-bottom: 1px solid var(--gray-200); }
-      .an-research li:last-child { border-bottom: 0; }
-      .an-research .an-r-name { font-weight: 600; }
-      .an-research .an-r-note { color: var(--gray-700); font-size: 14px; }
-      .an-research a { font-family: var(--tech); font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--red); white-space: nowrap; }
-
-      .an-why .an-stack { list-style: none; margin: 16px 0; padding: 0; font-family: var(--tech); font-size: 14px; }
+      .an-protocol-name { font-family: var(--tech); font-size: 15px; margin: 0 0 12px; }
+      .an-why .an-stack { list-style: none; margin: 12px 0; padding: 0; font-family: var(--tech); font-size: 14px; }
       .an-why .an-stack li { padding: 8px 0; border-bottom: 1px solid var(--gray-200); display: flex; justify-content: space-between; gap: 12px; }
       .an-why .an-stack li b { color: var(--red); margin-right: 8px; }
-      .an-why .an-price { font-family: var(--tech); font-size: 16px; margin: 8px 0 20px; }
-
-      .an-wa { display: flex; align-items: center; justify-content: center; gap: 16px; width: 100%; margin-top: 28px; min-height: 64px; background: var(--black); color: var(--white); font-family: var(--tech); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; text-decoration: none; transition: background 160ms ease; }
+      .an-why .an-price { font-family: var(--tech); font-size: 16px; margin: 8px 0 18px; }
+      .an-research { list-style: none; margin: 0; padding: 0; }
+      .an-research li { padding: 12px 0; border-bottom: 1px solid var(--gray-200); }
+      .an-research li:last-child { border-bottom: 0; }
+      .an-research a { font-family: var(--tech); font-size: 13px; color: var(--red); text-decoration: none; }
+      .an-research a:hover { text-decoration: underline; }
+      .an-wa { display: flex; align-items: center; justify-content: center; gap: 16px; width: 100%; margin-top: 18px; min-height: 60px; background: var(--black); color: var(--white); font-family: var(--tech); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; text-decoration: none; transition: background 160ms ease; }
       .an-wa:hover { background: var(--green); }
-      .an-disclaimer { font-family: var(--tech); font-size: 11.5px; line-height: 1.6; color: var(--gray-400); margin: 20px 0 0; }
+      .an-disclaimer { font-family: var(--tech); font-size: 11.5px; line-height: 1.6; color: var(--gray-400); margin: 24px 0 0; }
       .an-disclaimer a { color: var(--gray-700); text-decoration: underline; }
-
       .analysis-noscript { font-family: var(--tech); font-size: 14px; color: var(--red); padding: 24px; border: 1px solid var(--gray-200); }
     </style>
   </head>
@@ -138,61 +153,25 @@
     </header>
 
     <main class="analysis-page" id="top">
-      <p class="section-kicker">[ Analysis ]</p>
-      <h1>Peptide research analysis<span>+</span></h1>
-      <p class="lede">Pick the goal that matters most, answer a few quick questions, and get a free, practical starting guide. If you are curious about peptides, it also shows what to research and which protocol fits. Research use only.</p>
+      <p class="section-kicker">[ Recovery analysis ]</p>
+      <h1>Recovery Intelligence<span>+</span></h1>
+      <p class="lede">A short, structured assessment. Answer honestly and you'll get a recovery score, your primary limiter, and the research protocol track that fits, plus the lifestyle work that comes first. Educational only, research use only, never a diagnosis.</p>
 
       <div class="analysis-tool" id="analysis-tool">
-        <div class="an-progress" aria-hidden="true">
-          <span class="an-step-dot active" data-step="1"></span>
-          <span class="an-step-dot" data-step="2"></span>
-          <span class="an-step-dot" data-step="3"></span>
-          <span class="an-step-dot" data-step="4"></span>
-        </div>
+        <div class="an-progress" aria-hidden="true"><div class="an-progress-bar" id="anProgressBar"></div></div>
+        <p class="an-step-count" id="anStepCount">Question 1</p>
 
-        <section class="an-step" data-step="1" aria-label="Step 1: your goal">
-          <h2>What are you working on?</h2>
-          <p class="an-help">Pick the one that matters most right now. This is the backbone of your analysis; the next questions fine-tune it.</p>
-          <div class="an-goals">
-            <button type="button" class="an-goal" data-goal="recovery">
-              <span class="an-goal-line" style="background:#138f2d"></span>
-              <strong>Recover faster</strong>
-              <small>Bounce back between sessions and handle nagging soft-tissue niggles.</small>
-              <span class="an-plus">+</span>
-            </button>
-            <button type="button" class="an-goal" data-goal="strength">
-              <span class="an-goal-line" style="background:#1158d8"></span>
-              <strong>Build strength</strong>
-              <small>Add strength and lean muscle over a proper training block.</small>
-              <span class="an-plus">+</span>
-            </button>
-            <button type="button" class="an-goal" data-goal="energy">
-              <span class="an-goal-line" style="background:#ffd21a"></span>
-              <strong>Sharper energy</strong>
-              <small>Steadier focus and cleaner energy through the day.</small>
-              <span class="an-plus">+</span>
-            </button>
-            <button type="button" class="an-goal" data-goal="metabolic">
-              <span class="an-goal-line" style="background:#ff4a12"></span>
-              <strong>Body composition</strong>
-              <small>Improve metabolic health and how you look and feel.</small>
-              <span class="an-plus">+</span>
-            </button>
-          </div>
-        </section>
-
-        <section class="an-step" data-step="2" aria-label="Step 2: about you" hidden>
-          <h2>A few quick details</h2>
-          <p class="an-help">These tailor your guide. No medical questions, just context about your training and routine.</p>
-          <div class="an-questions" id="anQuestions"></div>
+        <section class="an-screen" id="anQuestionScreen" aria-live="polite">
+          <h2 class="an-qtitle" id="anQTitle"></h2>
+          <p class="an-qhelp" id="anQHelp"></p>
+          <div class="an-options" id="anOptions"></div>
           <div class="an-nav">
-            <button type="button" class="an-back" data-back="1">Back</button>
-            <button type="button" class="an-next" id="anStep2Next" disabled>Continue +</button>
+            <button type="button" class="an-back" id="anBack">Back</button>
           </div>
         </section>
 
-        <section class="an-step" data-step="3" aria-label="Step 3: unlock your guide" hidden>
-          <h2>Your guide is ready</h2>
+        <section class="an-screen" id="anGateScreen" hidden>
+          <h2 class="an-gate-title">Your assessment is ready</h2>
           <p class="an-teaser" id="anTeaser"></p>
           <form class="an-gate" id="anGate" novalidate>
             <div class="form-group">
@@ -209,22 +188,22 @@
             </div>
             <label class="an-consent">
               <input type="checkbox" id="anConsent" required />
-              <span>Send me my free guide on WhatsApp. I understand these products are sold for research use only and not for human consumption.</span>
+              <span>Email me my full breakdown and contact me on WhatsApp. I understand this is educational, not medical advice, and these products are sold for research use only.</span>
             </label>
-            <div class="an-nav">
-              <button type="button" class="an-back" data-back="2">Back</button>
-              <button type="submit" class="an-next">Unlock my guide +</button>
+            <div class="an-gate-actions">
+              <button type="button" class="an-gate-back">Back</button>
+              <button type="submit" class="an-next">See my results +</button>
             </div>
           </form>
         </section>
 
-        <section class="an-step" data-step="4" aria-label="Your analysis result" hidden>
+        <section class="an-screen" id="anResultScreen" hidden>
           <div id="anResult"></div>
         </section>
       </div>
 
       <noscript>
-        <p class="analysis-noscript">This analysis tool needs JavaScript enabled. You can still browse our <a href="/resources/">research library</a> and <a href="/#compounds">compounds</a>.</p>
+        <p class="analysis-noscript">This assessment needs JavaScript enabled. You can still browse our <a href="/resources/">research library</a> and <a href="/#compounds">compounds</a>.</p>
       </noscript>
     </main>
 
