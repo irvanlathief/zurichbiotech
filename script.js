@@ -1251,6 +1251,21 @@ function initAnalysis() {
     tool.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
+  // Pre-fill the gate from the last lead saved on this device so a returning
+  // visitor does not retype, but still has to submit (which sends the email).
+  // Consent is never pre-checked; it has to be given each time.
+  function prefillGate() {
+    try {
+      const arr = JSON.parse(localStorage.getItem("zbLeads") || "[]");
+      const last = arr[arr.length - 1];
+      if (!last) return;
+      const set = (id, val) => { const el = document.getElementById(id); if (el && !el.value && val) el.value = val; };
+      set("anName", last.name);
+      set("anEmail", last.email);
+      set("anPhone", last.phone);
+    } catch (_) {}
+  }
+
   function renderQuestion(qid) {
     const q = QUESTIONS.find((x) => x.id === qid);
     if (!q) return;
@@ -1283,15 +1298,13 @@ function initAnalysis() {
       const q = QUESTIONS[i];
       if (!q.showIf || q.showIf(answers)) { renderQuestion(q.id); return; }
     }
-    // no more questions -> gate (or straight to result if already unlocked)
-    if (localStorage.getItem("zbAnalysisUnlocked") === "true") {
-      renderResult();
-      showScreen("result");
-    } else {
-      document.getElementById("anTeaser").innerHTML = teaserText();
-      progressBar.style.width = "100%";
-      showScreen("gate");
-    }
+    // No more questions -> always show the email gate. This is where we capture
+    // the lead (name, WhatsApp, email) and send the result email, so it has to
+    // run on every completion, returning visitors included.
+    document.getElementById("anTeaser").innerHTML = teaserText();
+    progressBar.style.width = "100%";
+    prefillGate();
+    showScreen("gate");
   }
 
   function goBack() {
@@ -1582,7 +1595,6 @@ function initAnalysis() {
       const arr = JSON.parse(localStorage.getItem("zbLeads") || "[]");
       arr.push({ ...payload, emailSent, ts: new Date().toISOString() });
       localStorage.setItem("zbLeads", JSON.stringify(arr));
-      localStorage.setItem("zbAnalysisUnlocked", "true");
     } catch (_) {}
     if (LEAD_WEBHOOK) { fetch(LEAD_WEBHOOK, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) }).catch(() => {}); }
     if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = orig; }
