@@ -123,7 +123,13 @@
 
       .analysis-noscript { font-family: var(--tech); font-size: 14px; color: var(--red); padding: 24px; border: 1px solid var(--gray-200); }
     </style>
-  </head>
+    
+  <!-- Vercel Web Analytics -->
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
   <body>
     <header class="site-header" aria-label="Primary navigation">
       <a class="brand" href="/" aria-label="Zurich Biotech home">Zurich Biotech<span>+</span></a>
