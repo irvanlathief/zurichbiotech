@@ -394,7 +394,11 @@
       "intent": "navigational",
       "target_city": "Yogyakarta",
       "internal_link_targets": ["/#compounds", "/resources/lyophilized-peptide-storage/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-06-21",
+        "url": "https://zurichbiotech.com/resources/research-peptides-yogyakarta/"
+      }
     },
     {
       "id": 25,
