@@ -44,6 +44,34 @@ function protocolPrice(p) { return p.stack.reduce((t, [n]) => t + (COMPOUND_PRIC
 function escapeHtml(s) { return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
 function firstName(n) { return (n || "").trim().split(/\s+/)[0] || "there"; }
 
+// Per-track recovery trajectory (mirrors the on-site chart). Rendered as a
+// bulletproof table-based bar chart so it never depends on a remote image.
+const CHART = {
+  sleep: { label: "Sleep quality index", values: [52, 58, 66, 74, 80, 84] },
+  tissue: { label: "Tissue recovery index", values: [48, 55, 64, 74, 82, 88] },
+  hormonal: { label: "Daytime energy index", values: [50, 55, 62, 71, 78, 82] },
+  metabolic: { label: "Metabolic health index", values: [47, 52, 60, 69, 77, 82] },
+  systemic: { label: "Recovery capacity index", values: [45, 51, 60, 70, 78, 83] },
+  foundations: { label: "Recovery capacity index", values: [55, 62, 70, 78, 84, 88] },
+};
+const WEEK_LABELS = ["Now", "W2", "W4", "W8", "W12", "W16"];
+function barChart(trackKey, color) {
+  const c = CHART[trackKey] || CHART.systemic;
+  const rows = c.values.map((v, i) => `<tr>
+        <td style="font-family:ui-monospace,monospace;font-size:11px;color:#888;padding:3px 8px 3px 0;white-space:nowrap">${WEEK_LABELS[i]}</td>
+        <td style="padding:3px 0" width="100%">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="#eeeeee" style="background:#eeeeee;table-layout:fixed;width:100%"><tr>
+            <td bgcolor="${color}" width="${v}%" height="14" style="background:${color};width:${v}%;height:14px;font-size:0;line-height:0">&nbsp;</td>
+            <td width="${100 - v}%" style="width:${100 - v}%;font-size:0;line-height:0">&nbsp;</td>
+          </tr></table>
+        </td>
+      </tr>`).join("");
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:10px 0 4px">
+        <tr><td colspan="2" style="font-family:ui-monospace,monospace;font-size:11px;letter-spacing:.06em;color:#5d5d5d;padding-bottom:8px">${c.label.toUpperCase()}</td></tr>
+        ${rows}
+      </table>`;
+}
+
 export default async function handler(req, res) {
   if (req.method !== "POST") { res.setHeader("Allow", "POST"); return res.status(405).json({ error: "method_not_allowed" }); }
 
@@ -74,8 +102,9 @@ export default async function handler(req, res) {
   if (!apiKey) return res.status(500).json({ error: "not_configured" });
 
   const track = TRACKS[trackKey];
-  const showProtocol = (tier === "MODERATE" || tier === "HIGH") && track.protocolKey;
-  const protocol = showProtocol ? PROTOCOLS[track.protocolKey] : null;
+  // Protocol shows on every result; client sends the resolved key (Foundations
+  // derives one from the goal). Fall back defensively.
+  const protocol = PROTOCOLS[result.protocolKey] || PROTOCOLS[track.protocolKey] || PROTOCOLS.recovery;
   const ctx = { name, email, phone, trackKey, track, tier, tierLabel, score: scoreNum, max: maxNum, profile, priorities, protocol };
 
   let resp;
@@ -141,23 +170,19 @@ function waUrl(ctx) {
 
 function renderHtml(ctx) {
   const { track, protocol } = ctx;
-  const chart = `${SITE}/assets/recovery-${ctx.trackKey}.png`;
   const priorities = ctx.priorities.map((p) => `<li style="margin:6px 0">${escapeHtml(p)}</li>`).join("");
   const articles = track.articles.map((a) => `<li style="margin:6px 0"><a href="${SITE}${a.href}" style="color:#e10600;text-decoration:none">${escapeHtml(a.name)}</a></li>`).join("");
 
-  const protocolSection = protocol
-    ? `<tr><td style="padding:8px 32px 0">
-         <h2 style="font-size:18px;font-weight:600;margin:16px 0 8px">3. Advanced options to discuss with a professional</h2>
-         <p style="margin:0 0 10px">Compounds are not the first move, and they are sold for laboratory research only. Research protocols in this area typically run <strong>${escapeHtml(protocol.duration)}</strong>; that is the timeline the literature works on, not a promise of a personal result. For your limiter, researchers commonly look at the <strong>${escapeHtml(protocol.title)}</strong> protocol:</p>
-         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-family:ui-monospace,monospace;font-size:14px;border-top:1px solid #e7e7e7;margin:6px 0 10px">
+  const protocolSection = `<tr><td style="padding:8px 32px 0">
+         <h2 style="font-size:18px;font-weight:600;margin:16px 0 8px">3. The protocol we'd point you to</h2>
+         <p style="margin:0 0 10px">Matched to your primary limiter. Research-grade compounds, sold for laboratory research only and best explored with a qualified healthcare professional. Research protocols here typically run <strong>${escapeHtml(protocol.duration)}</strong>, the timeline the literature works on, not a promise of a personal result.</p>
+         <p style="margin:0 0 6px;font-family:ui-monospace,monospace;font-size:15px"><strong>${escapeHtml(protocol.title)}</strong></p>
+         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-family:ui-monospace,monospace;font-size:14px;border-top:1px solid #e7e7e7;margin:0 0 10px">
            ${protocol.stack.map(([n, d]) => `<tr><td style="padding:8px 0;border-bottom:1px solid #e7e7e7"><span style="color:#e10600">+</span> ${escapeHtml(n)}</td><td align="right" style="padding:8px 0;border-bottom:1px solid #e7e7e7">${escapeHtml(d)}</td></tr>`).join("")}
          </table>
          <p style="margin:0;font-family:ui-monospace,monospace;font-size:15px"><strong>${formatIDR(protocolPrice(protocol))}</strong> / protocol</p>
          ${ctx.tier === "HIGH" ? `<p style="margin:10px 0 0;color:#5d5d5d;font-size:13px">At your tier, baseline bloodwork and a conversation with a qualified healthcare professional are worth doing before starting anything.</p>` : ""}
-       </td></tr>`
-    : `<tr><td style="padding:8px 32px 0">
-         <h2 style="font-size:18px;font-weight:600;margin:16px 0 8px">3. Peptides are not your priority yet</h2>
-         <p style="margin:0">At the ${escapeHtml(ctx.tierLabel)} tier, the foundational work above will move you further than any compound. Lock that in first. When you want to research further, the library below is the place to start.</p>
+         ${ctx.tier === "FOUNDATIONS" ? `<p style="margin:10px 0 0;color:#5d5d5d;font-size:13px">Honest take: at your score the basics above will do more than any compound. This is here for when you've locked those in.</p>` : ""}
        </td></tr>`;
 
   return `<!doctype html>
@@ -181,7 +206,7 @@ function renderHtml(ctx) {
         <tr><td style="padding:20px 32px 0">
           <h2 style="font-size:18px;font-weight:600;margin:8px 0 6px">1. Your result</h2>
           <p style="margin:0 0 12px">${escapeHtml(ctx.profile || "Your responses have been mapped to your primary recovery limiter above.")}</p>
-          <img src="${chart}" width="536" alt="Illustrative ${escapeHtml(track.name)} trajectory over a 16-week research timeline" style="display:block;width:100%;max-width:536px;height:auto;border:1px solid #e7e7e7" />
+          ${barChart(ctx.trackKey, track.color)}
           <p style="margin:8px 0 0;font-family:ui-monospace,monospace;font-size:11px;color:#888">Illustrative research-protocol pattern. Not a prediction or guarantee; individual responses vary.</p>
         </td></tr>
         <tr><td style="padding:20px 32px 0">
@@ -221,13 +246,9 @@ function renderText(ctx) {
     ...ctx.priorities.map((p) => `- ${p}`),
     `Starter guide: ${SITE}${STARTER_PDF}`, "",
   ];
-  if (protocol) {
-    lines.push("3. ADVANCED OPTIONS (discuss with a healthcare professional)",
-      `Research protocols here typically run ${protocol.duration} (a research timeline, not a personal-results promise).`,
-      `${protocol.title} (${formatIDR(protocolPrice(protocol))} / protocol): ${protocol.stack.map(([n, d]) => `${n} ${d}`).join(", ")}`, "");
-  } else {
-    lines.push("3. PEPTIDES ARE NOT YOUR PRIORITY YET", "Lock in the basics first.", "");
-  }
+  lines.push("3. THE PROTOCOL WE'D POINT YOU TO (research use only; discuss with a professional)",
+    `Research protocols here typically run ${protocol.duration} (a research timeline, not a personal-results promise).`,
+    `${protocol.title} (${formatIDR(protocolPrice(protocol))} / protocol): ${protocol.stack.map(([n, d]) => `${n} ${d}`).join(", ")}`, "");
   lines.push("4. RESEARCH FURTHER", ...track.articles.map((a) => `- ${a.name}: ${SITE}${a.href}`), "",
     `Continue on WhatsApp: ${waUrl(ctx)}`, "", "--",
     "Educational only; not a medical diagnosis or treatment. Research-grade materials for laboratory research only; not for human consumption. Consult a qualified healthcare professional. Terms: " + SITE + "/terms.html");

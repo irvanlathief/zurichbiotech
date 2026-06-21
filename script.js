@@ -1036,98 +1036,100 @@ function initAnalysis() {
 
   // Question flow. Each option: { label, points?, tags?, subFocus?, bias? }.
   // showIf(answers) gates branching questions (Q3a, Q4a).
+  // Options are keyed by stable `v` (value), so copy can change without
+  // breaking scoring/routing. `label` is display only.
   const QUESTIONS = [
     {
       id: "age",
-      title: "How old are you?",
-      help: "Recovery capacity and hormonal output shift with age.",
+      title: "First, how old are you?",
+      help: "Recovery and hormones shift with every decade.",
       options: [
-        { label: "25-34", points: 0 },
-        { label: "35-44", points: 1, tags: ["HORMONAL"] },
-        { label: "45-54", points: 2, tags: ["HORMONAL"] },
-        { label: "55+", points: 3, tags: ["HORMONAL"] },
+        { v: "u35", label: "25-34", points: 0 },
+        { v: "35", label: "35-44", points: 1, tags: ["HORMONAL"] },
+        { v: "45", label: "45-54", points: 2, tags: ["HORMONAL"] },
+        { v: "55", label: "55+", points: 3, tags: ["HORMONAL"] },
       ],
     },
     {
       id: "goal",
-      title: "What's your main goal right now?",
-      help: "We use this to break any ties at the end.",
+      title: "What are you actually trying to fix?",
+      help: "Pick the one that bugs you most.",
       options: [
-        { label: "Fat loss", bias: "METABOLIC" },
-        { label: "Muscle & strength", bias: "TISSUE" },
-        { label: "Faster recovery & performance", bias: "TISSUE" },
-        { label: "Energy & focus", bias: "STRESS" },
-        { label: "Better sleep", bias: "SLEEP" },
+        { v: "fat", label: "Lose the stubborn belly fat", bias: "METABOLIC" },
+        { v: "muscle", label: "Build real muscle and strength", bias: "TISSUE" },
+        { v: "recover", label: "Recover faster, train more often", bias: "TISSUE" },
+        { v: "energy", label: "Kill the afternoon energy crash", bias: "STRESS" },
+        { v: "sleep", label: "Finally sleep through the night", bias: "SLEEP" },
       ],
     },
     {
       id: "rundown",
-      title: "Do you regularly feel run-down, foggy, or unmotivated during the day?",
+      title: "Do you hit a wall during the day, foggy and running on caffeine?",
       options: [
-        { label: "Yes", points: 2, tags: ["STRESS"] },
-        { label: "No", points: 0 },
+        { v: "yes", label: "Yes, most days", points: 2, tags: ["STRESS"] },
+        { v: "no", label: "No, my energy holds up", points: 0 },
       ],
     },
     {
       id: "worst",
-      title: "When is it worst?",
-      showIf: (a) => a.rundown === "Yes",
+      title: "When does it hit hardest?",
+      showIf: (a) => a.rundown === "yes",
       options: [
-        { label: "First thing in the morning", tags: ["HORMONAL"] },
-        { label: "Afternoon crash", tags: ["STRESS", "METABOLIC"] },
-        { label: "All day", points: 1, tags: ["SYSTEMIC"] },
+        { v: "morning", label: "Mornings, I'm useless until coffee", tags: ["HORMONAL"] },
+        { v: "arvo", label: "The 2-4pm crash", tags: ["STRESS", "METABOLIC"] },
+        { v: "allday", label: "All day, I never feel switched on", points: 1, tags: ["SYSTEMIC"] },
       ],
     },
     {
       id: "post48",
-      title: "How do you feel about 48 hours after a hard training session?",
+      title: "Two days after a hard session, how do you feel?",
       options: [
-        { label: "Still wrecked", points: 3, tags: ["TISSUE", "SYSTEMIC"] },
-        { label: "Beat up", points: 2, tags: ["TISSUE"] },
-        { label: "A little sore but mostly fine", points: 1 },
-        { label: "Fully recovered", points: 0 },
+        { v: "wrecked", label: "Still wrecked, like I got hit by a truck", points: 3, tags: ["TISSUE", "SYSTEMIC"] },
+        { v: "beat", label: "Beat up and stiff", points: 2, tags: ["TISSUE"] },
+        { v: "sore", label: "A little sore but mostly fine", points: 1 },
+        { v: "fresh", label: "Fully recovered, ready to go again", points: 0 },
       ],
     },
     {
       id: "where",
       title: "Where do you feel it most?",
-      showIf: (a) => a.post48 === "Still wrecked" || a.post48 === "Beat up",
+      showIf: (a) => a.post48 === "wrecked" || a.post48 === "beat",
       options: [
-        { label: "Muscle soreness", tags: ["TISSUE"], subFocus: "muscle" },
-        { label: "Joints & connective tissue", tags: ["TISSUE"], subFocus: "joints" },
-        { label: "Whole-body fatigue", tags: ["SYSTEMIC"] },
+        { v: "musc", label: "Deep muscle soreness that lingers for days", tags: ["TISSUE"], subFocus: "muscle" },
+        { v: "joint", label: "Joints and tendons, that nagging ache, and I'm not even old", tags: ["TISSUE"], subFocus: "joints" },
+        { v: "whole", label: "Whole-body heaviness, like a dead battery", tags: ["SYSTEMIC"] },
       ],
     },
     {
       id: "sleepq",
-      title: "How's your sleep been lately?",
+      title: "How's your sleep, honestly?",
       options: [
-        { label: "Restless, wake up tired", points: 3, tags: ["SLEEP"] },
-        { label: "Hit or miss", points: 2, tags: ["SLEEP"] },
-        { label: "Decent", points: 1 },
-        { label: "Solid", points: 0 },
+        { v: "restless", label: "Restless, I wake up tired no matter what", points: 3, tags: ["SLEEP"] },
+        { v: "miss", label: "Hit or miss", points: 2, tags: ["SLEEP"] },
+        { v: "decent", label: "Mostly decent", points: 1 },
+        { v: "solid", label: "Solid, I wake up sharp", points: 0 },
       ],
     },
     {
       id: "duration",
-      title: "How long has your recovery or energy felt off?",
+      title: "How long has this been your normal?",
       options: [
-        { label: "Over a year", points: 3 },
-        { label: "Several months", points: 2 },
-        { label: "Just recently", points: 1 },
-        { label: "Not sure", points: 1 },
+        { v: "year", label: "Over a year, I barely remember feeling good", points: 3 },
+        { v: "months", label: "A few months", points: 2 },
+        { v: "recent", label: "Just started recently", points: 1 },
+        { v: "unsure", label: "Honestly not sure", points: 1 },
       ],
     },
     {
       id: "improve",
-      title: "If you fixed this, what would improve first?",
-      help: "Used only as a final tie-breaker.",
+      title: "If one thing snapped back tomorrow, what would it be?",
+      help: "Last one, used only to break a tie.",
       options: [
-        { label: "Energy all day", bias: "STRESS" },
-        { label: "Faster recovery and training", bias: "TISSUE" },
-        { label: "Leaner, stronger body composition", bias: "METABOLIC" },
-        { label: "Sharper focus and mood", bias: "STRESS" },
-        { label: "All of the above" },
+        { v: "i_energy", label: "Energy that lasts the whole day", bias: "STRESS" },
+        { v: "i_recover", label: "Bouncing back fast between sessions", bias: "TISSUE" },
+        { v: "i_lean", label: "A leaner, harder body", bias: "METABOLIC" },
+        { v: "i_focus", label: "Sharp focus and a steady mood", bias: "STRESS" },
+        { v: "i_all", label: "Honestly, all of it" },
       ],
     },
   ];
@@ -1239,7 +1241,7 @@ function initAnalysis() {
   }
   function optionFor(qid) {
     const q = QUESTIONS.find((x) => x.id === qid);
-    return q ? q.options.find((o) => o.label === answers[qid]) : null;
+    return q ? q.options.find((o) => o.v === answers[qid]) : null;
   }
 
   function showScreen(which) {
@@ -1261,7 +1263,7 @@ function initAnalysis() {
     qHelp.textContent = q.help || "";
     qHelp.style.display = q.help ? "block" : "none";
     optionsEl.innerHTML = q.options
-      .map((o) => `<button type="button" class="an-opt${answers[qid] === o.label ? " selected" : ""}" data-val="${o.label.replace(/"/g, "&quot;")}">${o.label}<span class="an-opt-tick">+</span></button>`)
+      .map((o) => `<button type="button" class="an-opt${answers[qid] === o.v ? " selected" : ""}" data-val="${o.v}">${o.label}<span class="an-opt-tick">+</span></button>`)
       .join("");
     optionsEl.querySelectorAll(".an-opt").forEach((btn) => {
       btn.addEventListener("click", () => {
@@ -1349,23 +1351,38 @@ function initAnalysis() {
     const tier = tierFor(s);
     const trackKey = routeTrack(s);
     const track = TRACKS[trackKey];
-    const protocol = track.protocolKey ? protocols[track.protocolKey] : null;
-    return { score: s, max: MAX_SCORE, tier, trackKey, track, protocol, subFocus: subFocus() };
+    // Always resolve a protocol (lead-with-protocol). Foundations has none of
+    // its own, so derive one from the user's stated goal.
+    let protocolKey = track.protocolKey;
+    if (!protocolKey) {
+      const g = optionFor("goal");
+      const gt = g && g.bias ? SIGNAL_TO_TRACK[g.bias] : null;
+      protocolKey = (gt && TRACKS[gt] && TRACKS[gt].protocolKey) || "recovery";
+    }
+    const protocol = protocols[protocolKey];
+    return { score: s, max: MAX_SCORE, tier, trackKey, track, protocol, protocolKey, subFocus: subFocus() };
   }
 
   function profileSummary(r) {
     const bits = [];
-    if (answers.post48 === "Still wrecked" || answers.post48 === "Beat up") bits.push("delayed recovery after hard sessions");
-    if (answers.sleepq === "Restless, wake up tired" || answers.sleepq === "Hit or miss") bits.push("disrupted sleep");
-    if (answers.rundown === "Yes") bits.push("daytime fatigue");
-    if (r.subFocus === "joints") bits.push("connective-tissue load");
-    if (r.subFocus === "muscle") bits.push("muscle soreness");
-    if (answers.duration === "Over a year" || answers.duration === "Several months") bits.push("a long-standing pattern");
+    if (answers.post48 === "wrecked" || answers.post48 === "beat") bits.push("days-long soreness after hard sessions");
+    if (answers.sleepq === "restless" || answers.sleepq === "miss") bits.push("broken sleep");
+    if (answers.rundown === "yes") bits.push("the daytime energy crash");
+    if (r.subFocus === "joints") bits.push("nagging joints and connective tissue");
+    if (r.subFocus === "muscle") bits.push("muscle soreness that lingers");
+    if (answers.duration === "year" || answers.duration === "months") bits.push("a pattern that's been building for a while");
     const lead = r.trackKey === "foundations"
-      ? "Your responses suggest the fundamentals (sleep, nutrition, training consistency) are the highest-leverage place to start."
-      : `Your responses suggest recovery capacity may be limiting your results more than training effort itself. The strongest signals point to ${r.track.name.toLowerCase()}.`;
-    const detail = bits.length ? ` The clearest markers in your answers: ${bits.slice(0, 3).join(", ")}.` : "";
-    return lead + detail;
+      ? "Your answers are actually in decent shape. The fundamentals (sleep, nutrition, training consistency) are still the highest-leverage place to push before anything else."
+      : `Your answers point to recovery capacity holding you back more than training effort. The strongest signal is ${r.track.name.toLowerCase()}.`;
+    const detail = bits.length ? ` What stood out: ${bits.slice(0, 3).join(", ")}.` : "";
+    // age-aware agitation, tied to the actual answers (not a diagnosis)
+    let edge = "";
+    if ((answers.age === "35" || answers.age === "45") && r.subFocus === "joints") {
+      edge = " Nagging joints and back in your 30s or 40s usually isn't just 'getting older', it's a recovery and connective-tissue signal worth taking seriously now.";
+    } else if (answers.goal === "fat" && r.trackKey === "metabolic") {
+      edge = " Stubborn fat that won't move on the same training and diet is often a metabolic and recovery problem, not a willpower one.";
+    }
+    return lead + detail + edge;
   }
 
   function teaserText() {
@@ -1424,9 +1441,23 @@ function initAnalysis() {
       draw(1 - Math.pow(1 - p, 3));
       if (p < 1) requestAnimationFrame(anim);
     }
-    size(); requestAnimationFrame(anim);
-    let rt;
-    window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { size(); draw(1); }, 150); });
+    // The result screen starts hidden (width 0), so size/draw only once the
+    // canvas actually has width. ResizeObserver handles the hidden->visible
+    // transition and keeps it responsive.
+    let animated = false;
+    function render() {
+      if (!canvas.parentElement || canvas.parentElement.clientWidth <= 0) return;
+      size();
+      if (!animated) { animated = true; start = null; requestAnimationFrame(anim); }
+      else draw(1);
+    }
+    if (typeof ResizeObserver !== "undefined") {
+      new ResizeObserver(() => render()).observe(canvas.parentElement);
+    } else {
+      render();
+      let rt;
+      window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(render, 150); });
+    }
   }
   function hexA(hex, a) {
     const v = hex.replace("#", "");
@@ -1456,27 +1487,23 @@ function initAnalysis() {
   function renderResult(opts = {}) {
     const r = computeResult();
     const t = r.track;
-    const showProtocol = r.protocol && (r.tier.key === "MODERATE" || r.tier.key === "HIGH");
     const pct = Math.round((r.score / r.max) * 100);
 
     const priorities = t.priorities.map((p) => `<li>${p}</li>`).join("");
     const articles = t.articles.map((a) => `<li><a href="${a.href}">${a.name} &rarr;</a></li>`).join("");
-    const stack = r.protocol ? r.protocol.stack.map(([n, d]) => `<li><span><b>+</b>${n}</span> <span>${d}</span></li>`).join("") : "";
+    const stack = r.protocol.stack.map(([n, d]) => `<li><span><b>+</b>${n}</span> <span>${d}</span></li>`).join("");
 
-    const protocolBlock = showProtocol
-      ? `<div class="an-section an-why">
-           <h3>Advanced options to discuss with a healthcare professional</h3>
-           <p class="an-note">Research-grade compounds are not a substitute for the basics above and are sold for laboratory research only. For your limiter, the protocol most researchers in this area look at is:</p>
+    // Protocol shows on every result. Lifestyle-first note stays above it; the
+    // compound stack is framed as research-use, to discuss with a professional.
+    const protocolBlock = `<div class="an-section an-why">
+           <h3>The protocol we'd point you to</h3>
+           <p class="an-note">Matched to your primary limiter. Research-grade compounds, sold for laboratory research only and best explored with a qualified healthcare professional. Research protocols in this area typically run ${r.protocol.duration.toLowerCase()}.</p>
            <p class="an-protocol-name"><strong>${r.protocol.title.replace(".", "")}</strong> &middot; ${r.protocol.duration}</p>
            <ul class="an-stack">${stack}</ul>
            <p class="an-price"><strong>${formatPrice(r.protocol.price)}</strong> / protocol</p>
-           ${r.tier.key === "HIGH" ? `<p class="an-note">At your tier we'd also suggest baseline bloodwork and a conversation with a qualified healthcare professional before starting anything.</p>` : ""}
+           ${r.tier.key === "HIGH" ? `<p class="an-note">At your tier, baseline bloodwork and a conversation with a professional are worth doing before you start anything.</p>` : ""}
+           ${r.tier.key === "FOUNDATIONS" ? `<p class="an-note">Honest take: at your score the basics above will do more than any compound. This is here for when you've locked those in and want to go further.</p>` : ""}
            <a class="an-wa" href="${buildWaUrl(gv("anName"), gv("anEmail"), gv("anPhone"))}" target="_blank" rel="noopener">Order on WhatsApp +</a>
-         </div>`
-      : `<div class="an-section an-why">
-           <h3>What about peptides?</h3>
-           <p class="an-note">At the ${r.tier.label} tier, the highest-leverage move is the foundational work above, not a compound. We're not going to point you at a protocol you don't need yet. When the basics are dialed in and you want to research further, the library below is the place to start.</p>
-           <a class="an-wa" href="${buildWaUrl(gv("anName"), gv("anEmail"), gv("anPhone"))}" target="_blank" rel="noopener">Get your starter guide on WhatsApp +</a>
          </div>`;
 
     document.getElementById("anResult").innerHTML = `
@@ -1540,7 +1567,7 @@ function initAnalysis() {
       name, email, phone, consent: true,
       result: {
         trackKey: r.trackKey, track: r.track.name, score: r.score, max: r.max,
-        tier: r.tier.key, tierLabel: r.tier.label, protocolKey: r.track.protocolKey,
+        tier: r.tier.key, tierLabel: r.tier.label, protocolKey: r.protocolKey,
         priorities: r.track.priorities, profile: profileSummary(r),
       },
     };
