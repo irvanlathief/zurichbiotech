@@ -1,0 +1,24 @@
+{
+  "name": "zurichbiotech",
+  "version": "1.0.0",
+  "description": "Research-grade peptides for Bali & Indonesia",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/irvanlathief/zurichbiotech.git"
+  },
+  "keywords": [
+    "peptides",
+    "research",
+    "bali",
+    "indonesia"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vercel/analytics": "^1.4.1"
+  }
+}
