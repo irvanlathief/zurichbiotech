@@ -411,7 +411,11 @@
       "intent": "navigational",
       "target_city": "Bandung",
       "internal_link_targets": ["/#compounds", "/resources/lyophilized-peptide-storage/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-06-22",
+        "url": "https://zurichbiotech.com/resources/research-peptides-bandung/"
+      }
     }
   ]
 }
