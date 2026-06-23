@@ -19,10 +19,10 @@ const COMPOUND_PRICES = {
   "MOTS-C": 2000000, "Retatrutide": 3800000, "CJC1295 / Ipamorelin": 1500000,
 };
 const PROTOCOLS = {
-  strength: { title: "Lift Heavier", duration: "12-16 weeks", stack: [["GHK-CU", "10mg"], ["BPC157 + TB500", "5mg + 5mg"], ["CJC1295 / Ipamorelin", "10mg Blend"]] },
-  energy: { title: "Wake Up Sharp", duration: "12-16 weeks", stack: [["Semax", "5mg"], ["MOTS-C", "10mg"], ["GHK-CU", "10mg"]] },
-  recovery: { title: "Recover Faster", duration: "12 weeks", stack: [["BPC157 + TB500", "5mg + 5mg"], ["GHK-CU", "10mg"]] },
-  metabolic: { title: "Look Better", duration: "12-16 weeks", stack: [["Retatrutide", "10mg"], ["MOTS-C", "10mg"], ["GHK-CU", "10mg"]] },
+  strength: { title: "Lift Heavier", duration: "12-16 weeks", stack: [["GHK-CU", "50mg"], ["BPC157 + TB500", "5mg + 5mg"], ["CJC1295 / Ipamorelin", "10mg Blend"]] },
+  energy: { title: "Wake Up Sharp", duration: "12-16 weeks", stack: [["Semax", "5mg"], ["MOTS-C", "10mg"], ["GHK-CU", "50mg"]] },
+  recovery: { title: "Recover Faster", duration: "12 weeks", stack: [["BPC157 + TB500", "5mg + 5mg"], ["GHK-CU", "50mg"]] },
+  metabolic: { title: "Look Better", duration: "12-16 weeks", stack: [["Retatrutide", "10mg"], ["MOTS-C", "10mg"], ["GHK-CU", "50mg"]] },
 };
 const TRACKS = {
   sleep: { name: "Sleep & Stress Recovery", color: "#1158d8", protocolKey: "energy",

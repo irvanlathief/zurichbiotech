@@ -28,7 +28,7 @@ const protocols = {
     goal: "Strength & Muscle Performance",
     get price() { return calculateProtocolPrice(this.stack); },
     stack: [
-      ["GHK-CU", "10mg"],
+      ["GHK-CU", "50mg"],
       ["BPC157 + TB500", "5mg + 5mg"],
       ["CJC1295 / Ipamorelin", "10mg Blend"],
     ],
@@ -45,7 +45,7 @@ const protocols = {
     stack: [
       ["Semax", "5mg"],
       ["MOTS-C", "10mg"],
-      ["GHK-CU", "10mg"],
+      ["GHK-CU", "50mg"],
     ],
     color: "#e5bd00",
   },
@@ -59,7 +59,7 @@ const protocols = {
     get price() { return calculateProtocolPrice(this.stack); },
     stack: [
       ["BPC157 + TB500", "5mg + 5mg"],
-      ["GHK-CU", "10mg"],
+      ["GHK-CU", "50mg"],
     ],
     color: "#138f2d",
   },
@@ -74,7 +74,7 @@ const protocols = {
     stack: [
       ["Retatrutide", "10mg"],
       ["MOTS-C", "10mg"],
-      ["GHK-CU", "10mg"],
+      ["GHK-CU", "50mg"],
     ],
     color: "#ff4a12",
   },
