@@ -459,7 +459,11 @@
       "priority": 1,
       "intent": "informational",
       "internal_link_targets": ["/dosing-calculator/", "/resources/u100-insulin-syringe-peptide-units/", "/resources/peptide-reconstitution-bac-water-guide/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-07-02",
+        "url": "https://zurichbiotech.com/resources/peptide-dosing-math-guide/"
+      }
     },
     {
       "id": 29,
