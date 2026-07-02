@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Peptide dosing math: concentration, volume, and units | Zurich Biotech</title>
+    <meta name="description" content="Peptide dosing math: how to calculate reconstitution concentration, convert mg to mcg, and determine the correct U-100 syringe draw volume. Worked examples." />
+    <meta name="keywords" content="peptide dosing math, peptide concentration calculation, mcg per ml peptide, peptide unit conversion, research peptide dose calculation, U-100 syringe peptide, insulin syringe peptide units, peptide reconstitution math, peptide dosing formula, peptide dosing Indonesia" />
+    <link rel="canonical" href="https://zurichbiotech.com/resources/peptide-dosing-math-guide/" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    <meta name="author" content="Zurich Biotech" />
+
+    <meta name="geo.region" content="ID-BA" />
+    <meta name="geo.placename" content="Canggu, Bali, Indonesia" />
+    <meta name="geo.position" content="-8.6478;115.1385" />
+    <meta name="ICBM" content="-8.6478, 115.1385" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Zurich Biotech" />
+    <meta property="og:title" content="Peptide dosing math: concentration, volume, and units" />
+    <meta property="og:description" content="Peptide dosing math: how to calculate reconstitution concentration, convert mg to mcg, and determine the correct U-100 syringe draw volume. Worked examples." />
+    <meta property="og:url" content="https://zurichbiotech.com/resources/peptide-dosing-math-guide/" />
+    <meta property="og:image" content="https://zurichbiotech.com/assets/protocol-reference.png" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="article:published_time" content="2026-07-02" />
+    <meta property="article:section" content="Protocol" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Peptide dosing math: concentration, volume, and units" />
+    <meta name="twitter:description" content="Peptide dosing math: how to calculate reconstitution concentration, convert mg to mcg, and determine the correct U-100 syringe draw volume. Worked examples." />
+    <meta name="twitter:image" content="https://zurichbiotech.com/assets/protocol-reference.png" />
+
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+
+    <style>
+      .article-page { padding: 120px clamp(16px, 5vw, 88px) 80px; max-width: 760px; margin: 0 auto; }
+      .article-page h1 { font-size: clamp(32px, 3.5vw, 52px); font-weight: 400; margin: 16px 0 24px; line-height: 1.1; }
+      .article-page h1 span { color: var(--red); }
+      .article-page .article-meta { font-family: var(--tech); font-size: 12px; text-transform: uppercase; color: var(--gray-700); letter-spacing: 0.04em; }
+      .article-page .lede { font-size: clamp(17px, 1.5vw, 19px); line-height: 1.6; color: var(--gray-900, #222); margin: 0 0 40px; }
+      .article-page h2 { font-size: clamp(22px, 2.2vw, 30px); font-weight: 500; margin: 48px 0 16px; line-height: 1.25; }
+      .article-page h3 { font-size: clamp(18px, 1.8vw, 22px); font-weight: 500; margin: 32px 0 12px; }
+      .article-page p, .article-page li { font-size: 16px; line-height: 1.7; color: var(--gray-900, #222); }
+      .article-page p { margin: 0 0 18px; }
+      .article-page ul, .article-page ol { padding-left: 22px; margin: 0 0 24px; }
+      .article-page li { margin-bottom: 8px; }
+      .article-page a { color: var(--black); text-decoration: underline; text-underline-offset: 3px; }
+      .article-page a:hover { color: var(--red); }
+      .article-page blockquote { border-left: 3px solid var(--red); padding: 4px 0 4px 20px; margin: 24px 0; font-style: italic; color: var(--gray-700); }
+      .article-page .faq { margin-top: 64px; padding-top: 40px; border-top: 1px solid var(--gray-200); }
+      .article-page .faq h2 { margin-top: 0; }
+      .article-page .faq details { padding: 16px 0; border-bottom: 1px solid var(--gray-200); }
+      .article-page .faq summary { font-family: var(--tech); font-size: 14px; font-weight: 700; cursor: pointer; }
+      .article-page .faq details[open] summary { color: var(--red); }
+      .article-page .faq details p { margin: 12px 0 0; }
+      .article-page .end-cta { margin-top: 64px; padding: 32px clamp(20px, 4vw, 48px); border: 1px solid var(--gray-200); background: #f7f7f7; }
+      .article-page .end-cta h3 { margin: 0 0 8px; }
+      .article-page .end-cta p { font-family: var(--tech); text-transform: uppercase; font-size: 12px; letter-spacing: 0.04em; color: var(--gray-700); margin: 0 0 16px; }
+      .article-page .end-cta a { display: inline-block; font-family: var(--tech); font-size: 13px; font-weight: 700; text-transform: uppercase; background: var(--black); color: var(--white); padding: 14px 22px; text-decoration: none; }
+      .article-page .end-cta a:hover { background: var(--red); }
+      .article-breadcrumbs { font-family: var(--tech); font-size: 11px; text-transform: uppercase; color: var(--gray-700); letter-spacing: 0.04em; margin: 0 0 8px; }
+      .article-breadcrumbs a { color: var(--gray-700); text-decoration: none; }
+      .article-breadcrumbs a:hover { color: var(--black); }
+      .article-page table { width: 100%; border-collapse: collapse; margin: 0 0 24px; font-size: 15px; }
+      .article-page th, .article-page td { border: 1px solid var(--gray-200, #e5e5e5); padding: 10px 12px; text-align: left; line-height: 1.4; }
+      .article-page th { background: #f7f7f7; font-weight: 600; }
+    </style>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://zurichbiotech.com/" },
+            { "@type": "ListItem", "position": 2, "name": "Resources", "item": "https://zurichbiotech.com/resources/" },
+            { "@type": "ListItem", "position": 3, "name": "Peptide dosing math guide", "item": "https://zurichbiotech.com/resources/peptide-dosing-math-guide/" }
+          ]
+        },
+        {
+          "@type": "Article",
+          "@id": "https://zurichbiotech.com/resources/peptide-dosing-math-guide/#article",
+          "headline": "Peptide dosing math: concentration, volume, and units",
+          "description": "Peptide dosing math: how to calculate reconstitution concentration, convert mg to mcg, and determine the correct U-100 syringe draw volume. Worked examples.",
+          "image": "https://zurichbiotech.com/assets/protocol-reference.png",
+          "datePublished": "2026-07-02",
+          "dateModified": "2026-07-02",
+          "author": { "@id": "https://zurichbiotech.com/#organization" },
+          "publisher": { "@id": "https://zurichbiotech.com/#organization" },
+          "mainEntityOfPage": "https://zurichbiotech.com/resources/peptide-dosing-math-guide/",
+          "articleSection": "Protocol",
+          "inLanguage": "en",
+          "isPartOf": { "@id": "https://zurichbiotech.com/resources/#blog" }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is the formula for calculating peptide concentration after reconstitution?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Concentration (mg/mL) = peptide mass in mg divided by solvent volume added in mL. A 5 mg vial reconstituted with 2 mL gives 2.5 mg/mL, which equals 2,500 mcg/mL. Multiply any mg/mL figure by 1,000 to convert to mcg/mL."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How many mcg are in one U-100 syringe unit?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "It depends on the concentration of the reconstituted solution. At 1,000 mcg/mL each unit holds 10 mcg. At 2,500 mcg/mL each unit holds 25 mcg. At 5,000 mcg/mL each unit holds 50 mcg. The formula is: mcg per unit = concentration in mcg/mL divided by 100."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I calculate how many draws a vial will give?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Divide the total peptide mass in the vial (in mcg) by the target dose per draw (in mcg). A 5 mg (5,000 mcg) vial at 250 mcg per draw provides 20 draws. A 10 mg vial at the same dose gives 40 draws."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Why do protocols typically reconstitute with 1-2 mL per 5 mg vial?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Lower volumes produce higher concentrations, which can reduce the draw volume below 5 syringe units. Very small draws are harder to measure accurately on an insulin syringe. Keeping concentration in a range that produces 5-30 unit draws reduces measurement error."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What happens if I add more solvent than intended during reconstitution?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The concentration decreases proportionally. Adding 3 mL to a 5 mg vial gives 1.67 mg/mL instead of the intended 2.5 mg/mL from 2 mL. Every dose draw calculated from the assumed concentration then delivers about 67% of the intended amount."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I use a U-40 insulin syringe instead of U-100?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A U-40 syringe has 40 unit marks per mL, so each unit represents 0.025 mL rather than 0.01 mL. The draw calculation changes accordingly. Most published peptide research protocols specify U-100 syringes, so using a U-40 syringe requires recalculating every draw volume."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
+  <!-- Vercel Web Analytics -->
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
+  <body>
+    <header class="site-header" aria-label="Primary navigation">
+      <a class="brand" href="/" aria-label="Zurich Biotech home">Zurich Biotech<span>+</span></a>
+      <nav>
+        <a href="/#protocols">Protocols</a>
+        <a href="/#science">Science</a>
+        <a href="/#compounds">Compounds</a>
+        <a href="/resources/">Resources</a>
+        <a href="/#truth">About</a>
+        <a class="nav-cta" href="/cart.html" aria-label="Cart">Your Cart <span class="cart-count" id="cartCount">0</span></a>
+      </nav>
+    </header>
+
+    <main class="article-page" id="top">
+      <nav class="article-breadcrumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a> / <a href="/resources/">Resources</a> / <span>Peptide dosing math guide</span>
+      </nav>
+      <p class="article-meta">Protocol · July 2, 2026</p>
+      <h1>Peptide dosing math for research: concentration, volume, and unit calculations<span>+</span></h1>
+      <p class="lede">Peptide dosing math has three steps: calculate the concentration after reconstitution, convert that concentration to micrograms per milliliter, then determine the draw volume in syringe units. Errors in research protocols almost always come from mismatched units, not from the arithmetic itself.</p>
+
+      <article>
+        <h2>What peptide dosing math is</h2>
+
+        <p>Peptide dosing math is the arithmetic connecting the mass of lyophilized peptide in a vial to the volume of solution drawn into a syringe. Three sequential calculations link those two quantities: reconstitute to a known concentration, convert that concentration to micrograms per milliliter, then calculate the draw volume in U-100 syringe units.</p>
+
+        <p>The calculations are not difficult. Where protocols break down is in unit conversions, particularly when milligrams, micrograms, milliliters, and syringe unit marks appear in the same calculation without explicit matching at each step. Writing out the units alongside each number is the practical check that catches errors before they propagate.</p>
+
+        <h2>Step 1: calculate concentration after reconstitution</h2>
+
+        <p>Reconstitution concentration depends on how much solvent you add to the vial. The formula is:</p>
+
+        <p><strong>Concentration (mg/mL) = peptide mass (mg) / solvent volume added (mL)</strong></p>
+
+        <p>A 5 mg vial reconstituted with 2 mL of bacteriostatic water gives 2.5 mg/mL. Add 1 mL instead and the concentration doubles to 5 mg/mL. Add 5 mL and it falls to 1 mg/mL. The peptide mass in the vial does not change; the solvent volume is the only variable that determines concentration.</p>
+
+        <p>The <a href="https://www.ncbi.nlm.nih.gov/books/NBK560924/">StatPearls Pharmacy Calculations chapter</a> (NCBI Bookshelf) describes this as an inverse relationship: doubling the solvent volume halves the concentration, and halving the volume doubles it. That inverse relationship is why accurate solvent measurement matters so much at the reconstitution step. A 10% error in solvent volume produces a 10% error in every subsequent dose drawn from that vial.</p>
+
+        <p>Standard research protocols typically use 1 mL to 2 mL per 5 mg vial. This range keeps concentration high enough to avoid very large draw volumes while keeping it low enough that small doses remain above 5 syringe units, which is the practical minimum for accurate measurement on a standard insulin syringe.</p>
+
+        <h2>Step 2: convert to mcg/mL</h2>
+
+        <p>Most research protocols specify target amounts in micrograms (mcg), not milligrams (mg). One milligram equals 1,000 micrograms. The conversion is:</p>
+
+        <p><strong>Concentration (mcg/mL) = Concentration (mg/mL) x 1,000</strong></p>
+
+        <p>A 2.5 mg/mL solution is 2,500 mcg/mL. A 1 mg/mL solution is 1,000 mcg/mL. A 5 mg/mL solution is 5,000 mcg/mL.</p>
+
+        <p>Working in mcg/mL rather than mg/mL throughout keeps units consistent with the target dose specification and eliminates the most common source of 1,000-fold errors. If the protocol calls for 250 mcg, express the stock concentration in mcg/mL from the start and the subsequent calculation requires no additional conversion.</p>
+
+        <h2>Step 3: calculate the draw volume in syringe units</h2>
+
+        <p>A standard U-100 insulin syringe holds 1 mL divided into 100 unit marks. Each unit mark represents 0.01 mL. To convert a target microgram dose to the number of units to draw, apply the method described in the StatPearls <a href="https://www.ncbi.nlm.nih.gov/books/NBK493162/">Dose Calculation: Desired Over Have Method</a> (NCBI Bookshelf): divide the desired dose by the available concentration, then scale to the syringe unit system.</p>
+
+        <p><strong>Units to draw = (Target dose in mcg / Concentration in mcg/mL) x 100</strong></p>
+
+        <p>The division gives the fraction of a milliliter needed. Multiplying by 100 converts that fraction to U-100 syringe units.</p>
+
+        <p>With a target dose of 250 mcg and a concentration of 2,500 mcg/mL:</p>
+        <p>(250 / 2,500) x 100 = 10 units</p>
+
+        <p>With the same 250 mcg dose at a higher concentration of 5,000 mcg/mL:</p>
+        <p>(250 / 5,000) x 100 = 5 units</p>
+
+        <p>Doubling the concentration halves the draw volume. This is the primary lever researchers use to set protocol precision. The <a href="/dosing-calculator/">Zurich Biotech dosing calculator</a> automates these steps for common compounds and vial sizes.</p>
+
+        <h2>Concentration and draw volume reference</h2>
+
+        <p>The table below shows draw volumes in syringe units for common research dose targets across typical reconstitution concentrations. Values assume a U-100 insulin syringe (100 units = 1 mL). For a full explanation of U-100 syringe markings, see <a href="/resources/u100-insulin-syringe-peptide-units/">U-100 insulin syringes for peptide research</a>.</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Concentration</th>
+              <th>100 mcg dose</th>
+              <th>250 mcg dose</th>
+              <th>500 mcg dose</th>
+              <th>1,000 mcg dose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1,000 mcg/mL (1 mg/mL)</td>
+              <td>10 units</td>
+              <td>25 units</td>
+              <td>50 units</td>
+              <td>100 units</td>
+            </tr>
+            <tr>
+              <td>2,500 mcg/mL (2.5 mg/mL)</td>
+              <td>4 units</td>
+              <td>10 units</td>
+              <td>20 units</td>
+              <td>40 units</td>
+            </tr>
+            <tr>
+              <td>5,000 mcg/mL (5 mg/mL)</td>
+              <td>2 units</td>
+              <td>5 units</td>
+              <td>10 units</td>
+              <td>20 units</td>
+            </tr>
+            <tr>
+              <td>10,000 mcg/mL (10 mg/mL)</td>
+              <td>1 unit</td>
+              <td>2.5 units</td>
+              <td>5 units</td>
+              <td>10 units</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>At 10,000 mcg/mL, a 100 mcg dose requires only 1 unit, which is at the practical limit of accurate measurement on a standard insulin syringe. Most research protocols stay at or below 5,000 mcg/mL to keep small doses in a range that can be reliably measured.</p>
+
+        <h2>Full worked example</h2>
+
+        <p>Vial: 5 mg BPC-157. Target research dose: 250 mcg. Solvent added: 2 mL bacteriostatic water.</p>
+
+        <p>Step 1: 5 mg / 2 mL = 2.5 mg/mL</p>
+        <p>Step 2: 2.5 x 1,000 = 2,500 mcg/mL</p>
+        <p>Step 3: (250 / 2,500) x 100 = 10 units to draw</p>
+
+        <p>Total vial content: 5,000 mcg. At 250 mcg per draw, the vial gives 5,000 / 250 = 20 draws before it is empty.</p>
+
+        <p>A second scenario: a 10 mg vial reconstituted with 1 mL gives 10,000 mcg/mL. A 500 mcg dose from this vial requires (500 / 10,000) x 100 = 5 units. At this concentration each syringe unit carries 100 mcg, which makes dose targets below 100 mcg impractical to measure accurately. Reconstituting the same vial with 2 mL (5,000 mcg/mL) would give 10 units for the same 500 mcg dose and allow targets as low as 50 mcg to be measured at a single unit.</p>
+
+        <p>For the reconstitution step including BAC water technique and vial handling, see the <a href="/resources/peptide-reconstitution-bac-water-guide/">peptide reconstitution with bacteriostatic water guide</a>.</p>
+
+        <h2>Common errors and how protocols address them</h2>
+
+        <p>Three unit-matching errors account for most dosing mistakes in peptide research:</p>
+
+        <ul>
+          <li>Milligram vs microgram confusion. A 5 mg vial contains 5,000 mcg. Reading the vial as "5 mcg" places every subsequent calculation off by a factor of 1,000 in the wrong direction.</li>
+          <li>Syringe units vs milliliters. Each unit on a U-100 syringe is 0.01 mL, not 1 mL. Drawing "10 mL" when the protocol calls for 10 units would require a syringe larger than the vial. The more subtle version is confusing units with microliters: 10 units is 0.1 mL or 100 microliters, not 10 microliters.</li>
+          <li>Inaccurate solvent volume at reconstitution. If the protocol calls for 2 mL but 1.7 mL is added, the actual concentration becomes 5 mg / 1.7 mL = 2.94 mg/mL, not 2.5 mg/mL. Every draw from that vial delivers roughly 18% more than intended. Using a dedicated transfer syringe or a graduated measure for the solvent, rather than estimating by eye, prevents this error.</li>
+        </ul>
+
+        <p>The StatPearls chapter on <a href="https://www.ncbi.nlm.nih.gov/books/NBK430836/">Dose Calculation</a> (Gage and Preuss, NCBI Bookshelf, updated 2023) recommends writing out units explicitly at each step of a liquid dosing calculation rather than relying on unit conversions held in memory. That recommendation applies directly to peptide research math: an explicit unit label on each number in the three-step chain catches mismatches before they reach the syringe.</p>
+
+        <h2>Storage conditions and dosing accuracy in Indonesian research settings</h2>
+
+        <p>Dosing math gives the correct answer only when the solution in the vial matches the assumed concentration. In Indonesia's climate, ambient temperatures in Bali, Jakarta, and Surabaya routinely exceed 30 degrees C, and humidity stays above 70% through most of the year. Reconstituted peptide solutions stored above 8 degrees C degrade faster than stability data from temperate labs would predict.</p>
+
+        <p>An aggregated or partially degraded solution does not deliver the calculated dose. Peptide that has precipitated or formed oligomers contributes unpredictably to biologically active mass, regardless of how accurate the original calculation was. Research protocols in tropical settings should confirm that vials are stored between 2 and 8 degrees C, that the solution appears clear before each draw, and that the vial is used within the stability window documented for the specific compound.</p>
+
+        <p>See the <a href="/#compounds">compound catalog</a> for compound-specific storage data, and the <a href="/dosing-calculator/">dosing calculator</a> to estimate vial duration based on draw frequency, which helps plan a protocol around realistic refrigerated storage windows.</p>
+      </article>
+
+      <section class="faq" aria-labelledby="faq-title">
+        <h2 id="faq-title">FAQ</h2>
+
+        <details>
+          <summary>What is the formula for calculating peptide concentration after reconstitution?</summary>
+          <p>Concentration (mg/mL) = peptide mass in mg divided by solvent volume added in mL. A 5 mg vial reconstituted with 2 mL gives 2.5 mg/mL, which equals 2,500 mcg/mL. Multiply any mg/mL figure by 1,000 to convert to mcg/mL.</p>
+        </details>
+
+        <details>
+          <summary>How many mcg are in one U-100 syringe unit?</summary>
+          <p>It depends on the concentration of the reconstituted solution. At 1,000 mcg/mL each unit holds 10 mcg. At 2,500 mcg/mL each unit holds 25 mcg. At 5,000 mcg/mL each unit holds 50 mcg. The formula is: mcg per unit = concentration in mcg/mL divided by 100.</p>
+        </details>
+
+        <details>
+          <summary>How do I calculate how many draws a vial will give?</summary>
+          <p>Divide the total peptide mass in the vial (in mcg) by the target dose per draw (in mcg). A 5 mg (5,000 mcg) vial at 250 mcg per draw provides 20 draws. A 10 mg vial at the same dose gives 40 draws.</p>
+        </details>
+
+        <details>
+          <summary>Why do protocols typically reconstitute with 1-2 mL per 5 mg vial?</summary>
+          <p>Lower volumes produce higher concentrations, which can reduce the draw volume below 5 syringe units. Very small draws are harder to measure accurately on an insulin syringe. Keeping concentration in a range that produces 5-30 unit draws reduces measurement error.</p>
+        </details>
+
+        <details>
+          <summary>What happens if I add more solvent than intended during reconstitution?</summary>
+          <p>The concentration decreases proportionally. Adding 3 mL to a 5 mg vial gives 1.67 mg/mL instead of the intended 2.5 mg/mL from 2 mL. Every dose draw calculated from the assumed concentration then delivers about 67% of the intended amount.</p>
+        </details>
+
+        <details>
+          <summary>Can I use a U-40 insulin syringe instead of U-100?</summary>
+          <p>A U-40 syringe has 40 unit marks per mL, so each unit represents 0.025 mL rather than 0.01 mL. The draw calculation changes accordingly. Most published peptide research protocols specify U-100 syringes, so using a U-40 syringe requires recalculating every draw volume.</p>
+        </details>
+      </section>
+
+      <aside class="end-cta" aria-label="Browse compounds">
+        <h3>Browse the research peptide catalog</h3>
+        <p>Shipped across Bali, Jakarta, Surabaya, Yogyakarta and tier-1 Indonesia. Research use only.</p>
+        <a href="/#compounds">View Compounds +</a>
+      </aside>
+    </main>
+
+    <script src="/script.js"></script>
+  </body>
+</html>
