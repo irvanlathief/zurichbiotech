@@ -475,7 +475,11 @@
       "priority": 1,
       "intent": "informational",
       "internal_link_targets": ["/resources/peptide-reconstitution-bac-water-guide/", "/resources/bacteriostatic-water-vs-sterile-water/", "/dosing-calculator/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-07-03",
+        "url": "https://zurichbiotech.com/resources/aseptic-technique-peptide-research/"
+      }
     },
     {
       "id": 30,
