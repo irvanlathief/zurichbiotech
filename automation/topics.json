@@ -491,7 +491,11 @@
       "priority": 1,
       "intent": "informational",
       "internal_link_targets": ["/resources/bacteriostatic-water-vs-sterile-water/", "/resources/lyophilized-peptide-storage/", "/dosing-calculator/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-07-04",
+        "url": "https://zurichbiotech.com/resources/multi-dose-vial-peptide-protocol/"
+      }
     },
     {
       "id": 31,
