@@ -1,0 +1,308 @@
+<!doctype html>
+<!--
+  Zurich Biotech article template.
+
+  Replace every {{ PLACEHOLDER }} below with real content, then save as:
+    /resources/<slug>/index.html
+
+  After saving the file, append the URL to /sitemap.xml under the
+  <urlset> root. Example:
+
+    <url>
+      <loc>https://zurichbiotech.com/resources/{{SLUG}}/</loc>
+      <lastmod>{{ISO_DATE}}</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.7</priority>
+    </url>
+
+  Also add a card to /resources/index.html inside the <div id="articlesGrid">
+  block (between the ARTICLES_START / ARTICLES_END comments).
+
+  Required replacements:
+    {{TITLE}}            - page title, ~60 chars, include primary keyword + brand
+    {{META_DESC}}        - meta description, ~150-160 chars, primary keyword + city
+    {{KEYWORDS}}         - comma-separated, ~10 terms
+    {{SLUG}}             - URL slug, kebab-case, no trailing slash (e.g. "bpc-157-bali")
+    {{ISO_DATE}}         - ISO 8601, e.g. "2026-05-28"
+    {{HUMAN_DATE}}       - display date, e.g. "May 28, 2026"
+    {{OG_IMAGE}}         - full URL to a 1200x630 image; default to /assets/hero-mots-c.png
+    {{H1}}               - H1 heading, can match TITLE without brand suffix
+    {{LEDE}}             - 1-2 sentence intro paragraph; should include primary keyword once
+    {{BODY_HTML}}        - main body, use <h2>/<h3>/<p>/<ul>; aim for >800 words
+    {{FAQ_JSONLD}}       - array of {question, answer} objects for FAQ schema
+    {{FAQ_HTML}}         - visible FAQ block matching the schema entries
+    {{BREADCRUMB_NAME}}  - short label for breadcrumb, e.g. "BPC-157 in Bali"
+    {{CATEGORY}}         - Article category, e.g. "Protocol", "City Guide", "Compound Guide"
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Peptide aggregation: causes and prevention | Zurich Biotech</title>
+    <meta name="description" content="What causes peptide aggregation in reconstituted research solutions, how to detect it early, and practical prevention strategies for research protocols." />
+    <meta name="keywords" content="peptide aggregation, peptide self-assembly, amyloid peptide aggregation, peptide solubility aggregation, preventing peptide clumping, peptide stability in solution, hydrophobic peptide aggregation, reconstituted peptide stability, research peptide handling, peptide aggregation prevention" />
+    <link rel="canonical" href="https://zurichbiotech.com/resources/peptide-aggregation-causes-prevention/" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    <meta name="author" content="Zurich Biotech" />
+
+    <meta name="geo.region" content="ID-BA" />
+    <meta name="geo.placename" content="Canggu, Bali, Indonesia" />
+    <meta name="geo.position" content="-8.6478;115.1385" />
+    <meta name="ICBM" content="-8.6478, 115.1385" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Zurich Biotech" />
+    <meta property="og:title" content="Peptide aggregation: causes and prevention" />
+    <meta property="og:description" content="What causes peptide aggregation in reconstituted research solutions, how to detect it early, and practical prevention strategies for research protocols." />
+    <meta property="og:url" content="https://zurichbiotech.com/resources/peptide-aggregation-causes-prevention/" />
+    <meta property="og:image" content="https://zurichbiotech.com/assets/protocol-reference.png" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="article:published_time" content="2026-07-05" />
+    <meta property="article:section" content="Protocol" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Peptide aggregation: causes and prevention" />
+    <meta name="twitter:description" content="What causes peptide aggregation in reconstituted research solutions, how to detect it early, and practical prevention strategies for research protocols." />
+    <meta name="twitter:image" content="https://zurichbiotech.com/assets/protocol-reference.png" />
+
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+
+    <style>
+      .article-page { padding: 120px clamp(16px, 5vw, 88px) 80px; max-width: 760px; margin: 0 auto; }
+      .article-page h1 { font-size: clamp(32px, 3.5vw, 52px); font-weight: 400; margin: 16px 0 24px; line-height: 1.1; }
+      .article-page h1 span { color: var(--red); }
+      .article-page .article-meta { font-family: var(--tech); font-size: 12px; text-transform: uppercase; color: var(--gray-700); letter-spacing: 0.04em; }
+      .article-page .lede { font-size: clamp(17px, 1.5vw, 19px); line-height: 1.6; color: var(--gray-900, #222); margin: 0 0 40px; }
+      .article-page h2 { font-size: clamp(22px, 2.2vw, 30px); font-weight: 500; margin: 48px 0 16px; line-height: 1.25; }
+      .article-page h3 { font-size: clamp(18px, 1.8vw, 22px); font-weight: 500; margin: 32px 0 12px; }
+      .article-page p, .article-page li { font-size: 16px; line-height: 1.7; color: var(--gray-900, #222); }
+      .article-page p { margin: 0 0 18px; }
+      .article-page ul, .article-page ol { padding-left: 22px; margin: 0 0 24px; }
+      .article-page li { margin-bottom: 8px; }
+      .article-page a { color: var(--black); text-decoration: underline; text-underline-offset: 3px; }
+      .article-page a:hover { color: var(--red); }
+      .article-page blockquote { border-left: 3px solid var(--red); padding: 4px 0 4px 20px; margin: 24px 0; font-style: italic; color: var(--gray-700); }
+      .article-page .faq { margin-top: 64px; padding-top: 40px; border-top: 1px solid var(--gray-200); }
+      .article-page .faq h2 { margin-top: 0; }
+      .article-page .faq details { padding: 16px 0; border-bottom: 1px solid var(--gray-200); }
+      .article-page .faq summary { font-family: var(--tech); font-size: 14px; font-weight: 700; cursor: pointer; }
+      .article-page .faq details[open] summary { color: var(--red); }
+      .article-page .faq details p { margin: 12px 0 0; }
+      .article-page .end-cta { margin-top: 64px; padding: 32px clamp(20px, 4vw, 48px); border: 1px solid var(--gray-200); background: #f7f7f7; }
+      .article-page .end-cta h3 { margin: 0 0 8px; }
+      .article-page .end-cta p { font-family: var(--tech); text-transform: uppercase; font-size: 12px; letter-spacing: 0.04em; color: var(--gray-700); margin: 0 0 16px; }
+      .article-page .end-cta a { display: inline-block; font-family: var(--tech); font-size: 13px; font-weight: 700; text-transform: uppercase; background: var(--black); color: var(--white); padding: 14px 22px; text-decoration: none; }
+      .article-page .end-cta a:hover { background: var(--red); }
+      .article-breadcrumbs { font-family: var(--tech); font-size: 11px; text-transform: uppercase; color: var(--gray-700); letter-spacing: 0.04em; margin: 0 0 8px; }
+      .article-breadcrumbs a { color: var(--gray-700); text-decoration: none; }
+      .article-breadcrumbs a:hover { color: var(--black); }
+    </style>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://zurichbiotech.com/" },
+            { "@type": "ListItem", "position": 2, "name": "Resources", "item": "https://zurichbiotech.com/resources/" },
+            { "@type": "ListItem", "position": 3, "name": "Peptide aggregation guide", "item": "https://zurichbiotech.com/resources/peptide-aggregation-causes-prevention/" }
+          ]
+        },
+        {
+          "@type": "Article",
+          "@id": "https://zurichbiotech.com/resources/peptide-aggregation-causes-prevention/#article",
+          "headline": "Peptide aggregation: causes and prevention",
+          "description": "What causes peptide aggregation in reconstituted research solutions, how to detect it early, and practical prevention strategies for research protocols.",
+          "image": "https://zurichbiotech.com/assets/protocol-reference.png",
+          "datePublished": "2026-07-05",
+          "dateModified": "2026-07-05",
+          "author": { "@id": "https://zurichbiotech.com/#organization" },
+          "publisher": { "@id": "https://zurichbiotech.com/#organization" },
+          "mainEntityOfPage": "https://zurichbiotech.com/resources/peptide-aggregation-causes-prevention/",
+          "articleSection": "Protocol",
+          "inLanguage": "en",
+          "isPartOf": { "@id": "https://zurichbiotech.com/resources/#blog" }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What does peptide aggregation look like in a vial?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "In mild cases the solution becomes cloudy or opalescent. At advanced stages, visible white or gray particles are present. A correctly reconstituted research peptide at typical working concentrations should appear optically clear. Turbidity against a white or dark background is a practical first check before each use."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can aggregated peptide solutions be recovered and used?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Amorphous aggregates sometimes partially redisperse after pH adjustment or dilution, but the remaining monomer fraction is unknown. Fibrillar aggregates are essentially irreversible. In both cases the nominal concentration is unreliable and the solution should be discarded rather than used in quantitative experiments."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "At what concentration does peptide aggregation typically become a problem?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The threshold varies by sequence. Hydrophilic peptides often remain stable above 5 mg/ml, while hydrophobic sequences can aggregate below 1 mg/ml. The critical aggregation concentration shifts with pH, temperature, and ionic strength. No universal rule applies across all research peptides."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does freezing stop peptide aggregation?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Freezing slows aggregation kinetics substantially but does not reverse existing aggregates. Repeated freeze-thaw cycles create localized concentration spikes during ice crystal formation that can seed new aggregates. Single-use aliquots are preferred over repeated thawing from a single stored vial."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How does pH affect peptide aggregation risk?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "At pH values near the isoelectric point, net peptide charge approaches zero and electrostatic repulsion drops, raising aggregation risk. Reconstituting at least 2 pH units away from the isoelectric point maintains charge repulsion and typically stabilizes the solution at working concentrations."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
+  <!-- Vercel Web Analytics -->
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
+  <body>
+    <header class="site-header" aria-label="Primary navigation">
+      <a class="brand" href="/" aria-label="Zurich Biotech home">Zurich Biotech<span>+</span></a>
+      <nav>
+        <a href="/#protocols">Protocols</a>
+        <a href="/#science">Science</a>
+        <a href="/#compounds">Compounds</a>
+        <a href="/resources/">Resources</a>
+        <a href="/#truth">About</a>
+        <a class="nav-cta" href="/cart.html" aria-label="Cart">Your Cart <span class="cart-count" id="cartCount">0</span></a>
+      </nav>
+    </header>
+
+    <main class="article-page" id="top">
+      <nav class="article-breadcrumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a> / <a href="/resources/">Resources</a> / <span>Peptide aggregation guide</span>
+      </nav>
+      <p class="article-meta">Protocol &middot; July 5, 2026</p>
+      <h1>Peptide aggregation in solution: causes, detection, and prevention<span>+</span></h1>
+      <p class="lede">Peptide aggregation occurs when dissolved peptide monomers cluster into oligomeric or fibrillar structures, reducing bioavailable concentration and making experimental dosing unreliable. Understanding what drives aggregation, how to detect it before it compromises a vial, and how to prevent it is a practical requirement for any peptide research protocol.</p>
+
+      <article>
+        <h2>What is peptide aggregation</h2>
+
+        <p>Peptide aggregation describes the process by which individual dissolved chains associate into larger multimeric structures. These structures range from small soluble oligomers a few nanometers across to large insoluble precipitates visible to the naked eye. In both cases the nominal concentration of the solution no longer reflects the available monomer, which introduces systematic dosing error into any animal model or in vitro experiment.</p>
+
+        <p>A 2017 review by Zapadka, Becher, Gomes dos Santos, and Jackson at the University of Cambridge and MedImmune, published in <em>Interface Focus</em> (<a href="https://pubmed.ncbi.nlm.nih.gov/29147559/">Zapadka et al., PMID 29147559</a>), surveyed the stability challenges across therapeutic peptides and identified two broad aggregate morphologies. Amorphous aggregates lack internal order and form relatively quickly under mechanical or thermal stress. Fibrillar aggregates are beta-sheet-based structures that nucleate slowly but, once past a lag phase, grow rapidly and are nearly impossible to redissolve.</p>
+
+        <p>Both types are a problem in research settings. Amorphous aggregates can partially redisperse under some conditions, meaning the effective concentration becomes uncertain and variable across draws from the same vial. Fibrillar aggregates are stable and produce a permanent reduction in monomer concentration from the first moment of nucleation.</p>
+
+        <h2>Causes of peptide aggregation in solution</h2>
+
+        <p>Hydrophobicity is the main driver. Peptide sequences containing stretches of nonpolar amino acids, particularly leucine, valine, phenylalanine, and isoleucine, have a thermodynamic preference for excluding water from those residues. In dilute solution this burial happens intramolecularly. At higher concentrations, intermolecular contact between hydrophobic patches becomes more probable, and clusters form and grow.</p>
+
+        <p>Concentration is a direct multiplier of that risk. Above a peptide-specific critical aggregation concentration (CAC), the rate of productive intermolecular encounter increases substantially. A 2005 review by Wei Wang in the <em>International Journal of Pharmaceutics</em> (<a href="https://pubmed.ncbi.nlm.nih.gov/15652195/">Wang W, vol. 289(1-2):1-30</a>) noted that even modest concentration increases above the CAC can shift a stable solution into rapid aggregation, especially for peptides with partially surface-exposed hydrophobic patches.</p>
+
+        <p>pH relative to the isoelectric point (pI) determines the net charge on the dissolved peptide. Near the pI, net charge approaches zero, electrostatic repulsion between molecules drops, and aggregation accelerates. Reconstituting at a pH at least 2 units away from the pI restores charge repulsion and typically improves solubility and stability. The pI for a given peptide can be estimated from the sequence or is listed on the manufacturer's COA.</p>
+
+        <p>Temperature affects both the rate of intermolecular collision and the stability of secondary structure. Higher temperatures increase collision frequency and destabilize folded regions, transiently exposing aggregation-prone stretches that would otherwise be buried. Storage at 2-8°C substantially slows these processes. For multi-week storage of reconstituted solutions, -20°C or -80°C is standard in published animal model protocols.</p>
+
+        <p>Ionic strength modulates the electrostatic component. High salt concentrations screen repulsive charges and can lower the activation barrier for aggregation in charged peptides. For peptides where electrostatic repulsion is the primary stabilizing force, reconstituting in low-ionic-strength diluents reduces aggregate formation at equivalent concentration.</p>
+
+        <p>Surface contact adds a further nucleation pathway. Peptides adsorb to the inner walls of glass and plastic containers. Adsorption can partially unfold the molecule and create surface nucleation sites from which aggregates grow into the bulk solution. Mechanical agitation, which repeatedly drives peptide-rich solution against container walls, accelerates this mechanism. Insulin fibrillation in plastic syringes during agitation is the most studied example of surface-mediated aggregation.</p>
+
+        <h2>Amorphous and fibrillar aggregates: two different problems</h2>
+
+        <p>The two aggregate types behave differently and require different detection approaches. Knowing which type is likely for a given peptide guides both storage choices and the decision about whether a cloudy vial might be salvageable.</p>
+
+        <p>Amorphous aggregates are disordered and form relatively fast under stress conditions such as elevated temperature, high concentration, or mechanical shock. They scatter visible light and produce cloudiness or turbidity that is detectable before visible particles form. Because they lack cooperative internal structure, some amorphous aggregates partially redisperse when conditions change, but the resulting monomer fraction is unknown and variable, making the solution unreliable for quantitative use.</p>
+
+        <p>Fibrillar aggregates grow through a cooperative, nucleation-dependent process. During the lag phase, which can last hours to days depending on sequence and conditions, the solution appears clear even as pre-fibrillar oligomers accumulate. Once a critical nucleus size is reached, rapid elongation follows and turbidity develops quickly. The 2023 review by Nugrahadi, Hinrichs, Frijlink, Schöneich, and Avanti, published in <em>Pharmaceutics</em> (<a href="https://pubmed.ncbi.nlm.nih.gov/36986796/">Nugrahadi et al., PMID 36986796</a>), documented fibrillar aggregation as a recognized stability challenge for GLP-1 analogues and other therapeutic peptides in aqueous formulations, with lag time depending on pH, ionic strength, temperature, agitation, and substrate interface.</p>
+
+        <p>The practical difference is reversibility. Amorphous aggregates sometimes respond to pH or dilution adjustment. Fibrils do not. A vial with any fibrillar aggregates should be discarded.</p>
+
+        <h2>Detecting aggregation in research protocols</h2>
+
+        <p>Visual inspection is the starting point. Hold the vial against a white background, then against a dark background. A correctly reconstituted peptide at typical research concentrations is optically clear. Cloudiness, opalescence, or visible particles against either background is a definitive sign of aggregation. Discard any turbid vial rather than diluting and proceeding.</p>
+
+        <p>UV absorbance at 350 nm identifies sub-visible scattering before cloudiness is apparent to the eye. A reconstituted peptide solution reading above 0.01 absorbance units at 350 nm, in the absence of any chromophore absorbing at that wavelength, contains aggregates large enough to scatter light. Reading simultaneously at 280 nm confirms total peptide concentration through tyrosine and tryptophan absorbance.</p>
+
+        <p>Filter-based assessment provides a semi-quantitative check without specialized equipment. Pass the reconstituted solution through a 0.22-micron syringe filter and measure UV absorbance of the filtrate against the pre-filtered solution. A drop in filtrate concentration greater than 5-10% indicates aggregates large enough to be captured by the membrane have formed. This method does not detect oligomers smaller than the filter pore, but it catches the aggregate populations most likely to affect dosing accuracy.</p>
+
+        <p>Dynamic light scattering (DLS) gives the most detailed picture. DLS measures the size distribution of particles in solution by tracking Brownian motion. A monomer-only sample of a typical 10-50 amino acid research peptide shows a single population at 1-5 nm hydrodynamic radius. Appearance of a second population above 20 nm, or a shift in the main peak toward larger sizes, confirms aggregation in solutions that remain visually clear.</p>
+
+        <h2>Prevention strategies for research protocols</h2>
+
+        <p>Reconstitute at the lowest concentration that the protocol permits. Concentration is the largest aggregation risk factor that researchers directly control. If a protocol requires concentrated stock, prepare it fresh immediately before use rather than storing at high concentration and drawing from it repeatedly.</p>
+
+        <p>Choose the diluent pH based on the peptide's isoelectric point. For most basic research peptides such as BPC-157, the GHRPs, and CJC-1295, <a href="/resources/bacteriostatic-water-vs-sterile-water/">bacteriostatic water</a> at approximately pH 5 keeps the solution in a range that maintains charge repulsion without requiring buffer preparation. For acidic peptides, a phosphate or acetate buffer near pH 6.5-7.5 is typically more appropriate. When in doubt, check the sequence charge or the manufacturer's COA for pI data.</p>
+
+        <p>For a practical guide to how solvent composition affects peptide stability and solubility, see the article on <a href="/resources/peptide-solubility-guide/">peptide solubility and diluent selection</a>. The choice of diluent affects both initial solubility and long-term aggregate formation.</p>
+
+        <p>Keep temperature controlled throughout the vial's working life. Reconstituted peptide solutions stored at 2-8°C remain stable for days to weeks depending on the compound and concentration. For storage beyond a few days, single-use aliquots at -20°C or -80°C are standard. Each freeze-thaw cycle creates transient concentration gradients as ice forms, briefly exceeding the local CAC and seeding new aggregates. Minimizing the number of cycles matters more than the storage temperature alone. See the guide on <a href="/resources/lyophilized-peptide-storage/">peptide storage temperature and shelf life</a> for compound-specific considerations.</p>
+
+        <p>Avoid mechanical stress during reconstitution and handling. Add the diluent to the lyophilized cake and allow it to dissolve by gentle swirling or rotation. Do not vortex. Agitation generates surface nucleation, and for amphiphilic peptides a brief vortex mix can produce measurable aggregate formation. When drawing from a multi-dose vial, press the plunger smoothly rather than aspirating sharply.</p>
+
+        <p>Store in glass rather than plastic for peptides with known surface-adsorption tendencies. Polystyrene and polypropylene bind many amphiphilic peptides more aggressively than borosilicate glass, providing a larger nucleation surface. Aliquoting into single-use glass vials eliminates repeated freeze-thaw cycles and removes the surface-exposure variable from the protocol.</p>
+
+        <p>Use the <a href="/dosing-calculator/">dosing calculator</a> to determine the minimum stock concentration needed for your injection volumes before reconstituting. Working backward from the target dose and injection volume to the required concentration often reveals that a lower stock is feasible, cutting aggregation risk without changing dosing accuracy.</p>
+
+        <h2>Aggregation in Indonesia's tropical climate</h2>
+
+        <p>Indonesia's ambient conditions amplify every aggregation pathway described above. Temperatures in Java and Bali regularly exceed 30°C, and relative humidity stays above 70% year-round. Transit times between supplier and end user, even within the country, can expose packages to temperatures above 35°C for hours if cold-chain handling lapses at any point.</p>
+
+        <p>Lyophilized powder in a sealed vial tolerates brief ambient exposure better than reconstituted solution, but moisture uptake begins above approximately 60% relative humidity in poorly sealed containers. Once reconstituted, peptide solutions must be kept cold. Researchers in Bali and Java without access to -80°C infrastructure should work in single-session aliquots: reconstitute, use, and discard rather than storing multi-dose vials at 4°C across multiple days.</p>
+
+        <p>Water quality in Indonesian tap and refill water systems varies by city and district. Tap water contains trace chlorine, metals, and microbial metabolites that can introduce nucleation sites and accelerate aggregation in sensitive peptides. Use only freshly opened bacteriostatic water or pharmaceutical-grade sterile water for injection. Once a diluent vial is opened, follow the beyond-use date on the label rather than storing it open for weeks at ambient temperature.</p>
+
+        <p>Shipments arriving in Bali or Java should be inspected immediately upon delivery and placed in cold storage before opening. A vial that should be clear but arrives turbid has aggregated during transit. Attributing this to a batch quality issue is reasonable, but reusing the vial is not. Contact the supplier with photographic evidence; do not attempt to recover the solution.</p>
+      </article>
+
+      <section class="faq" aria-labelledby="faq-title">
+        <h2 id="faq-title">FAQ</h2>
+        <details>
+          <summary>What does peptide aggregation look like in a vial?</summary>
+          <p>In mild cases the solution becomes cloudy or opalescent. At advanced stages, visible white or gray particles are present. A correctly reconstituted research peptide at typical working concentrations should appear optically clear. Turbidity against a white or dark background is a practical first check before each use.</p>
+        </details>
+        <details>
+          <summary>Can aggregated peptide solutions be recovered and used?</summary>
+          <p>Amorphous aggregates sometimes partially redisperse after pH adjustment or dilution, but the remaining monomer fraction is unknown. Fibrillar aggregates are essentially irreversible. In both cases the nominal concentration is unreliable and the solution should be discarded rather than used in quantitative experiments.</p>
+        </details>
+        <details>
+          <summary>At what concentration does peptide aggregation typically become a problem?</summary>
+          <p>The threshold varies by sequence. Hydrophilic peptides often remain stable above 5 mg/ml, while hydrophobic sequences can aggregate below 1 mg/ml. The critical aggregation concentration shifts with pH, temperature, and ionic strength. No universal rule applies across all research peptides.</p>
+        </details>
+        <details>
+          <summary>Does freezing stop peptide aggregation?</summary>
+          <p>Freezing slows aggregation kinetics substantially but does not reverse existing aggregates. Repeated freeze-thaw cycles create localized concentration spikes during ice crystal formation that can seed new aggregates. Single-use aliquots are preferred over repeated thawing from a single stored vial.</p>
+        </details>
+        <details>
+          <summary>How does pH affect peptide aggregation risk?</summary>
+          <p>At pH values near the isoelectric point, net peptide charge approaches zero and electrostatic repulsion drops, raising aggregation risk. Reconstituting at least 2 pH units away from the isoelectric point maintains charge repulsion and typically stabilizes the solution at working concentrations.</p>
+        </details>
+      </section>
+
+      <aside class="end-cta" aria-label="Browse compounds">
+        <h3>Browse the research peptide catalog</h3>
+        <p>Shipped across Bali, Jakarta, Surabaya, Yogyakarta and tier-1 Indonesia. Research use only.</p>
+        <a href="/#compounds">View Compounds +</a>
+      </aside>
+    </main>
+
+    <script src="/script.js"></script>
+  </body>
+</html>
