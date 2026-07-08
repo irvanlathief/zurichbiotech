@@ -539,7 +539,11 @@
       "priority": 1,
       "intent": "informational",
       "internal_link_targets": ["/resources/lyophilized-peptide-storage/", "/#compounds", "/dosing-calculator/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-07-08",
+        "url": "https://zurichbiotech.com/resources/cold-chain-shipping-peptides-indonesia/"
+      }
     },
     {
       "id": 34,
