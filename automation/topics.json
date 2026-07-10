@@ -555,7 +555,11 @@
       "priority": 2,
       "intent": "informational",
       "internal_link_targets": ["/#semax", "/resources/semax-research-overview/", "/dosing-calculator/"],
-      "status": "pending",
+      "status": "done",
+      "published": {
+        "date": "2026-07-10",
+        "url": "https://zurichbiotech.com/resources/selank-research-overview/"
+      },
       "notes": "Developed from Tuftsin. Russian Institute of Molecular Genetics. Cite English-language reviews and PMC papers."
     },
     {
