@@ -572,7 +572,11 @@
       "priority": 2,
       "intent": "informational",
       "internal_link_targets": ["/#compounds", "/dosing-calculator/"],
-      "status": "pending",
+      "status": "done",
+      "published": {
+        "date": "2026-07-11",
+        "url": "https://zurichbiotech.com/resources/epitalon-research-overview/"
+      },
       "notes": "Khavinson lab (St. Petersburg). Mostly Russian literature; cite English translations and PMC papers."
     },
     {
