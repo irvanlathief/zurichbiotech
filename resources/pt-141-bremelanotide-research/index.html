@@ -1,0 +1,290 @@
+<!doctype html>
+<!--
+  Zurich Biotech article template.
+
+  Replace every {{ PLACEHOLDER }} below with real content, then save as:
+    /resources/<slug>/index.html
+
+  After saving the file, append the URL to /sitemap.xml under the
+  <urlset> root. Example:
+
+    <url>
+      <loc>https://zurichbiotech.com/resources/{{SLUG}}/</loc>
+      <lastmod>{{ISO_DATE}}</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.7</priority>
+    </url>
+
+  Also add a card to /resources/index.html inside the <div id="articlesGrid">
+  block (between the ARTICLES_START / ARTICLES_END comments).
+
+  Required replacements:
+    {{TITLE}}            - page title, ~60 chars, include primary keyword + brand
+    {{META_DESC}}        - meta description, ~150-160 chars, primary keyword + city
+    {{KEYWORDS}}         - comma-separated, ~10 terms
+    {{SLUG}}             - URL slug, kebab-case, no trailing slash (e.g. "bpc-157-bali")
+    {{ISO_DATE}}         - ISO 8601, e.g. "2026-05-28"
+    {{HUMAN_DATE}}       - display date, e.g. "May 28, 2026"
+    {{OG_IMAGE}}         - full URL to a 1200x630 image; default to /assets/hero-mots-c.png
+    {{H1}}               - H1 heading, can match TITLE without brand suffix
+    {{LEDE}}             - 1-2 sentence intro paragraph; should include primary keyword once
+    {{BODY_HTML}}        - main body, use <h2>/<h3>/<p>/<ul>; aim for >800 words
+    {{FAQ_JSONLD}}       - array of {question, answer} objects for FAQ schema
+    {{FAQ_HTML}}         - visible FAQ block matching the schema entries
+    {{BREADCRUMB_NAME}}  - short label for breadcrumb, e.g. "BPC-157 in Bali"
+    {{CATEGORY}}         - Article category, e.g. "Protocol", "City Guide", "Compound Guide"
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PT-141 (Bremelanotide) Research: Melanocortin, FDA Data | Zurich Biotech</title>
+    <meta name="description" content="PT-141 research overview: bremelanotide mechanism of action, FDA approval as Vyleesi (2019), RECONNECT Phase 3 trial data, and clinical adverse event profile." />
+    <meta name="keywords" content="PT-141 research, bremelanotide, PT-141 melanocortin, VYLEESI FDA approval, melanocortin receptor agonist, MC4R, HSDD treatment, bremelanotide RECONNECT trial, bremelanotide mechanism, Palatin Technologies" />
+    <link rel="canonical" href="https://zurichbiotech.com/resources/pt-141-bremelanotide-research/" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    <meta name="author" content="Zurich Biotech" />
+
+    <meta name="geo.region" content="ID-BA" />
+    <meta name="geo.placename" content="Canggu, Bali, Indonesia" />
+    <meta name="geo.position" content="-8.6478;115.1385" />
+    <meta name="ICBM" content="-8.6478, 115.1385" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Zurich Biotech" />
+    <meta property="og:title" content="PT-141 (Bremelanotide) Research: Melanocortin, FDA Data" />
+    <meta property="og:description" content="PT-141 research overview: bremelanotide mechanism of action, FDA approval as Vyleesi (2019), RECONNECT Phase 3 trial data, and clinical adverse event profile." />
+    <meta property="og:url" content="https://zurichbiotech.com/resources/pt-141-bremelanotide-research/" />
+    <meta property="og:image" content="https://zurichbiotech.com/assets/hero-mots-c.png" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="article:published_time" content="2026-07-12" />
+    <meta property="article:section" content="Compound Guide" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="PT-141 (Bremelanotide) Research: Melanocortin, FDA Data" />
+    <meta name="twitter:description" content="PT-141 research overview: bremelanotide mechanism of action, FDA approval as Vyleesi (2019), RECONNECT Phase 3 trial data, and clinical adverse event profile." />
+    <meta name="twitter:image" content="https://zurichbiotech.com/assets/hero-mots-c.png" />
+
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+
+    <style>
+      .article-page { padding: 120px clamp(16px, 5vw, 88px) 80px; max-width: 760px; margin: 0 auto; }
+      .article-page h1 { font-size: clamp(32px, 3.5vw, 52px); font-weight: 400; margin: 16px 0 24px; line-height: 1.1; }
+      .article-page h1 span { color: var(--red); }
+      .article-page .article-meta { font-family: var(--tech); font-size: 12px; text-transform: uppercase; color: var(--gray-700); letter-spacing: 0.04em; }
+      .article-page .lede { font-size: clamp(17px, 1.5vw, 19px); line-height: 1.6; color: var(--gray-900, #222); margin: 0 0 40px; }
+      .article-page h2 { font-size: clamp(22px, 2.2vw, 30px); font-weight: 500; margin: 48px 0 16px; line-height: 1.25; }
+      .article-page h3 { font-size: clamp(18px, 1.8vw, 22px); font-weight: 500; margin: 32px 0 12px; }
+      .article-page p, .article-page li { font-size: 16px; line-height: 1.7; color: var(--gray-900, #222); }
+      .article-page p { margin: 0 0 18px; }
+      .article-page ul, .article-page ol { padding-left: 22px; margin: 0 0 24px; }
+      .article-page li { margin-bottom: 8px; }
+      .article-page a { color: var(--black); text-decoration: underline; text-underline-offset: 3px; }
+      .article-page a:hover { color: var(--red); }
+      .article-page blockquote { border-left: 3px solid var(--red); padding: 4px 0 4px 20px; margin: 24px 0; font-style: italic; color: var(--gray-700); }
+      .article-page .faq { margin-top: 64px; padding-top: 40px; border-top: 1px solid var(--gray-200); }
+      .article-page .faq h2 { margin-top: 0; }
+      .article-page .faq details { padding: 16px 0; border-bottom: 1px solid var(--gray-200); }
+      .article-page .faq summary { font-family: var(--tech); font-size: 14px; font-weight: 700; cursor: pointer; }
+      .article-page .faq details[open] summary { color: var(--red); }
+      .article-page .faq details p { margin: 12px 0 0; }
+      .article-page .end-cta { margin-top: 64px; padding: 32px clamp(20px, 4vw, 48px); border: 1px solid var(--gray-200); background: #f7f7f7; }
+      .article-page .end-cta h3 { margin: 0 0 8px; }
+      .article-page .end-cta p { font-family: var(--tech); text-transform: uppercase; font-size: 12px; letter-spacing: 0.04em; color: var(--gray-700); margin: 0 0 16px; }
+      .article-page .end-cta a { display: inline-block; font-family: var(--tech); font-size: 13px; font-weight: 700; text-transform: uppercase; background: var(--black); color: var(--white); padding: 14px 22px; text-decoration: none; }
+      .article-page .end-cta a:hover { background: var(--red); }
+      .article-breadcrumbs { font-family: var(--tech); font-size: 11px; text-transform: uppercase; color: var(--gray-700); letter-spacing: 0.04em; margin: 0 0 8px; }
+      .article-breadcrumbs a { color: var(--gray-700); text-decoration: none; }
+      .article-breadcrumbs a:hover { color: var(--black); }
+    </style>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://zurichbiotech.com/" },
+            { "@type": "ListItem", "position": 2, "name": "Resources", "item": "https://zurichbiotech.com/resources/" },
+            { "@type": "ListItem", "position": 3, "name": "PT-141 Bremelanotide Research", "item": "https://zurichbiotech.com/resources/pt-141-bremelanotide-research/" }
+          ]
+        },
+        {
+          "@type": "Article",
+          "@id": "https://zurichbiotech.com/resources/pt-141-bremelanotide-research/#article",
+          "headline": "PT-141 (Bremelanotide) Research: Melanocortin, FDA Data",
+          "description": "PT-141 research overview: bremelanotide mechanism of action, FDA approval as Vyleesi (2019), RECONNECT Phase 3 trial data, and clinical adverse event profile.",
+          "image": "https://zurichbiotech.com/assets/hero-mots-c.png",
+          "datePublished": "2026-07-12",
+          "dateModified": "2026-07-12",
+          "author": { "@id": "https://zurichbiotech.com/#organization" },
+          "publisher": { "@id": "https://zurichbiotech.com/#organization" },
+          "mainEntityOfPage": "https://zurichbiotech.com/resources/pt-141-bremelanotide-research/",
+          "articleSection": "Compound Guide",
+          "inLanguage": "en",
+          "isPartOf": { "@id": "https://zurichbiotech.com/resources/#blog" }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is the difference between PT-141 and Melanotan II?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Melanotan II (MT-II) is the parent compound from which PT-141 (bremelanotide) was derived. MT-II binds broadly across melanocortin receptors including MC1R, which drives skin pigmentation. PT-141 was developed to retain central MC3R/MC4R activity while reducing systemic effects. Unlike PT-141, MT-II has no regulatory approval anywhere."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Which receptors does PT-141 bind?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "PT-141 is an agonist at melanocortin 3 (MC3R) and melanocortin 4 (MC4R) receptors, both concentrated in the CNS. MC3R is densest in the arcuate nucleus of the hypothalamus; MC4R is distributed across the hypothalamus, thalamus, and hippocampus. It does not act substantially on peripheral vascular pathways."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "When did the FDA approve bremelanotide, and for what indication?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The FDA approved bremelanotide as Vyleesi on June 21, 2019 (NDA 210557), for acquired, generalized hypoactive sexual desire disorder (HSDD) in premenopausal women. The approval was based on the two RECONNECT Phase 3 trials conducted by Palatin Technologies and AMAG Pharmaceuticals."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What dosing protocol was used in the RECONNECT Phase 3 trials?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The RECONNECT trials used 1.75 mg bremelanotide administered subcutaneously in the abdomen or thigh at least 45 minutes before anticipated sexual activity, on an as-needed basis, over 24 weeks. This is the protocol dose from the published clinical literature, provided as research reference data only."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What were the most common adverse events in the bremelanotide trials?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Nausea was the most common, reported by 40% of participants. Flushing occurred in 20.6%, injection site reactions in 13%, and headache in 12%. Nausea was typically transient, lasting about 2 hours, and tended to decrease with continued use. Transient blood pressure elevations were also observed and are noted in the FDA label."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is there Phase 3 clinical evidence for PT-141 in men?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. The only completed Phase 3 trials used the subcutaneous formulation in premenopausal women with HSDD. A 2004 double-blind study tested intranasal PT-141 in men with mild-to-moderate erectile dysfunction, showing dose-dependent effects, but that intranasal formulation was discontinued due to blood pressure concerns. No Phase 3 trial in men has been completed and no regulatory approval exists for bremelanotide in men."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
+  <!-- Vercel Web Analytics -->
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
+  <body>
+    <header class="site-header" aria-label="Primary navigation">
+      <a class="brand" href="/" aria-label="Zurich Biotech home">Zurich Biotech<span>+</span></a>
+      <nav>
+        <a href="/#protocols">Protocols</a>
+        <a href="/#science">Science</a>
+        <a href="/#compounds">Compounds</a>
+        <a href="/resources/">Resources</a>
+        <a href="/#truth">About</a>
+        <a class="nav-cta" href="/cart.html" aria-label="Cart">Your Cart <span class="cart-count" id="cartCount">0</span></a>
+      </nav>
+    </header>
+
+    <main class="article-page" id="top">
+      <nav class="article-breadcrumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a> / <a href="/resources/">Resources</a> / <span>PT-141 Bremelanotide Research</span>
+      </nav>
+      <p class="article-meta">Compound Guide · July 12, 2026</p>
+      <h1>PT-141 (Bremelanotide): melanocortin receptor agonist research and FDA approval context<span>+</span></h1>
+      <p class="lede">PT-141 research has one of the more substantive evidence bases among research peptides. Bremelanotide, a synthetic cyclic heptapeptide and melanocortin receptor agonist, became the first centrally acting compound approved by the FDA for hypoactive sexual desire disorder (HSDD) in premenopausal women, marketed as Vyleesi since June 2019.</p>
+
+      <article>
+        <h2>What PT-141 is</h2>
+        <p>PT-141 is the research designation for bremelanotide, a cyclic heptapeptide derived from Melanotan II, which is itself a cyclic analogue of alpha-melanocyte-stimulating hormone (alpha-MSH). Alpha-MSH is an endogenous peptide cleaved from proopiomelanocortin (POMC) that activates melanocortin receptors across the body and central nervous system. PT-141 has a molecular weight of approximately 1,025 Da and was developed by Palatin Technologies.</p>
+        <p>Where most sexual dysfunction compounds (sildenafil, tadalafil) work through peripheral vascular mechanisms, PT-141 acts on the CNS. It binds melanocortin receptors in the hypothalamus, engaging pathways that modulate sexual desire at the level of the brain rather than genital vasculature. This central mechanism is what distinguished it from PDE5 inhibitors and drove its development as a candidate for desire-phase dysfunction, not just arousal-phase dysfunction.</p>
+        <p>The compound is available in the <a href="/#compounds">research peptide catalog</a> and is reconstituted and administered as a subcutaneous injection. Reconstitution and injection procedures follow the same principles as other lyophilized peptides; see the <a href="/resources/peptide-reconstitution-bac-water-guide/">peptide reconstitution guide</a> for handling protocols.</p>
+
+        <h2>Mechanism of action at melanocortin receptors</h2>
+        <p>PT-141 is a high-affinity agonist at melanocortin 3 receptor (MC3R) and melanocortin 4 receptor (MC4R). Both are G protein-coupled receptors expressed primarily in the CNS. A 2003 review published in <em>Expert Opinion on Investigational Drugs</em> (<a href="https://pubmed.ncbi.nlm.nih.gov/12851303/">Diamond et al., PMID 12851303</a>) described the early development of PT-141 as a melanocortin agonist for sexual dysfunction and characterized the receptor targets in rodent and human tissue.</p>
+        <p>MC3R has its highest expression density in the arcuate nucleus of the hypothalamus. MC4R is distributed more broadly across the hypothalamus, thalamus, and hippocampus. Animal studies using c-Fos immunoreactivity as a marker of neuronal activation showed that systemic administration of PT-141 activated hypothalamic neurons in rodents, consistent with a centrally mediated mechanism. Research into the specific receptor underlying sexual response has pointed to MC4R as the principal effector for melanocortin-induced penile erection in male rodent models, though the roles of MC3R and its interactions with MC4R are not fully resolved.</p>
+        <p>Because PT-141 acts centrally rather than peripherally, its cardiovascular profile differs from PDE5 inhibitors. The intranasal formulation studied in early trials produced transient blood pressure increases judged to be clinically concerning, which led to the abandonment of that route. The subcutaneous formulation approved in 2019 shows a smaller cardiovascular signal, though the FDA label still carries a warning for transient blood pressure elevations of approximately 6-7 mmHg systolic.</p>
+
+        <h2>Early clinical research: intranasal formulation in men</h2>
+        <p>Initial human trials tested PT-141 as an intranasal spray. A 2004 double-blind, placebo-controlled trial (<a href="https://pubmed.ncbi.nlm.nih.gov/14963471/">Rosen et al., PMID 14963471</a>) evaluated intranasal PT-141 in healthy men and patients with mild-to-moderate erectile dysfunction. The trial found a dose-dependent increase in erectile activity. Statistically significant effects versus placebo appeared at intranasal doses above 7 mg, with onset of the first erection at approximately 30 minutes after administration.</p>
+        <p>A 2006 study (<a href="https://pubmed.ncbi.nlm.nih.gov/16839319/">Safarinejad, PMID 16839319</a>) examined the effect of bremelanotide on subjective sexual response in premenopausal women with sexual arousal disorder, reporting improvements in desire scores relative to placebo. At this point in development, the focus began shifting to HSDD in women as the regulatory target.</p>
+        <p>The intranasal formulation did not progress to Phase 3. Blood pressure data from intranasal studies showed transient but clinically significant systolic increases, and Palatin Technologies reformulated the compound as a subcutaneous injection. The SC route produced a slower absorption profile and a smaller peak blood pressure effect, making regulatory submission feasible.</p>
+
+        <h2>Phase 3 RECONNECT trials and FDA approval</h2>
+        <p>The pivotal efficacy data comes from the RECONNECT program: two identical Phase 3, randomized, double-blind, placebo-controlled multicenter trials registered as <a href="https://clinicaltrials.gov/study/NCT02333071">NCT02333071 (Study 301)</a> and NCT02338960 (Study 302). The trials were sponsored by Palatin Technologies and co-developed with AMAG Pharmaceuticals for the NDA submission.</p>
+        <p>The trials enrolled 1,267 premenopausal women diagnosed with acquired, generalized HSDD. The safety population comprised 1,247 participants; the modified intent-to-treat efficacy population was 1,202. Participants self-administered 1.75 mg bremelanotide subcutaneously at least 45 minutes before anticipated sexual activity, on an as-needed basis, for 24 weeks.</p>
+        <p>The co-primary endpoints were change from baseline in the Female Sexual Function Index desire domain (FSFI-D) score and change in the Female Sexual Distress Scale-Desire/Arousal/Orgasm (FSDS-DAO) item 13 score. <a href="https://pubmed.ncbi.nlm.nih.gov/31599840/">Kingsberg et al. (2019, <em>Obstetrics and Gynecology</em>; PMID 31599840)</a> reported the results:</p>
+        <ul>
+          <li>FSFI-D change: +0.30 in Study 301 (P&lt;0.001) and +0.42 in Study 302 (P&lt;0.001); integrated: +0.35 (P&lt;0.001)</li>
+          <li>FSDS-DAO change: -0.37 in Study 301 (P&lt;0.001) and -0.29 in Study 302 (P=0.005); integrated: -0.33 (P&lt;0.001)</li>
+        </ul>
+        <p>The FDA approved bremelanotide as Vyleesi on June 21, 2019 (<a href="https://www.accessdata.fda.gov/drugsatfda_docs/label/2019/210557s000lbl.pdf">NDA 210557</a>) for acquired, generalized HSDD in premenopausal women. The FDA label specifies use as needed, not as a daily drug. Bremelanotide was the second compound approved for HSDD; the first was flibanserin (Addyi, 2015), which acts through serotonin and dopamine receptors rather than melanocortin pathways.</p>
+
+        <h2>Adverse events and long-term safety data</h2>
+        <p>The adverse event profile was consistent across the RECONNECT core phase and a 52-week open-label extension reported by <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6819023/">Simon et al. (2019, PMC6819023)</a>. The most common treatment-emergent adverse events considered related to study drug were nausea (40%), flushing (20.6%), injection site reactions (13%), headache (12%), and vomiting (4.8%).</p>
+        <p>Nausea was the dominant concern. In most participants it was transient, lasting approximately 2 hours, and tended to decrease with continued use. Severe nausea occurred in a minority. The 52-week open-label extension enrolled participants who had completed the 24-week core phase; no new safety signals emerged, and FSFI-desire domain scores ranged from 1.25 to 1.30 in the bremelanotide group across the extension period.</p>
+        <p>The FDA label includes a warning for transient blood pressure elevations. Within 12 hours of dosing, systolic and diastolic pressure can each rise by approximately 6-7 mmHg. Values typically return to baseline within 12 hours. The label advises against use in cardiovascular disease and recommends against use more than once in 24 hours. Hyperpigmentation was observed in some participants with repeated dosing, a predictable consequence of MC1R activity on melanocytes; this is documented in the label as a known effect.</p>
+
+        <h2>PT-141 research scope, evidence quality, and limitations</h2>
+        <p>The evidence base for PT-141 is more substantial than for most research peptides. Two large, well-controlled Phase 3 RCTs with n=1,267 and 24-week duration, published in a peer-reviewed journal and reviewed by the FDA, represent rigorous evidentiary support for the HSDD indication in the approved population. That is the ceiling of the evidence, not the floor.</p>
+        <p>Several caveats apply. The approved indication is narrow: acquired, generalized HSDD in premenopausal women. The FDA did not approve bremelanotide for situational low desire, postmenopausal HSDD, or male sexual dysfunction. No Phase 3 subcutaneous trial in men has been completed. The early intranasal data in men (PMID 14963471) showed a dose-response signal for erectile function, but the formulation was discontinued and no regulatory submission followed.</p>
+        <p>The effect sizes on the FSFI-desire domain were statistically significant but modest in absolute terms: a 0.30 to 0.42 point improvement on a scale where the minimum clinically important difference remains debated. The trials measured patient-reported outcomes only, and placebo response rates were substantial, consistent with what is observed across sexual dysfunction research. Researchers examining PT-141 outside the HSDD context, including work on appetite regulation or male erectile function, are working from earlier-phase or animal data. For research applications involving peptide dosing calculations, use the <a href="/dosing-calculator/">dosing calculator</a> as a starting reference for concentration math.</p>
+
+        <h2>Indonesia and tropical climate storage notes</h2>
+        <p>PT-141 is a peptide and follows the same stability considerations as other lyophilized compounds. In powder (lyophilized) form, storage at -20 degrees C with desiccant is standard. In Bali and other equatorial regions of Indonesia, humidity and ambient temperatures above 30 degrees C accelerate degradation if cold chain is not maintained during transit. Reconstituted PT-141 in bacteriostatic water should be kept at 4 degrees C and used within 28 days. The same freeze-thaw and oxidation principles that apply to other peptides apply here; a single freeze of reconstituted peptide followed by refrigerated storage is preferable to repeated freeze-thaw cycles.</p>
+      </article>
+
+      <section class="faq" aria-labelledby="faq-title">
+        <h2 id="faq-title">FAQ</h2>
+        <details>
+          <summary>What is the difference between PT-141 and Melanotan II?</summary>
+          <p>Melanotan II (MT-II) is the parent compound from which PT-141 (bremelanotide) was derived. MT-II binds broadly across melanocortin receptors including MC1R, which drives skin pigmentation. PT-141 was developed to retain central MC3R/MC4R activity while reducing systemic effects. Unlike PT-141, MT-II has no regulatory approval anywhere.</p>
+        </details>
+        <details>
+          <summary>Which receptors does PT-141 bind?</summary>
+          <p>PT-141 is an agonist at melanocortin 3 (MC3R) and melanocortin 4 (MC4R) receptors, both concentrated in the CNS. MC3R is densest in the arcuate nucleus of the hypothalamus; MC4R is distributed across the hypothalamus, thalamus, and hippocampus. It does not act substantially on peripheral vascular pathways.</p>
+        </details>
+        <details>
+          <summary>When did the FDA approve bremelanotide, and for what indication?</summary>
+          <p>The FDA approved bremelanotide as Vyleesi on June 21, 2019 (NDA 210557), for acquired, generalized hypoactive sexual desire disorder (HSDD) in premenopausal women. The approval was based on the two RECONNECT Phase 3 trials conducted by Palatin Technologies and AMAG Pharmaceuticals.</p>
+        </details>
+        <details>
+          <summary>What dosing protocol was used in the RECONNECT Phase 3 trials?</summary>
+          <p>The RECONNECT trials used 1.75 mg bremelanotide administered subcutaneously in the abdomen or thigh at least 45 minutes before anticipated sexual activity, on an as-needed basis, over 24 weeks. This is the protocol dose from the published clinical literature, provided as research reference data only.</p>
+        </details>
+        <details>
+          <summary>What were the most common adverse events in the bremelanotide trials?</summary>
+          <p>Nausea was the most common, reported by 40% of participants. Flushing occurred in 20.6%, injection site reactions in 13%, and headache in 12%. Nausea was typically transient, lasting about 2 hours, and tended to decrease with continued use. Transient blood pressure elevations are also noted in the FDA label.</p>
+        </details>
+        <details>
+          <summary>Is there Phase 3 clinical evidence for PT-141 in men?</summary>
+          <p>No. The only completed Phase 3 trials used the subcutaneous formulation in premenopausal women with HSDD. A 2004 double-blind study tested intranasal PT-141 in men with mild-to-moderate erectile dysfunction and found dose-dependent effects, but the intranasal formulation was discontinued due to blood pressure concerns. No Phase 3 subcutaneous trial in men has been completed and no regulatory approval exists for bremelanotide in men.</p>
+        </details>
+      </section>
+
+      <aside class="end-cta" aria-label="Browse compounds">
+        <h3>Browse the research peptide catalog</h3>
+        <p>Shipped across Bali, Jakarta, Surabaya, Yogyakarta and tier-1 Indonesia. Research use only.</p>
+        <a href="/#compounds">View Compounds +</a>
+      </aside>
+    </main>
+
+    <script src="/script.js"></script>
+  </body>
+</html>
