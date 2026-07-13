@@ -1,0 +1,300 @@
+<!doctype html>
+<!--
+  Zurich Biotech article template.
+
+  Replace every {{ PLACEHOLDER }} below with real content, then save as:
+    /resources/<slug>/index.html
+
+  After saving the file, append the URL to /sitemap.xml under the
+  <urlset> root. Example:
+
+    <url>
+      <loc>https://zurichbiotech.com/resources/{{SLUG}}/</loc>
+      <lastmod>{{ISO_DATE}}</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.7</priority>
+    </url>
+
+  Also add a card to /resources/index.html inside the <div id="articlesGrid">
+  block (between the ARTICLES_START / ARTICLES_END comments).
+
+  Required replacements:
+    {{TITLE}}            - page title, ~60 chars, include primary keyword + brand
+    {{META_DESC}}        - meta description, ~150-160 chars, primary keyword + city
+    {{KEYWORDS}}         - comma-separated, ~10 terms
+    {{SLUG}}             - URL slug, kebab-case, no trailing slash (e.g. "bpc-157-bali")
+    {{ISO_DATE}}         - ISO 8601, e.g. "2026-05-28"
+    {{HUMAN_DATE}}       - display date, e.g. "May 28, 2026"
+    {{OG_IMAGE}}         - full URL to a 1200x630 image; default to /assets/hero-mots-c.png
+    {{H1}}               - H1 heading, can match TITLE without brand suffix
+    {{LEDE}}             - 1-2 sentence intro paragraph; should include primary keyword once
+    {{BODY_HTML}}        - main body, use <h2>/<h3>/<p>/<ul>; aim for >800 words
+    {{FAQ_JSONLD}}       - array of {question, answer} objects for FAQ schema
+    {{FAQ_HTML}}         - visible FAQ block matching the schema entries
+    {{BREADCRUMB_NAME}}  - short label for breadcrumb, e.g. "BPC-157 in Bali"
+    {{CATEGORY}}         - Article category, e.g. "Protocol", "City Guide", "Compound Guide"
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IGF-1 LR3 research: mechanism, IGFBP evasion, and evidence | Zurich Biotech</title>
+    <meta name="description" content="IGF-1 LR3 research: a synthetic IGF-1 analogue with 1,000-fold reduced IGFBP affinity. Overview of mechanism, cell culture use, and in vivo study data." />
+    <meta name="keywords" content="IGF-1 LR3 research, long R3 IGF-1, IGF-1 receptor binding, IGF-1 LR3 muscle, insulin-like growth factor analogue, IGF-1 LR3 cell culture, IGFBP evasion peptide, long arginine 3 IGF-1, research peptide IGF-1, IGF-1 LR3 half-life" />
+    <link rel="canonical" href="https://zurichbiotech.com/resources/igf-1-lr3-research-overview/" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    <meta name="author" content="Zurich Biotech" />
+
+    <meta name="geo.region" content="ID-BA" />
+    <meta name="geo.placename" content="Canggu, Bali, Indonesia" />
+    <meta name="geo.position" content="-8.6478;115.1385" />
+    <meta name="ICBM" content="-8.6478, 115.1385" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Zurich Biotech" />
+    <meta property="og:title" content="IGF-1 LR3 research: mechanism, IGFBP evasion, and evidence" />
+    <meta property="og:description" content="IGF-1 LR3 research: a synthetic IGF-1 analogue with 1,000-fold reduced IGFBP affinity. Overview of mechanism, cell culture use, and in vivo study data." />
+    <meta property="og:url" content="https://zurichbiotech.com/resources/igf-1-lr3-research-overview/" />
+    <meta property="og:image" content="https://zurichbiotech.com/assets/hero-mots-c.png" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="article:published_time" content="2026-07-13" />
+    <meta property="article:section" content="Compound Guide" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="IGF-1 LR3 research: mechanism, IGFBP evasion, and evidence" />
+    <meta name="twitter:description" content="IGF-1 LR3 research: a synthetic IGF-1 analogue with 1,000-fold reduced IGFBP affinity. Overview of mechanism, cell culture use, and in vivo study data." />
+    <meta name="twitter:image" content="https://zurichbiotech.com/assets/hero-mots-c.png" />
+
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+
+    <style>
+      .article-page { padding: 120px clamp(16px, 5vw, 88px) 80px; max-width: 760px; margin: 0 auto; }
+      .article-page h1 { font-size: clamp(32px, 3.5vw, 52px); font-weight: 400; margin: 16px 0 24px; line-height: 1.1; }
+      .article-page h1 span { color: var(--red); }
+      .article-page .article-meta { font-family: var(--tech); font-size: 12px; text-transform: uppercase; color: var(--gray-700); letter-spacing: 0.04em; }
+      .article-page .lede { font-size: clamp(17px, 1.5vw, 19px); line-height: 1.6; color: var(--gray-900, #222); margin: 0 0 40px; }
+      .article-page h2 { font-size: clamp(22px, 2.2vw, 30px); font-weight: 500; margin: 48px 0 16px; line-height: 1.25; }
+      .article-page h3 { font-size: clamp(18px, 1.8vw, 22px); font-weight: 500; margin: 32px 0 12px; }
+      .article-page p, .article-page li { font-size: 16px; line-height: 1.7; color: var(--gray-900, #222); }
+      .article-page p { margin: 0 0 18px; }
+      .article-page ul, .article-page ol { padding-left: 22px; margin: 0 0 24px; }
+      .article-page li { margin-bottom: 8px; }
+      .article-page a { color: var(--black); text-decoration: underline; text-underline-offset: 3px; }
+      .article-page a:hover { color: var(--red); }
+      .article-page blockquote { border-left: 3px solid var(--red); padding: 4px 0 4px 20px; margin: 24px 0; font-style: italic; color: var(--gray-700); }
+      .article-page .faq { margin-top: 64px; padding-top: 40px; border-top: 1px solid var(--gray-200); }
+      .article-page .faq h2 { margin-top: 0; }
+      .article-page .faq details { padding: 16px 0; border-bottom: 1px solid var(--gray-200); }
+      .article-page .faq summary { font-family: var(--tech); font-size: 14px; font-weight: 700; cursor: pointer; }
+      .article-page .faq details[open] summary { color: var(--red); }
+      .article-page .faq details p { margin: 12px 0 0; }
+      .article-page .end-cta { margin-top: 64px; padding: 32px clamp(20px, 4vw, 48px); border: 1px solid var(--gray-200); background: #f7f7f7; }
+      .article-page .end-cta h3 { margin: 0 0 8px; }
+      .article-page .end-cta p { font-family: var(--tech); text-transform: uppercase; font-size: 12px; letter-spacing: 0.04em; color: var(--gray-700); margin: 0 0 16px; }
+      .article-page .end-cta a { display: inline-block; font-family: var(--tech); font-size: 13px; font-weight: 700; text-transform: uppercase; background: var(--black); color: var(--white); padding: 14px 22px; text-decoration: none; }
+      .article-page .end-cta a:hover { background: var(--red); }
+      .article-breadcrumbs { font-family: var(--tech); font-size: 11px; text-transform: uppercase; color: var(--gray-700); letter-spacing: 0.04em; margin: 0 0 8px; }
+      .article-breadcrumbs a { color: var(--gray-700); text-decoration: none; }
+      .article-breadcrumbs a:hover { color: var(--black); }
+    </style>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://zurichbiotech.com/" },
+            { "@type": "ListItem", "position": 2, "name": "Resources", "item": "https://zurichbiotech.com/resources/" },
+            { "@type": "ListItem", "position": 3, "name": "IGF-1 LR3 research overview", "item": "https://zurichbiotech.com/resources/igf-1-lr3-research-overview/" }
+          ]
+        },
+        {
+          "@type": "Article",
+          "@id": "https://zurichbiotech.com/resources/igf-1-lr3-research-overview/#article",
+          "headline": "IGF-1 LR3 research: mechanism, IGFBP evasion, and evidence",
+          "description": "IGF-1 LR3 research: a synthetic IGF-1 analogue with 1,000-fold reduced IGFBP affinity. Overview of mechanism, cell culture use, and in vivo study data.",
+          "image": "https://zurichbiotech.com/assets/hero-mots-c.png",
+          "datePublished": "2026-07-13",
+          "dateModified": "2026-07-13",
+          "author": { "@id": "https://zurichbiotech.com/#organization" },
+          "publisher": { "@id": "https://zurichbiotech.com/#organization" },
+          "mainEntityOfPage": "https://zurichbiotech.com/resources/igf-1-lr3-research-overview/",
+          "articleSection": "Compound Guide",
+          "inLanguage": "en",
+          "isPartOf": { "@id": "https://zurichbiotech.com/resources/#blog" }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is the structural difference between IGF-1 LR3 and native IGF-1?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Native IGF-1 has 70 amino acids. IGF-1 LR3 adds a 13-amino-acid extension at the N-terminus and replaces glutamic acid with arginine at position 3, increasing total length to 83 amino acids. These changes reduce affinity for IGF-binding proteins by approximately 1,000-fold while preserving IGF-1 receptor binding."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Why is reduced IGFBP binding important for cell culture research?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "In serum-containing media, IGF-binding proteins bind most added native IGF-1 within minutes, leaving little free peptide to reach the receptor. LR3 avoids this sequestration because its IGFBP affinity is approximately 1,000-fold lower. The result is a more predictable dose-response relationship and consistent biological activity across experiments."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What signaling pathway does IGF-1 LR3 activate?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "IGF-1 LR3 activates the IGF-1 receptor (IGF-1R), which triggers the PI3K/Akt/mTOR cascade. In skeletal muscle cell models, this drives protein synthesis through p70S6K1 and anti-atrophy effects through GSK3-beta inhibition, as mapped in C2C12 myotube studies (Rommel et al. 2001, Nature Cell Biology, PMID 11715022)."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What animal models have been used in IGF-1 LR3 research?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Published in vivo studies include guinea pig (7-day continuous infusion at 120 mcg/day, Conlon et al. 1995, PMID 7561636), pig (short-term infusion examining GH/IGF-1 axis feedback, PMID 12030778), and sheep. In vitro work has used C2C12 myotubes, HEK293 cells, and CHO cells. No human trials with LR3 have been conducted."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Has IGF-1 LR3 been tested in human clinical trials?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. IGF-1 LR3 is not approved for human use and does not appear in ClinicalTrials.gov as a tested investigational drug. Human IGF-1 research has used recombinant human IGF-1 (mecasermin, approved as Increlex for severe primary IGF-1 deficiency). LR3 is produced for research and biopharmaceutical manufacturing applications only."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How should IGF-1 LR3 be stored for research use?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "In lyophilized form, store at -20 degrees C or colder in a desiccated container. After reconstitution in sterile 10 mM acetic acid or BSA-containing carrier, aliquot to avoid repeated freeze-thaw cycles. Use reconstituted working solutions within 2-4 weeks at 4 degrees C; store long-term aliquots at -80 degrees C."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
+  <!-- Vercel Web Analytics -->
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
+  <body>
+    <header class="site-header" aria-label="Primary navigation">
+      <a class="brand" href="/" aria-label="Zurich Biotech home">Zurich Biotech<span>+</span></a>
+      <nav>
+        <a href="/#protocols">Protocols</a>
+        <a href="/#science">Science</a>
+        <a href="/#compounds">Compounds</a>
+        <a href="/resources/">Resources</a>
+        <a href="/#truth">About</a>
+        <a class="nav-cta" href="/cart.html" aria-label="Cart">Your Cart <span class="cart-count" id="cartCount">0</span></a>
+      </nav>
+    </header>
+
+    <main class="article-page" id="top">
+      <nav class="article-breadcrumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a> / <a href="/resources/">Resources</a> / <span>IGF-1 LR3 research overview</span>
+      </nav>
+      <p class="article-meta">Compound Guide &middot; July 13, 2026</p>
+      <h1>IGF-1 LR3: insulin-like growth factor analogue research, mechanism, and what the evidence shows<span>+</span></h1>
+      <p class="lede">IGF-1 LR3 research covers a synthetic analogue engineered with 1,000-fold reduced affinity for IGF-binding proteins, making it the standard IGF-1 reagent in cell culture and in vivo animal studies. This overview covers the structural basis for that property, the signaling it activates, and what published studies have found in muscle, organ growth, and biopharmaceutical manufacturing contexts.</p>
+
+      <article>
+        <h2>What is IGF-1 LR3</h2>
+        <p>IGF-1 LR3, also written as Long R3 IGF-1 or Long [Arg3] IGF-1, is a synthetic analogue of insulin-like growth factor 1. It has 83 amino acids compared to the 70 in native IGF-1, with two deliberate structural changes: a 13-amino-acid extension added to the N-terminus, and a substitution of glutamic acid for arginine at position 3. That single amino acid swap at position 3 is the source of the "R3" in the name; the N-terminal extension accounts for "Long."</p>
+
+        <p>The analogue was developed in the early 1990s to address a fundamental problem with native IGF-1 as a research reagent: most of it is rapidly sequestered by IGF-binding proteins (IGFBPs) in biological systems, which limits how much actually reaches the IGF-1 receptor. Work by Francis GL, Ross M, Ballard FJ and colleagues, published in the <em>Journal of Molecular Endocrinology</em> in 1992 (<a href="https://pubmed.ncbi.nlm.nih.gov/1378742/">Francis et al., J Mol Endocrinol 1992</a>), established that modifications reducing IGFBP affinity while preserving receptor binding produced substantially greater biological potency in vitro. IGF-1 LR3 is the practical result of that design principle.</p>
+
+        <p>IGF-1 LR3 is not approved for human therapeutic use and has no approved medical application. All published data comes from cell culture models, animal studies, and the broader IGF-1 receptor signaling literature. It is available as a <a href="/#compounds">research compound</a> for laboratory use only.</p>
+
+        <h2>Reduced IGFBP binding: the central structural feature</h2>
+        <p>In the bloodstream, over 90% of native IGF-1 circulates bound to IGF-binding proteins. The dominant form is a 150-kDa ternary complex involving IGFBP-3 and the acid-labile subunit (ALS). This complex has a circulating half-life of 12-16 hours but cannot cross capillary walls, meaning the IGF-1 within it is pharmacologically inactive at peripheral receptors during that time.</p>
+
+        <p>IGF-1 LR3 avoids this sequestration. Its affinity for IGFBPs is approximately 1,000-fold lower than that of native IGF-1, meaning that most administered LR3 remains free in solution, able to bind the IGF-1 receptor (IGF-1R) without competing against a large pool of inactive, protein-bound peptide.</p>
+
+        <p>This difference matters most in cell culture experiments. When researchers add native IGF-1 to serum-containing media, IGFBPs in the serum bind a large fraction of it almost immediately. The concentration actually reaching the receptor is well below the nominal dose, and it varies with the serum lot. LR3 bypasses this problem: the dose-response relationship is more predictable, and reproducibility improves. This practical advantage is why LR3 has become the default IGF-1 analogue for in vitro work, even in studies whose primary interest is native IGF-1 biology.</p>
+
+        <h2>IGF-1 receptor signaling and muscle research</h2>
+        <p>IGF-1 LR3 binds to the IGF-1 receptor with approximately the same intrinsic affinity as native IGF-1. Because free LR3 concentration is higher at equivalent nominal doses (due to IGFBP evasion), its apparent potency in serum-containing culture is substantially greater.</p>
+
+        <p>The primary signaling cascade activated by IGF-1R engagement is the PI3K/Akt/mTOR pathway. A 2001 study by Rommel C, Bodine SC, Clarke BA and colleagues in <em>Nature Cell Biology</em> (<a href="https://www.nature.com/articles/ncb1101-1009">PMID 11715022, C2C12 myotubes</a>) mapped this in detail. The study showed that IGF-1-induced skeletal muscle hypertrophy proceeds through two downstream branches of Akt: mTOR (which activates translational regulators including p70S6K1, driving protein synthesis) and GSK3 (where Akt phosphorylation inhibits GSK3-beta, suppressing protein breakdown and promoting glycogen synthesis). The same study established that calcineurin, which had previously been proposed as a mediator of IGF-1-induced hypertrophy, does not in fact play that role in C2C12 myotubes.</p>
+
+        <p>LR3 is used in studies of this type precisely because it does not bind to IGFBPs secreted by the C2C12 cells themselves during differentiation. If native IGF-1 were used, endogenous IGFBP secretion would progressively reduce the effective dose over the experiment, creating a confounding variable in dose-response data.</p>
+
+        <p>A separate Akt-dependent mechanism links IGF-1 signaling to atrophy suppression. Akt phosphorylation excludes FOXO transcription factors from the nucleus, which reduces expression of muscle-specific ubiquitin ligases (including MuRF1 and atrogin-1) that otherwise drive protein degradation. The PI3K/Akt/mTOR pathway therefore connects IGF-1 receptor activation to both anabolic and anti-catabolic responses in skeletal muscle cells.</p>
+
+        <h2>Cell culture and biopharmaceutical applications</h2>
+        <p>Outside of muscle biology, the most common use of IGF-1 LR3 in published research is as a serum replacement or insulin substitute in serum-free mammalian cell culture, particularly for Chinese hamster ovary (CHO) cells and human embryonic kidney 293 (HEK293) cells used in recombinant protein production.</p>
+
+        <p>A 2007 study in <em>Molecular Biotechnology</em> (<a href="https://pubmed.ncbi.nlm.nih.gov/17172665/">PMID 17172665</a>) compared LR3 with native IGF-1 and insulin as serum-free culture supplements for HEK293 cells. LR3 activated both IGF-1R and the insulin receptor in a dose-responsive manner. The study found LR3 capable of supporting mammalian cell growth and survival at concentrations roughly 200-fold lower than insulin required for equivalent activity, a difference that has practical implications for media cost and lot-to-lot consistency at manufacturing scale.</p>
+
+        <p>The Morris and Schmid study in <em>Biotechnology Progress</em> (2000, <a href="https://pubmed.ncbi.nlm.nih.gov/11027158/">PMID 11027158</a>) examined effects of insulin and LR3 on CHO cell cultures expressing two recombinant proteins under serum-free conditions. Both supplements supported cell growth and recombinant protein production; LR3 showed a particular advantage in cultures where endogenous IGFBP secretion from CHO cells would otherwise reduce the effective concentration of added native IGF-1 over time.</p>
+
+        <p>These culture applications are commercially significant. Approximately 70% of approved recombinant therapeutic proteins are manufactured using CHO cells, and serum-free media is now standard in GMP manufacturing. LR3's resistance to IGFBP sequestration makes its effective concentration more stable over multi-day bioreactor runs than native IGF-1 would be.</p>
+
+        <h2>In vivo research findings and their limitations</h2>
+        <p>In vivo studies with IGF-1 LR3 have been conducted primarily in guinea pigs and pigs, examining organ-level growth responses and systemic feedback effects on the GH/IGF-1 axis.</p>
+
+        <p>The most detailed in vivo study is Conlon MA, Tomas FM, Owens PC and colleagues (1995, <em>Journal of Endocrinology</em>, <a href="https://pubmed.ncbi.nlm.nih.gov/7561636/">PMID 7561636</a>). Female guinea pigs weighing approximately 350 g were continuously infused with LR3 IGF-1 at 120 micrograms/day for 7 days. The analogue produced significant enlargement of the adrenal glands, gut, kidneys, and spleen, tissues that express the IGF-1 receptor at high density. Total body weight gain was not significantly different from vehicle-infused controls, suggesting differential tissue sensitivity rather than whole-body anabolic response at this dose.</p>
+
+        <p>A pig infusion study (PMID 12030778) found that short-term LR3 administration decreased circulating growth hormone concentrations and reduced hepatic IGF-1 mRNA expression, consistent with negative feedback within the GH/IGF-1 axis. LR3 does not simply augment the endogenous IGF-1 pool; its peripheral receptor activity feeds back to suppress GH secretion and endogenous IGF-1 production. This axis-level feedback complicates interpretation of in vivo studies, because suppression of endogenous IGF-1 may partially offset the effect of administered LR3.</p>
+
+        <p>No human clinical trials have been conducted specifically with IGF-1 LR3. Human trials in the IGF-1 space have used recombinant human IGF-1 (mecasermin, sold as Increlex), which carries FDA approval for severe primary IGF-1 deficiency. LR3 does not appear on ClinicalTrials.gov as a tested investigational drug and carries no approved human indication. Use the <a href="/dosing-calculator/">dosing calculator</a> for concentration math in research protocols; all other contexts remain outside the scope of published LR3 research.</p>
+
+        <h2>Handling and storage in research protocols</h2>
+        <p>IGF-1 LR3 is supplied lyophilized. Standard reconstitution uses sterile 10 mM acetic acid or a dilute BSA carrier solution; the acidic vehicle maintains the peptide in solution and reduces aggregation risk. The <a href="/resources/peptide-reconstitution-bac-water-guide/">peptide reconstitution guide</a> covers the full procedure, including filter sterilization and aliquoting steps that apply to LR3 as they do to other lyophilized research peptides.</p>
+
+        <p>Working concentrations in published cell culture experiments typically fall between 1 and 100 ng/mL. Preparing these dilutions from a lyophilized stock requires accurate concentration math; errors at this scale propagate into the experimental data. For low-protein-binding conditions, use appropriate tubes and pipette tips to minimize adsorption losses at nanogram-per-milliliter concentrations.</p>
+
+        <p>In lyophilized form, store at -20 degrees C or below in a desiccated container. After reconstitution, aliquot immediately to avoid repeated freeze-thaw cycles, which degrade activity in reconstituted peptide solutions. Short-term working aliquots at 4 degrees C are typically used within 2-4 weeks; long-term storage at -80 degrees C is appropriate for aliquots not in active use.</p>
+      </article>
+
+      <section class="faq" aria-labelledby="faq-title">
+        <h2 id="faq-title">FAQ</h2>
+        <details>
+          <summary>What is the structural difference between IGF-1 LR3 and native IGF-1?</summary>
+          <p>Native IGF-1 has 70 amino acids. IGF-1 LR3 adds a 13-amino-acid extension at the N-terminus and replaces glutamic acid with arginine at position 3, increasing total length to 83 amino acids. These changes reduce affinity for IGF-binding proteins by approximately 1,000-fold while preserving IGF-1 receptor binding.</p>
+        </details>
+        <details>
+          <summary>Why is reduced IGFBP binding important for cell culture research?</summary>
+          <p>In serum-containing media, IGF-binding proteins bind most added native IGF-1 within minutes, leaving little free peptide to reach the receptor. LR3 avoids this because its IGFBP affinity is approximately 1,000-fold lower. The result is a more predictable dose-response relationship and consistent biological activity across experiments.</p>
+        </details>
+        <details>
+          <summary>What signaling pathway does IGF-1 LR3 activate?</summary>
+          <p>IGF-1 LR3 activates the IGF-1 receptor (IGF-1R), which triggers the PI3K/Akt/mTOR cascade. In skeletal muscle cell models, this drives protein synthesis through p70S6K1 and anti-atrophy effects through GSK3-beta inhibition, as mapped in C2C12 myotube studies (Rommel et al. 2001, <em>Nature Cell Biology</em>, PMID 11715022).</p>
+        </details>
+        <details>
+          <summary>What animal models have been used in IGF-1 LR3 research?</summary>
+          <p>Published in vivo studies include guinea pig (7-day continuous infusion at 120 micrograms/day, Conlon et al. 1995, PMID 7561636), pig (short-term infusion examining GH/IGF-1 axis feedback, PMID 12030778), and sheep. In vitro work has used C2C12 myotubes, HEK293 cells, and CHO cells. No human trials with IGF-1 LR3 specifically have been conducted.</p>
+        </details>
+        <details>
+          <summary>Has IGF-1 LR3 been tested in human clinical trials?</summary>
+          <p>No. IGF-1 LR3 is not approved for human use and does not appear in ClinicalTrials.gov as a tested investigational drug. Human IGF-1 research has used recombinant human IGF-1 (mecasermin, approved as Increlex for severe primary IGF-1 deficiency). LR3 is produced for research and biopharmaceutical manufacturing applications only.</p>
+        </details>
+        <details>
+          <summary>How should IGF-1 LR3 be stored for research use?</summary>
+          <p>In lyophilized form, store at -20 degrees C or below in a desiccated container away from moisture. After reconstitution in sterile 10 mM acetic acid or BSA-containing carrier, aliquot immediately to avoid freeze-thaw degradation. Use reconstituted working solutions within 2-4 weeks at 4 degrees C; store long-term aliquots at -80 degrees C.</p>
+        </details>
+      </section>
+
+      <aside class="end-cta" aria-label="Browse compounds">
+        <h3>Browse the research peptide catalog</h3>
+        <p>Shipped across Bali, Jakarta, Surabaya, Yogyakarta and tier-1 Indonesia. Research use only.</p>
+        <a href="/#compounds">View Compounds +</a>
+      </aside>
+    </main>
+
+    <script src="/script.js"></script>
+  </body>
+</html>
