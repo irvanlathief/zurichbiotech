@@ -638,7 +638,11 @@
       "priority": 2,
       "intent": "informational",
       "internal_link_targets": ["/#cjc1295-ipamorelin", "/resources/cjc1295-ipamorelin-research-overview/", "/dosing-calculator/"],
-      "status": "pending",
+      "status": "done",
+      "published": {
+        "date": "2026-07-15",
+        "url": "https://zurichbiotech.com/resources/tesamorelin-research-overview/"
+      },
       "notes": "FDA approved for HIV-associated lipodystrophy (Egrifta). Cite NEJM trials and FDA label."
     },
     {
