@@ -687,7 +687,11 @@
       "priority": 2,
       "intent": "informational",
       "internal_link_targets": ["/#compounds", "/dosing-calculator/"],
-      "status": "pending",
+      "status": "done",
+      "published": {
+        "date": "2026-07-18",
+        "url": "https://zurichbiotech.com/resources/melanotan-2-research-overview/"
+      },
       "notes": "University of Arizona research by Hadley and Dorr. Never approved by FDA. Be factual about trial status."
     },
     {
