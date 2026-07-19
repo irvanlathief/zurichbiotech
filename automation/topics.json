@@ -704,7 +704,11 @@
       "priority": 2,
       "intent": "informational",
       "internal_link_targets": ["/#mots-c", "/resources/mots-c-research-overview/", "/dosing-calculator/"],
-      "status": "pending",
+      "status": "done",
+      "published": {
+        "date": "2026-07-19",
+        "url": "https://zurichbiotech.com/resources/humanin-research-overview/"
+      },
       "notes": "Lee/Cohen lab USC. Cite original Hashimoto 2001 discovery paper and subsequent cytoprotection studies."
     },
     {
