@@ -738,7 +738,11 @@
       "priority": 2,
       "intent": "informational",
       "internal_link_targets": ["/#bpc157-tb500", "/resources/bpc-157-research-overview/", "/dosing-calculator/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-07-22",
+        "url": "https://zurichbiotech.com/resources/ll-37-antimicrobial-peptide-research/"
+      }
     },
     {
       "id": 46,
