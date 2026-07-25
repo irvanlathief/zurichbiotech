@@ -770,8 +770,12 @@
       "priority": 2,
       "intent": "informational",
       "internal_link_targets": ["/#bpc157-tb500", "/resources/tb-500-thymosin-beta-4-research/", "/dosing-calculator/"],
-      "status": "pending",
-      "notes": "Approved as Zadaxin in several Asian countries. Cite Goldstein/Alpha-1 Biomedical research and clinical data."
+      "status": "done",
+      "notes": "Approved as Zadaxin in several Asian countries. Cite Goldstein/Alpha-1 Biomedical research and clinical data.",
+      "published": {
+        "date": "2026-07-25",
+        "url": "https://zurichbiotech.com/resources/thymosin-alpha-1-research-overview/"
+      }
     },
     {
       "id": 48,
