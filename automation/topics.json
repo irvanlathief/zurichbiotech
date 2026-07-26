@@ -787,7 +787,12 @@
       "priority": 2,
       "intent": "informational",
       "internal_link_targets": ["/#compounds", "/dosing-calculator/"],
-      "status": "pending"
+      "status": "done",
+      "notes": "Published research is AAV gene therapy (FS-344 construct), not injectable protein. Cite Haidet 2008 PNAS (mdx mice), Kota 2009 Sci Transl Med (macaques), and Mendell 2015 Mol Ther Becker MD trial (NCT01519349). Be explicit that no injectable synthetic follistatin-344 has trial data.",
+      "published": {
+        "date": "2026-07-26",
+        "url": "https://zurichbiotech.com/resources/follistatin-344-research-overview/"
+      }
     },
     {
       "id": 49,
