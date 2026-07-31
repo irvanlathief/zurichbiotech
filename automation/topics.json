@@ -804,7 +804,11 @@
       "priority": 2,
       "intent": "informational",
       "internal_link_targets": ["/#semax", "/resources/semax-research-overview/", "/dosing-calculator/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-07-31",
+        "url": "https://zurichbiotech.com/resources/dsip-research-overview/"
+      }
     },
     {
       "id": 50,
