@@ -836,7 +836,11 @@
       "priority": 2,
       "intent": "informational",
       "internal_link_targets": ["/#cjc1295-ipamorelin", "/resources/cjc1295-ipamorelin-research-overview/", "/dosing-calculator/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-08-07",
+        "url": "https://zurichbiotech.com/resources/ghrp-2-research-overview/"
+      }
     },
     {
       "id": 52,
