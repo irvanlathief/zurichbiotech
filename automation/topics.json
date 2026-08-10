@@ -852,7 +852,11 @@
       "priority": 2,
       "intent": "informational",
       "internal_link_targets": ["/#compounds", "/resources/aod-9604-research-overview/", "/dosing-calculator/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-08-10",
+        "url": "https://zurichbiotech.com/resources/fragment-176-191-research-overview/"
+      }
     },
     {
       "id": 53,
