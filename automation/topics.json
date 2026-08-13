@@ -900,7 +900,11 @@
       "priority": 2,
       "intent": "informational",
       "internal_link_targets": ["/#bpc157-tb500", "/resources/thymosin-alpha-1-research-overview/", "/dosing-calculator/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-08-13",
+        "url": "https://zurichbiotech.com/resources/thymulin-research-overview/"
+      }
     },
     {
       "id": 56,
