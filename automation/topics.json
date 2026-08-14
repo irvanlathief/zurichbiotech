@@ -916,7 +916,11 @@
       "priority": 3,
       "intent": "informational",
       "internal_link_targets": ["/dosing-calculator/", "/resources/peptide-injection-sites-subcutaneous-intramuscular/", "/#compounds"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-08-14",
+        "url": "https://zurichbiotech.com/resources/peptide-half-life-pharmacokinetics/"
+      }
     },
     {
       "id": 57,
