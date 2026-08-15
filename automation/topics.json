@@ -932,7 +932,11 @@
       "priority": 3,
       "intent": "informational",
       "internal_link_targets": ["/resources/peptide-injection-sites-subcutaneous-intramuscular/", "/dosing-calculator/", "/resources/peptide-half-life-pharmacokinetics/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-08-15",
+        "url": "https://zurichbiotech.com/resources/subcutaneous-bioavailability-peptides/"
+      }
     },
     {
       "id": 58,
