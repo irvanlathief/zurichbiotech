@@ -948,7 +948,11 @@
       "priority": 3,
       "intent": "informational",
       "internal_link_targets": ["/resources/freeze-thaw-cycles-peptide-degradation/", "/resources/lyophilized-peptide-storage/", "/dosing-calculator/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-08-16",
+        "url": "https://zurichbiotech.com/resources/peptide-aliquoting-guide/"
+      }
     },
     {
       "id": 59,
