@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Peptide molecular weight explained: Da, kDa, and COA specs | Zurich Biotech</title>
+    <meta name="description" content="Peptide molecular weight in Da and kDa explained: how it is calculated, what it means on a COA, and why it shapes solubility and half-life in research." />
+    <meta name="keywords" content="peptide molecular weight, peptide dalton kDa, peptide MW calculation, amino acid molecular weight, peptide chain length dalton, peptide certificate of analysis, monoisotopic mass peptide, peptide molecular formula, BPC-157 molecular weight, semaglutide molecular weight" />
+    <link rel="canonical" href="https://zurichbiotech.com/resources/peptide-molecular-weight-guide/" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    <meta name="author" content="Zurich Biotech" />
+
+    <meta name="geo.region" content="ID-BA" />
+    <meta name="geo.placename" content="Canggu, Bali, Indonesia" />
+    <meta name="geo.position" content="-8.6478;115.1385" />
+    <meta name="ICBM" content="-8.6478, 115.1385" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Zurich Biotech" />
+    <meta property="og:title" content="Peptide molecular weight explained: Da, kDa, and COA specs" />
+    <meta property="og:description" content="Peptide molecular weight in Da and kDa explained: how it is calculated, what it means on a COA, and why it shapes solubility and half-life in research." />
+    <meta property="og:url" content="https://zurichbiotech.com/resources/peptide-molecular-weight-guide/" />
+    <meta property="og:image" content="https://zurichbiotech.com/assets/data-viz-reference.png" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="article:published_time" content="2026-08-17" />
+    <meta property="article:section" content="Protocol" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Peptide molecular weight explained: Da, kDa, and COA specs" />
+    <meta name="twitter:description" content="Peptide molecular weight in Da and kDa explained: how it is calculated, what it means on a COA, and why it shapes solubility and half-life in research." />
+    <meta name="twitter:image" content="https://zurichbiotech.com/assets/data-viz-reference.png" />
+
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+
+    <style>
+      .article-page { padding: 120px clamp(16px, 5vw, 88px) 80px; max-width: 760px; margin: 0 auto; }
+      .article-page h1 { font-size: clamp(32px, 3.5vw, 52px); font-weight: 400; margin: 16px 0 24px; line-height: 1.1; }
+      .article-page h1 span { color: var(--red); }
+      .article-page .article-meta { font-family: var(--tech); font-size: 12px; text-transform: uppercase; color: var(--gray-700); letter-spacing: 0.04em; }
+      .article-page .lede { font-size: clamp(17px, 1.5vw, 19px); line-height: 1.6; color: var(--gray-900, #222); margin: 0 0 40px; }
+      .article-page h2 { font-size: clamp(22px, 2.2vw, 30px); font-weight: 500; margin: 48px 0 16px; line-height: 1.25; }
+      .article-page h3 { font-size: clamp(18px, 1.8vw, 22px); font-weight: 500; margin: 32px 0 12px; }
+      .article-page p, .article-page li { font-size: 16px; line-height: 1.7; color: var(--gray-900, #222); }
+      .article-page p { margin: 0 0 18px; }
+      .article-page ul, .article-page ol { padding-left: 22px; margin: 0 0 24px; }
+      .article-page li { margin-bottom: 8px; }
+      .article-page a { color: var(--black); text-decoration: underline; text-underline-offset: 3px; }
+      .article-page a:hover { color: var(--red); }
+      .article-page blockquote { border-left: 3px solid var(--red); padding: 4px 0 4px 20px; margin: 24px 0; font-style: italic; color: var(--gray-700); }
+      .article-page .faq { margin-top: 64px; padding-top: 40px; border-top: 1px solid var(--gray-200); }
+      .article-page .faq h2 { margin-top: 0; }
+      .article-page .faq details { padding: 16px 0; border-bottom: 1px solid var(--gray-200); }
+      .article-page .faq summary { font-family: var(--tech); font-size: 14px; font-weight: 700; cursor: pointer; }
+      .article-page .faq details[open] summary { color: var(--red); }
+      .article-page .faq details p { margin: 12px 0 0; }
+      .article-page .end-cta { margin-top: 64px; padding: 32px clamp(20px, 4vw, 48px); border: 1px solid var(--gray-200); background: #f7f7f7; }
+      .article-page .end-cta h3 { margin: 0 0 8px; }
+      .article-page .end-cta p { font-family: var(--tech); text-transform: uppercase; font-size: 12px; letter-spacing: 0.04em; color: var(--gray-700); margin: 0 0 16px; }
+      .article-page .end-cta a { display: inline-block; font-family: var(--tech); font-size: 13px; font-weight: 700; text-transform: uppercase; background: var(--black); color: var(--white); padding: 14px 22px; text-decoration: none; }
+      .article-page .end-cta a:hover { background: var(--red); }
+      .article-breadcrumbs { font-family: var(--tech); font-size: 11px; text-transform: uppercase; color: var(--gray-700); letter-spacing: 0.04em; margin: 0 0 8px; }
+      .article-breadcrumbs a { color: var(--gray-700); text-decoration: none; }
+      .article-breadcrumbs a:hover { color: var(--black); }
+    </style>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://zurichbiotech.com/" },
+            { "@type": "ListItem", "position": 2, "name": "Resources", "item": "https://zurichbiotech.com/resources/" },
+            { "@type": "ListItem", "position": 3, "name": "Peptide Molecular Weight", "item": "https://zurichbiotech.com/resources/peptide-molecular-weight-guide/" }
+          ]
+        },
+        {
+          "@type": "Article",
+          "@id": "https://zurichbiotech.com/resources/peptide-molecular-weight-guide/#article",
+          "headline": "Peptide molecular weight explained: Da, kDa, and COA specs",
+          "description": "Peptide molecular weight in Da and kDa explained: how it is calculated, what it means on a COA, and why it shapes solubility and half-life in research.",
+          "image": "https://zurichbiotech.com/assets/data-viz-reference.png",
+          "datePublished": "2026-08-17",
+          "dateModified": "2026-08-17",
+          "author": { "@id": "https://zurichbiotech.com/#organization" },
+          "publisher": { "@id": "https://zurichbiotech.com/#organization" },
+          "mainEntityOfPage": "https://zurichbiotech.com/resources/peptide-molecular-weight-guide/",
+          "articleSection": "Protocol",
+          "inLanguage": "en",
+          "isPartOf": { "@id": "https://zurichbiotech.com/resources/#blog" }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+  {
+    "@type": "Question",
+    "name": "Does peptide molecular weight tell you if a vial is pure?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "No. Molecular weight confirms the compound's identity when the observed and theoretical values match; purity is a separate HPLC percentage reported next to it on the COA. A vial can show the correct molecular weight and still carry a low purity score from synthesis byproducts."
+    }
+  },
+  {
+    "@type": "Question",
+    "name": "Why do some COAs list two different molecular weights for the same peptide?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "One figure is the free peptide's molecular weight, and the other includes the acetate salt form the peptide typically ships as. The acetate counterions add mass without adding active compound, so the salt-form number slightly overstates how much peptide is in the vial."
+    }
+  },
+  {
+    "@type": "Question",
+    "name": "Does a higher molecular weight mean a longer shelf life?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Not directly. Shelf life depends on a peptide's specific degradation pathways, oxidation-prone residues, and storage conditions, not on overall molecular weight. A small peptide stored correctly can outlast a larger one stored poorly."
+    }
+  },
+  {
+    "@type": "Question",
+    "name": "Why do GLP-1 analogues like semaglutide have a higher molecular weight than native GLP-1?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Manufacturers attach a fatty acid chain to the peptide backbone specifically to raise molecular weight and drive albumin binding, which slows renal clearance and extends the plasma half-life from minutes to roughly a week."
+    }
+  },
+  {
+    "@type": "Question",
+    "name": "Is a dalton the same unit as a gram per mole?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Numerically, yes. One dalton and one gram per mole represent the same mass value, and COAs and chemical databases use the two units interchangeably when reporting a peptide's molecular weight."
+    }
+  },
+  {
+    "@type": "Question",
+    "name": "Does molecular weight affect which syringe filter to use during reconstitution?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "No. Standard 0.22 micron sterile filters used in aseptic reconstitution have pores many thousands of times larger than any peptide discussed here, so filter choice depends on volume and material, not molecular weight."
+    }
+  }
+]
+        }
+      ]
+    }
+    </script>
+    
+  <!-- Vercel Web Analytics -->
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
+  <body>
+    <header class="site-header" aria-label="Primary navigation">
+      <a class="brand" href="/" aria-label="Zurich Biotech home">Zurich Biotech<span>+</span></a>
+      <nav>
+        <a href="/#protocols">Protocols</a>
+        <a href="/#science">Science</a>
+        <a href="/#compounds">Compounds</a>
+        <a href="/resources/">Resources</a>
+        <a href="/#truth">About</a>
+        <a class="nav-cta" href="/cart.html" aria-label="Cart">Your Cart <span class="cart-count" id="cartCount">0</span></a>
+      </nav>
+    </header>
+
+    <main class="article-page" id="top">
+      <nav class="article-breadcrumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a> / <a href="/resources/">Resources</a> / <span>Peptide Molecular Weight</span>
+      </nav>
+      <p class="article-meta">Protocol · August 17, 2026</p>
+      <h1>Peptide molecular weight: what Da and kDa mean for research<span>+</span></h1>
+      <p class="lede">Peptide molecular weight, printed on every certificate of analysis in daltons (Da) or kilodaltons (kDa), is one of the least understood numbers on the page.</p>
+
+      <article>
+        <p>Peptide molecular weight, printed on every certificate of analysis in daltons (Da) or kilodaltons (kDa), is one of the least understood numbers on the page. It tells a researcher whether a vial contains the right compound, how that compound will behave in solution, and how quickly it clears from a biological system once injected. Most reconstitution errors and concentration miscalculations trace back to someone skimming past this figure rather than using it.</p>
+
+<h2>What peptide molecular weight actually measures</h2>
+<p>A dalton is a unit of mass equal to roughly one twelfth the mass of a carbon-12 atom, close enough to the mass of a single hydrogen atom to use as an intuitive reference point. Peptides fall in the 2 to 50 amino acid range by the standard biochemical definition; StatPearls classifies chains of 10 to 20 residues as oligopeptides and anything longer as a polypeptide (<a href="https://www.ncbi.nlm.nih.gov/books/NBK562260/">Kaprive and Krishnamurthy, StatPearls 2023</a>). Most research peptides sold as reference material, BPC-157, TB-500, the GHRP family, sit well under 5,000 Da. Full proteins and antibodies run into the tens of kilodaltons, which is why the unit switches once a chain crosses roughly 10,000 Da.</p>
+<p>Molecular weight is not a measure of purity. A vial can report a perfect theoretical molecular weight and still contain a mixture of the target peptide, truncated synthesis byproducts, and residual solvent. Purity comes from a separate HPLC percentage, covered in our <a href="/resources/peptide-purity-coa-explained/">certificate of analysis guide</a>. Molecular weight and purity answer different questions, and a COA that only reports one of them is incomplete.</p>
+
+<h3>Calculating it from the sequence</h3>
+<p>Each amino acid residue has a fixed average mass once it is bonded into a chain, glycine contributes 57.05 Da, alanine 71.08 Da, tryptophan 186.21 Da, and so on. Peptide bond formation releases one water molecule per bond, so the chain's total mass is the sum of the residue masses plus a single water molecule (18.02 Da) added back to account for the free amino and carboxyl termini. A 15-residue peptide like BPC-157 sums to a molecular formula of C62H98N16O22 and a calculated mass of 1,419.5 Da, a figure confirmed independently by PubChem (<a href="https://pubchem.ncbi.nlm.nih.gov/compound/Bpc-157">PubChem CID 9941957</a>).</p>
+<p>Mass spectrometry labs distinguish two versions of this number. Monoisotopic mass uses the exact mass of each element's most common isotope (carbon-12, hydrogen-1, nitrogen-14) and is what an LC-MS instrument reports as its sharpest peak. Average mass uses the natural isotopic abundance across all isotopes of each element and is what most vendor COAs list as the standard molecular weight.</p>
+<p>Below roughly 1,500 Da the two values sit close enough together that the distinction rarely matters for a research buyer. Above that threshold, larger peptides carry enough heavy-isotope atoms that the two figures can diverge by a few daltons, a gap that matters to an analytical chemist matching a mass spec peak list against a database entry (<a href="https://www.ncbi.nlm.nih.gov/books/NBK562260/">StatPearls, mass spectrometry peak matching</a>).</p>
+
+<h2>Reading molecular weight on a certificate of analysis</h2>
+<p>A COA typically lists a theoretical molecular weight, calculated directly from the amino acid sequence, next to an observed molecular weight, measured by mass spectrometry on the actual batch. The two should match within a fraction of a dalton to a couple of daltons, depending on the instrument's resolution. A larger gap is a warning sign.</p>
+<p>An observed mass roughly 16 Da higher than theoretical usually points to oxidation of a methionine or cysteine residue, a failure mode covered in our <a href="/resources/peptide-oxidation-prevention/">oxidation prevention guide</a>. A gap in the hundreds of daltons suggests a truncated sequence, a missed coupling step during synthesis, or the wrong compound in the vial entirely.</p>
+<p>Some COAs report two different molecular weights for the same compound: one for the free peptide and one for the acetate salt form the peptide typically ships as. The acetate counterions add mass without adding active compound, so a vial labeled by the salt-form molecular weight contains slightly less peptide by mass than the number on the label implies. This matters directly for concentration math on the <a href="/dosing-calculator/">dosing calculator</a>, since converting a vial's stated milligrams into a millimolar research concentration only works correctly when the researcher knows which molecular weight the label is using.</p>
+
+<h2>Why molecular weight shapes pharmacokinetics</h2>
+<p>Molecular weight is one of the strongest predictors of how quickly a peptide clears the body through renal filtration. A 2012 analysis in <em>British Journal of Clinical Pharmacology</em> (<a href="https://pubmed.ncbi.nlm.nih.gov/22242561/">Czock, Keller, and Seidling, n=21 peptide and protein drugs</a>) modeled pharmacokinetic data across 21 approved peptide and protein drugs in patients with severe renal impairment. The paper found a continuous, non-linear relationship between molecular weight and pharmacokinetic change under renal impairment, with low molecular weight peptides showing an average 30 percent reduction in clearance and a 3.1-fold prolongation in half-life once kidney function was severely reduced. Small peptides pass through glomerular filtration easily; increasing size is one of the standard ways to slow that process down.</p>
+<p>The GLP-1 receptor agonist class is the clearest illustration of this principle at work in a marketed drug. Native GLP-1 has a plasma half-life measured in minutes. Semaglutide, by contrast, carries a C18 fatty diacid chain attached through a linker at a single lysine residue, raising its molecular weight to roughly 4,114 Da (<a href="https://pubchem.ncbi.nlm.nih.gov/compound/56843331">PubChem CID 56843331</a>) and giving it a hydrodynamic profile close to serum albumin.</p>
+<p>The design paper behind the compound describes how that fatty acid modification drives high-affinity albumin binding, which shields the peptide from renal filtration and extends its plasma residence time (<a href="https://pubmed.ncbi.nlm.nih.gov/26308095/">Lau et al., Journal of Medicinal Chemistry, 2015</a>). Our <a href="/resources/peptide-half-life-pharmacokinetics/">half-life and pharmacokinetics guide</a> covers this mechanism, and the retatrutide research literature, in more depth.</p>
+
+<h2>Molecular weight across common research peptides</h2>
+<p>Compounds discussed on our <a href="/#compounds">compound reference pages</a> span a wide molecular weight range even though most are described loosely as "peptides."</p>
+<ul>
+<li>BPC-157, 15 residues, 1,419.5 Da (PubChem CID 9941957)</li>
+<li>CJC-1295 with DAC, 29 residues plus the drug affinity complex, 3,647.2 Da (PubChem CID 91971820)</li>
+<li>Thymosin Beta-4 (TB-500), 43 residues, 4,963.4 Da (PubChem CID 45382195)</li>
+<li>Semaglutide, 31 residues plus a C18 fatty diacid, roughly 4,114 Da (PubChem CID 56843331)</li>
+<li>Retatrutide, 39 residues plus a fatty acid conjugate, roughly 4,731 Da per manufacturer chemical databases</li>
+</ul>
+<p>The pattern is not subtle. Compounds engineered for extended half-life, semaglutide, retatrutide, tirzepatide, cluster near 4,100 to 4,900 Da specifically because their designers added mass on purpose. Short repair and signaling peptides like BPC-157 stay under 1,500 Da because nothing in their mechanism benefits from a longer circulating half-life.</p>
+
+<h2>Mistakes to avoid when reading the number</h2>
+<p>Two molecular weights on the same COA, free peptide and acetate salt, is the single most common source of confusion, and it changes the actual milligram content of the compound in the vial. Assuming molecular weight predicts solubility is another one; a peptide's charge distribution and hydrophobic residue pattern determine solubility far more than its overall mass, a point covered in our <a href="/resources/peptide-solubility-guide/">solubility guide</a>. Finally, molecular weight does not tell a researcher anything about sterility or filter compatibility. A 0.22 micron syringe filter, standard for reconstituting research peptides under <a href="/resources/aseptic-technique-peptide-research/">aseptic technique</a>, has pores tens of thousands of times larger than any peptide in this weight range and works identically whether the peptide is 1,400 Da or 5,000 Da.</p>
+      </article>
+
+      <section class="faq" aria-labelledby="faq-title">
+        <h2 id="faq-title">FAQ</h2>
+        <details><summary>Does peptide molecular weight tell you if a vial is pure?</summary><p>No. Molecular weight confirms the compound's identity when the observed and theoretical values match; purity is a separate HPLC percentage reported next to it on the COA. A vial can show the correct molecular weight and still carry a low purity score from synthesis byproducts.</p></details>
+        <details><summary>Why do some COAs list two different molecular weights for the same peptide?</summary><p>One figure is the free peptide's molecular weight, and the other includes the acetate salt form the peptide typically ships as. The acetate counterions add mass without adding active compound, so the salt-form number slightly overstates how much peptide is in the vial.</p></details>
+        <details><summary>Does a higher molecular weight mean a longer shelf life?</summary><p>Not directly. Shelf life depends on a peptide's specific degradation pathways, oxidation-prone residues, and storage conditions, not on overall molecular weight. A small peptide stored correctly can outlast a larger one stored poorly.</p></details>
+        <details><summary>Why do GLP-1 analogues like semaglutide have a higher molecular weight than native GLP-1?</summary><p>Manufacturers attach a fatty acid chain to the peptide backbone specifically to raise molecular weight and drive albumin binding, which slows renal clearance and extends the plasma half-life from minutes to roughly a week.</p></details>
+        <details><summary>Is a dalton the same unit as a gram per mole?</summary><p>Numerically, yes. One dalton and one gram per mole represent the same mass value, and COAs and chemical databases use the two units interchangeably when reporting a peptide's molecular weight.</p></details>
+        <details><summary>Does molecular weight affect which syringe filter to use during reconstitution?</summary><p>No. Standard 0.22 micron sterile filters used in aseptic reconstitution have pores many thousands of times larger than any peptide discussed here, so filter choice depends on volume and material, not molecular weight.</p></details>
+      </section>
+
+      <aside class="end-cta" aria-label="Browse compounds">
+        <h3>Browse the research peptide catalog</h3>
+        <p>Shipped across Bali, Jakarta, Surabaya, Yogyakarta and tier-1 Indonesia. Research use only.</p>
+        <a href="/#compounds">View Compounds +</a>
+      </aside>
+    </main>
+
+    <script src="/script.js"></script>
+  </body>
+</html>
