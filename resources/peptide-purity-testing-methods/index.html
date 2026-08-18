@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Peptide purity testing methods: HPLC vs mass spectrometry | Zurich Biotech</title>
+    <meta name="description" content="Peptide purity testing methods split into HPLC for separation, mass spectrometry for identity, and amino acid analysis for actual mass. What each one catches." />
+    <meta name="keywords" content="peptide purity testing methods, HPLC peptide analysis, mass spectrometry peptide purity, LC-MS peptide QC, reverse phase HPLC peptide, amino acid analysis peptide, qNMR peptide purity, peptide identity confirmation, peptide COA testing method, peptide purity Indonesia" />
+    <link rel="canonical" href="https://zurichbiotech.com/resources/peptide-purity-testing-methods/" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    <meta name="author" content="Zurich Biotech" />
+
+    <meta name="geo.region" content="ID-BA" />
+    <meta name="geo.placename" content="Canggu, Bali, Indonesia" />
+    <meta name="geo.position" content="-8.6478;115.1385" />
+    <meta name="ICBM" content="-8.6478, 115.1385" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Zurich Biotech" />
+    <meta property="og:title" content="Peptide purity testing methods: HPLC vs mass spectrometry" />
+    <meta property="og:description" content="Peptide purity testing methods split into HPLC for separation, mass spectrometry for identity, and amino acid analysis for actual mass. What each one catches." />
+    <meta property="og:url" content="https://zurichbiotech.com/resources/peptide-purity-testing-methods/" />
+    <meta property="og:image" content="https://zurichbiotech.com/assets/protocol-reference.png" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="article:published_time" content="2026-08-18" />
+    <meta property="article:section" content="Protocol" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Peptide purity testing methods: HPLC vs mass spectrometry" />
+    <meta name="twitter:description" content="Peptide purity testing methods split into HPLC for separation, mass spectrometry for identity, and amino acid analysis for actual mass. What each one catches." />
+    <meta name="twitter:image" content="https://zurichbiotech.com/assets/protocol-reference.png" />
+
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+
+    <style>
+      .article-page { padding: 120px clamp(16px, 5vw, 88px) 80px; max-width: 760px; margin: 0 auto; }
+      .article-page h1 { font-size: clamp(32px, 3.5vw, 52px); font-weight: 400; margin: 16px 0 24px; line-height: 1.1; }
+      .article-page h1 span { color: var(--red); }
+      .article-page .article-meta { font-family: var(--tech); font-size: 12px; text-transform: uppercase; color: var(--gray-700); letter-spacing: 0.04em; }
+      .article-page .lede { font-size: clamp(17px, 1.5vw, 19px); line-height: 1.6; color: var(--gray-900, #222); margin: 0 0 40px; }
+      .article-page h2 { font-size: clamp(22px, 2.2vw, 30px); font-weight: 500; margin: 48px 0 16px; line-height: 1.25; }
+      .article-page h3 { font-size: clamp(18px, 1.8vw, 22px); font-weight: 500; margin: 32px 0 12px; }
+      .article-page p, .article-page li { font-size: 16px; line-height: 1.7; color: var(--gray-900, #222); }
+      .article-page p { margin: 0 0 18px; }
+      .article-page ul, .article-page ol { padding-left: 22px; margin: 0 0 24px; }
+      .article-page li { margin-bottom: 8px; }
+      .article-page a { color: var(--black); text-decoration: underline; text-underline-offset: 3px; }
+      .article-page a:hover { color: var(--red); }
+      .article-page blockquote { border-left: 3px solid var(--red); padding: 4px 0 4px 20px; margin: 24px 0; font-style: italic; color: var(--gray-700); }
+      .article-page .faq { margin-top: 64px; padding-top: 40px; border-top: 1px solid var(--gray-200); }
+      .article-page .faq h2 { margin-top: 0; }
+      .article-page .faq details { padding: 16px 0; border-bottom: 1px solid var(--gray-200); }
+      .article-page .faq summary { font-family: var(--tech); font-size: 14px; font-weight: 700; cursor: pointer; }
+      .article-page .faq details[open] summary { color: var(--red); }
+      .article-page .faq details p { margin: 12px 0 0; }
+      .article-page .end-cta { margin-top: 64px; padding: 32px clamp(20px, 4vw, 48px); border: 1px solid var(--gray-200); background: #f7f7f7; }
+      .article-page .end-cta h3 { margin: 0 0 8px; }
+      .article-page .end-cta p { font-family: var(--tech); text-transform: uppercase; font-size: 12px; letter-spacing: 0.04em; color: var(--gray-700); margin: 0 0 16px; }
+      .article-page .end-cta a { display: inline-block; font-family: var(--tech); font-size: 13px; font-weight: 700; text-transform: uppercase; background: var(--black); color: var(--white); padding: 14px 22px; text-decoration: none; }
+      .article-page .end-cta a:hover { background: var(--red); }
+      .article-breadcrumbs { font-family: var(--tech); font-size: 11px; text-transform: uppercase; color: var(--gray-700); letter-spacing: 0.04em; margin: 0 0 8px; }
+      .article-breadcrumbs a { color: var(--gray-700); text-decoration: none; }
+      .article-breadcrumbs a:hover { color: var(--black); }
+    </style>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://zurichbiotech.com/" },
+            { "@type": "ListItem", "position": 2, "name": "Resources", "item": "https://zurichbiotech.com/resources/" },
+            { "@type": "ListItem", "position": 3, "name": "Peptide purity testing methods", "item": "https://zurichbiotech.com/resources/peptide-purity-testing-methods/" }
+          ]
+        },
+        {
+          "@type": "Article",
+          "@id": "https://zurichbiotech.com/resources/peptide-purity-testing-methods/#article",
+          "headline": "Peptide purity testing methods: HPLC vs mass spectrometry",
+          "description": "Peptide purity testing methods split into HPLC for separation, mass spectrometry for identity, and amino acid analysis for actual mass. What each one catches.",
+          "image": "https://zurichbiotech.com/assets/protocol-reference.png",
+          "datePublished": "2026-08-18",
+          "dateModified": "2026-08-18",
+          "author": { "@id": "https://zurichbiotech.com/#organization" },
+          "publisher": { "@id": "https://zurichbiotech.com/#organization" },
+          "mainEntityOfPage": "https://zurichbiotech.com/resources/peptide-purity-testing-methods/",
+          "articleSection": "Protocol",
+          "inLanguage": "en",
+          "isPartOf": { "@id": "https://zurichbiotech.com/resources/#blog" }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Does HPLC purity tell me how much peptide is actually in the vial?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. HPLC purity is a peak-area ratio, not a mass measurement. It tells you what fraction of the detected signal is the target peak, not how many milligrams of peptide sit in the vial. Amino acid analysis or qNMR are the methods that answer the mass question."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is the difference between HPLC purity and mass spec identity confirmation?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "HPLC separates the sample and scores how dominant the main peak is. Mass spectrometry measures that peak's mass-to-charge ratio and checks it against the expected value for the declared sequence. One measures dominance, the other measures identity, and neither substitutes for the other."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Why does amino acid analysis give a different number than the weight on the COA?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A weighed vial includes water and residual counter-ion salts along with the peptide. Amino acid analysis measures only the peptide portion. Published comparisons across reference peptides have found actual content running 4.4% to 12.5% below the nominal weighed figure once that gap is measured directly."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do I need MS/MS to confirm a peptide's sequence?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A standard mass spec scan confirms total mass, which two peptides with the same amino acids in a different order can share. MS/MS fragmentation reads the actual bond-by-bond sequence. It matters most for novel or custom sequences; well-characterized commercial peptides carry a lower practical risk of order errors."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I know which purity testing method a supplier actually used?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Check whether the COA names the method, not just a percentage. A document specifying RP-HPLC at 214 nm plus a separate MS identity check is stronger evidence than an unlabeled purity figure. If mass is critical to the protocol, ask whether amino acid analysis or qNMR was run."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
+  <!-- Vercel Web Analytics -->
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
+  <body>
+    <header class="site-header" aria-label="Primary navigation">
+      <a class="brand" href="/" aria-label="Zurich Biotech home">Zurich Biotech<span>+</span></a>
+      <nav>
+        <a href="/#protocols">Protocols</a>
+        <a href="/#science">Science</a>
+        <a href="/#compounds">Compounds</a>
+        <a href="/resources/">Resources</a>
+        <a href="/#truth">About</a>
+        <a class="nav-cta" href="/cart.html" aria-label="Cart">Your Cart <span class="cart-count" id="cartCount">0</span></a>
+      </nav>
+    </header>
+
+    <main class="article-page" id="top">
+      <nav class="article-breadcrumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a> / <a href="/resources/">Resources</a> / <span>Peptide purity testing methods</span>
+      </nav>
+      <p class="article-meta">Protocol &middot; August 18, 2026</p>
+      <h1>Peptide purity testing methods: HPLC, mass spectrometry, and what each one catches<span>+</span></h1>
+      <p class="lede">Peptide purity testing methods split into three separate families: reversed-phase HPLC for separation, mass spectrometry for identity, and amino acid analysis or qNMR for the actual mass in the vial. Only the last of those answers a different question than the percentage printed on a standard COA.</p>
+
+      <article>
+        <h2>What peptide purity testing methods actually measure</h2>
+
+        <p>Most peptide purity testing methods used in research-grade QC fall into three categories, and each answers a different question. Reversed-phase HPLC separates the sample and calculates what fraction of the detected signal is a single dominant peak. Mass spectrometry confirms that peak is the correct molecule by comparing its measured mass against the theoretical mass of the declared sequence. Amino acid analysis and quantitative NMR go a step further and measure how many milligrams of actual peptide sit in the vial, independent of water content or leftover synthesis salts.</p>
+
+        <p>A protocol that depends on an exact concentration, receptor binding work, dose-response curves, in-vivo dosing scaled to body weight, needs to know which of these three method families produced the number on the label. A 99% HPLC figure and a verified mass from amino acid analysis are not the same claim, and a COA that reports only the first is answering a narrower question than one that reports both.</p>
+
+        <h2>Reversed-phase HPLC: the primary separation method</h2>
+
+        <p>RP-HPLC pushes the dissolved sample through a C18 column (C4 or C8 for larger, more hydrophobic sequences) packed with silica bonded to hydrocarbon chains. A mobile-phase gradient runs from mostly water to mostly acetonitrile, both carrying about 0.1% trifluoroacetic acid as an ion-pairing agent. Hydrophilic impurities elute early in the run; the target peptide elutes later, at a retention time characteristic of its sequence and hydrophobicity.</p>
+
+        <p>A UV detector set at 214 nm, the wavelength at which the peptide bond absorbs strongly, records absorbance as each compound exits the column. The resulting chromatogram is what the purity percentage comes from: the target peak's area, divided by the combined area of every peak in the trace.</p>
+
+        <p>Manheim et al. (<a href="https://pubmed.ncbi.nlm.nih.gov/38225399/">Analytical and Bioanalytical Chemistry, 2024</a>) described an automated LC-screening workflow, paired with in-silico retention time modeling, that predicted actual peptide retention times within 7% of the modeled value across a panel of peptide, protein, and small-molecule test compounds. Method development that used to take days of manual column and gradient trials is now largely automated, which is part of why contract labs can turn around a validated HPLC assay for a new sequence in a few days rather than weeks.</p>
+
+        <h2>Mass spectrometry: confirming identity, not quantity</h2>
+
+        <p>HPLC purity says nothing about what the dominant peak actually is. Mass spectrometry closes that gap by ionizing the peptide and measuring its mass-to-charge ratio, then comparing that figure against the mass calculated from the declared amino acid sequence.</p>
+
+        <p>A match within 0.1 Da on a low-resolution instrument, or within 5 parts per million on a high-resolution one, confirms the peptide has the correct total mass. It does not confirm the amino acids sit in the declared order: two sequences built from the same amino acids in a different arrangement carry an identical total mass and look the same to a standard scan. Resolving that requires MS/MS fragmentation, breaking the peptide into smaller ions and reading the resulting fragment pattern, a step some suppliers run as a supplementary check but few include by default.</p>
+
+        <p>Jenkins et al. (<a href="https://pubmed.ncbi.nlm.nih.gov/25392238/">The AAPS Journal, 2015</a>), writing consensus recommendations for LC-MS/MS bioanalytical validation on behalf of a multi-company industry working group, note that protein and peptide mass spectrometry assays need different validation logic than small-molecule assays. Selectivity, matrix effects, and the availability of reference material all behave differently at peptide scale, and a purity assay validated the way a small-molecule drug assay is validated can misstate its own detection limit.</p>
+
+        <h2>Amino acid analysis and qNMR: measuring actual mass</h2>
+
+        <p>RP-HPLC and mass spectrometry both describe the sample relative to itself: what fraction of the signal is the main peak, and does that peak match the expected mass. Neither one weighs the peptide against an external, absolute reference.</p>
+
+        <p>Amino acid analysis (AAA) does. The peptide is hydrolyzed down to its individual amino acids, each of which is then quantified against a calibrated reference standard, giving a mass-based figure for how much peptide is actually present per milligram of powder. Quantitative NMR (qNMR) reaches a comparable answer by a different route, comparing the peptide's signal against an internal reference compound of known concentration.</p>
+
+        <p>The gap between an HPLC purity claim and an AAA-derived mass figure can be substantial. Hoofnagle et al. (<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4830481/">Clinical Chemistry, 2016; Clinical Proteomic Tumor Analysis Consortium, n=3 reference peptides</a>) reported that amino acid analysis across multiple laboratories found actual peptide content running 4.4% to 12.5% below the nominal weight printed on the reference material, once water content and counter-ion salts were measured directly rather than assumed. A vial labeled 1 mg on a balance can contain closer to 0.9 mg of actual peptide, or less, once that gap is accounted for.</p>
+
+        <p>Melanson et al. (<a href="https://pubmed.ncbi.nlm.nih.gov/30143839/">Analytical and Bioanalytical Chemistry, 2018</a>) combined qNMR with LC-MS/MS amino acid analysis to certify an angiotensin II reference material at 691 ± 9 mg/g (k=2), a level of cross-method agreement that HPLC alone cannot produce, since HPLC never measures absolute mass in the first place.</p>
+
+        <h2>What each method catches, and what it misses</h2>
+
+        <p>No single test covers identity, purity, and mass at once. Matching the method to the actual question prevents a passed test from being read as evidence of something it was never built to check.</p>
+
+        <ul>
+          <li>RP-HPLC catches co-eluting synthesis by-products, deletion sequences, and oxidized variants that shift retention time. It misses the peptide's exact mass in the vial, and any compound that does not absorb strongly at 214 nm, including water and most inorganic salts.</li>
+          <li>Mass spectrometry catches the wrong total mass, incomplete synthesis, and incorrect amino acid substitutions. It misses amino acid order unless MS/MS is run, and it provides no quantity information at all.</li>
+          <li>Amino acid analysis and qNMR catch the actual peptide mass per milligram of powder, including water and salt content that inflate a weighed sample. They miss which specific impurity structure is present, which remains HPLC and MS territory.</li>
+        </ul>
+
+        <p>A COA carrying only an HPLC percentage answers a narrower question than a batch record carrying HPLC, MS identity, and an AAA-derived mass figure together. The <a href="/resources/peptide-purity-coa-explained/">COA interpretation guide</a> covers how to read the rest of that document once the testing method behind each figure is clear.</p>
+
+        <h2>Verifying test methods when sourcing peptides in Indonesia</h2>
+
+        <p>Independent labs equipped for peptide-grade LC-MS and amino acid analysis are concentrated in a handful of countries and rarely operate locally. Most researchers working out of Jakarta, Bali, or Surabaya rely on the manufacturer's own COA rather than commissioning a third-party retest of every batch that arrives.</p>
+
+        <p>That makes two checks worth running before starting a protocol. First, confirm the COA names the method behind each figure rather than listing a bare percentage. A document specifying RP-HPLC at 214 nm alongside a separate MS identity check is stronger evidence than an unlabeled purity number. Second, cross-reference the lot number on the COA against the vial label; a COA that does not match the batch actually shipped proves nothing about that batch.</p>
+
+        <p>Heat and humidity in transit compound the problem. A peptide that tested clean at the point of manufacture can pick up oxidation or hydrolysis products before it reaches a bench in Canggu or Surabaya, changes no COA issued at the factory will show. The <a href="/resources/lyophilized-peptide-storage/">lyophilized peptide storage guide</a> covers the storage conditions that limit that drift once a shipment arrives, and the <a href="/dosing-calculator/">dosing calculator</a> uses the purity and water content figures from a COA to work out the actual peptide mass available for a given protocol. Zurich Biotech includes the manufacturer's original COA with every shipment across the <a href="/#compounds">compound catalog</a> and ships all Indonesia deliveries in insulated cold-chain packaging.</p>
+      </article>
+
+      <section class="faq" aria-labelledby="faq-title">
+        <h2 id="faq-title">FAQ</h2>
+        <details>
+          <summary>Does HPLC purity tell me how much peptide is actually in the vial?</summary>
+          <p>No. HPLC purity is a peak-area ratio, not a mass measurement. It tells you what fraction of the detected signal is the target peak, not how many milligrams of peptide sit in the vial. Amino acid analysis or qNMR are the methods that answer the mass question.</p>
+        </details>
+        <details>
+          <summary>What is the difference between HPLC purity and mass spec identity confirmation?</summary>
+          <p>HPLC separates the sample and scores how dominant the main peak is. Mass spectrometry measures that peak's mass-to-charge ratio and checks it against the expected value for the declared sequence. One measures dominance, the other measures identity, and neither substitutes for the other.</p>
+        </details>
+        <details>
+          <summary>Why does amino acid analysis give a different number than the weight on the COA?</summary>
+          <p>A weighed vial includes water and residual counter-ion salts along with the peptide. Amino acid analysis measures only the peptide portion. Published comparisons across reference peptides have found actual content running 4.4% to 12.5% below the nominal weighed figure once that gap is measured directly.</p>
+        </details>
+        <details>
+          <summary>Do I need MS/MS to confirm a peptide's sequence?</summary>
+          <p>A standard mass spec scan confirms total mass, which two peptides with the same amino acids in a different order can share. MS/MS fragmentation reads the actual bond-by-bond sequence. It matters most for novel or custom sequences; well-characterized commercial peptides carry a lower practical risk of order errors.</p>
+        </details>
+        <details>
+          <summary>How do I know which purity testing method a supplier actually used?</summary>
+          <p>Check whether the COA names the method, not just a percentage. A document specifying RP-HPLC at 214 nm plus a separate MS identity check is stronger evidence than an unlabeled purity figure. If mass is critical to the protocol, ask whether amino acid analysis or qNMR was run.</p>
+        </details>
+      </section>
+
+      <aside class="end-cta" aria-label="Browse compounds">
+        <h3>Browse the research peptide catalog</h3>
+        <p>Shipped across Bali, Jakarta, Surabaya, Yogyakarta and tier-1 Indonesia. Research use only.</p>
+        <a href="/#compounds">View Compounds +</a>
+      </aside>
+    </main>
+
+    <script src="/script.js"></script>
+  </body>
+</html>
