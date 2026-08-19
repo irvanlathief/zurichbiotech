@@ -996,7 +996,11 @@
       "priority": 3,
       "intent": "informational",
       "internal_link_targets": ["/resources/u100-insulin-syringe-peptide-units/", "/resources/peptide-injection-sites-subcutaneous-intramuscular/", "/dosing-calculator/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-08-19",
+        "url": "https://zurichbiotech.com/resources/syringe-needle-gauge-peptide-research/"
+      }
     },
     {
       "id": 62,
