@@ -1028,7 +1028,11 @@
       "priority": 3,
       "intent": "informational",
       "internal_link_targets": ["/resources/lyophilized-peptide-storage/", "/resources/peptide-purity-coa-explained/", "/dosing-calculator/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-08-22",
+        "url": "https://zurichbiotech.com/resources/peptide-expiry-shelf-life/"
+      }
     },
     {
       "id": 64,
