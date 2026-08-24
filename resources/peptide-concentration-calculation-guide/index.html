@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Peptide concentration calculation: mg/mL to molarity | Zurich Biotech</title>
+    <meta name="description" content="Peptide concentration calculation for research: converting mg/mL and mcg/mL to molarity using molecular weight, with worked examples and the dilution formula." />
+    <meta name="keywords" content="peptide concentration calculation, peptide molarity calculation, mg per ml peptide, peptide solution concentration, research peptide dilution math, peptide molecular weight, mM to mg/mL peptide, peptide dilution formula, C1V1 dilution peptide, peptide concentration Indonesia" />
+    <link rel="canonical" href="https://zurichbiotech.com/resources/peptide-concentration-calculation-guide/" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    <meta name="author" content="Zurich Biotech" />
+
+    <meta name="geo.region" content="ID-BA" />
+    <meta name="geo.placename" content="Canggu, Bali, Indonesia" />
+    <meta name="geo.position" content="-8.6478;115.1385" />
+    <meta name="ICBM" content="-8.6478, 115.1385" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Zurich Biotech" />
+    <meta property="og:title" content="Peptide concentration calculation: mg/mL to molarity" />
+    <meta property="og:description" content="Peptide concentration calculation for research: converting mg/mL and mcg/mL to molarity using molecular weight, with worked examples and the dilution formula." />
+    <meta property="og:url" content="https://zurichbiotech.com/resources/peptide-concentration-calculation-guide/" />
+    <meta property="og:image" content="https://zurichbiotech.com/assets/protocol-reference.png" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="article:published_time" content="2026-08-24" />
+    <meta property="article:section" content="Protocol" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Peptide concentration calculation: mg/mL to molarity" />
+    <meta name="twitter:description" content="Peptide concentration calculation for research: converting mg/mL and mcg/mL to molarity using molecular weight, with worked examples and the dilution formula." />
+    <meta name="twitter:image" content="https://zurichbiotech.com/assets/protocol-reference.png" />
+
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+
+    <style>
+      .article-page { padding: 120px clamp(16px, 5vw, 88px) 80px; max-width: 760px; margin: 0 auto; }
+      .article-page h1 { font-size: clamp(32px, 3.5vw, 52px); font-weight: 400; margin: 16px 0 24px; line-height: 1.1; }
+      .article-page h1 span { color: var(--red); }
+      .article-page .article-meta { font-family: var(--tech); font-size: 12px; text-transform: uppercase; color: var(--gray-700); letter-spacing: 0.04em; }
+      .article-page .lede { font-size: clamp(17px, 1.5vw, 19px); line-height: 1.6; color: var(--gray-900, #222); margin: 0 0 40px; }
+      .article-page h2 { font-size: clamp(22px, 2.2vw, 30px); font-weight: 500; margin: 48px 0 16px; line-height: 1.25; }
+      .article-page h3 { font-size: clamp(18px, 1.8vw, 22px); font-weight: 500; margin: 32px 0 12px; }
+      .article-page p, .article-page li { font-size: 16px; line-height: 1.7; color: var(--gray-900, #222); }
+      .article-page p { margin: 0 0 18px; }
+      .article-page ul, .article-page ol { padding-left: 22px; margin: 0 0 24px; }
+      .article-page li { margin-bottom: 8px; }
+      .article-page a { color: var(--black); text-decoration: underline; text-underline-offset: 3px; }
+      .article-page a:hover { color: var(--red); }
+      .article-page blockquote { border-left: 3px solid var(--red); padding: 4px 0 4px 20px; margin: 24px 0; font-style: italic; color: var(--gray-700); }
+      .article-page .faq { margin-top: 64px; padding-top: 40px; border-top: 1px solid var(--gray-200); }
+      .article-page .faq h2 { margin-top: 0; }
+      .article-page .faq details { padding: 16px 0; border-bottom: 1px solid var(--gray-200); }
+      .article-page .faq summary { font-family: var(--tech); font-size: 14px; font-weight: 700; cursor: pointer; }
+      .article-page .faq details[open] summary { color: var(--red); }
+      .article-page .faq details p { margin: 12px 0 0; }
+      .article-page .end-cta { margin-top: 64px; padding: 32px clamp(20px, 4vw, 48px); border: 1px solid var(--gray-200); background: #f7f7f7; }
+      .article-page .end-cta h3 { margin: 0 0 8px; }
+      .article-page .end-cta p { font-family: var(--tech); text-transform: uppercase; font-size: 12px; letter-spacing: 0.04em; color: var(--gray-700); margin: 0 0 16px; }
+      .article-page .end-cta a { display: inline-block; font-family: var(--tech); font-size: 13px; font-weight: 700; text-transform: uppercase; background: var(--black); color: var(--white); padding: 14px 22px; text-decoration: none; }
+      .article-page .end-cta a:hover { background: var(--red); }
+      .article-breadcrumbs { font-family: var(--tech); font-size: 11px; text-transform: uppercase; color: var(--gray-700); letter-spacing: 0.04em; margin: 0 0 8px; }
+      .article-breadcrumbs a { color: var(--gray-700); text-decoration: none; }
+      .article-breadcrumbs a:hover { color: var(--black); }
+      .article-page table { width: 100%; border-collapse: collapse; margin: 0 0 24px; font-size: 15px; }
+      .article-page th, .article-page td { border: 1px solid var(--gray-200, #e5e5e5); padding: 10px 12px; text-align: left; line-height: 1.4; }
+      .article-page th { background: #f7f7f7; font-weight: 600; }
+    </style>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://zurichbiotech.com/" },
+            { "@type": "ListItem", "position": 2, "name": "Resources", "item": "https://zurichbiotech.com/resources/" },
+            { "@type": "ListItem", "position": 3, "name": "Peptide concentration calculations", "item": "https://zurichbiotech.com/resources/peptide-concentration-calculation-guide/" }
+          ]
+        },
+        {
+          "@type": "Article",
+          "@id": "https://zurichbiotech.com/resources/peptide-concentration-calculation-guide/#article",
+          "headline": "Peptide concentration calculation: mg/mL to molarity",
+          "description": "Peptide concentration calculation for research: converting mg/mL and mcg/mL to molarity using molecular weight, with worked examples and the dilution formula.",
+          "image": "https://zurichbiotech.com/assets/protocol-reference.png",
+          "datePublished": "2026-08-24",
+          "dateModified": "2026-08-24",
+          "author": { "@id": "https://zurichbiotech.com/#organization" },
+          "publisher": { "@id": "https://zurichbiotech.com/#organization" },
+          "mainEntityOfPage": "https://zurichbiotech.com/resources/peptide-concentration-calculation-guide/",
+          "articleSection": "Protocol",
+          "inLanguage": "en",
+          "isPartOf": { "@id": "https://zurichbiotech.com/resources/#blog" }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is the difference between mg/mL and molar concentration for a peptide?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Mg/mL states peptide mass per milliliter, and mcg/mL is the same measurement scaled by 1,000. Molar concentration (mM or micromolar) states the number of peptide molecules per liter, found by dividing mass concentration by the peptide's molecular weight. Two solutions can match on mg/mL and differ substantially in molar terms if the peptides have different molecular weights."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I convert mg/mL to micromolar for a peptide?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Divide the concentration in mg/mL by the peptide's molecular weight in daltons, then multiply by 1,000 for millimolar or by 1,000,000 for micromolar. A 2.5 mg/mL BPC-157 solution, molecular weight 1,419.5 Da, works out to about 1.76 mM, or 1,760 micromolar."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Why do two peptides at the same mg/mL concentration have different molar concentrations?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Molar concentration depends on molecule count, not mass. A smaller peptide molecule packs more individual molecules into the same milligram than a larger one. GHK-Cu at 402.92 Da and BPC-157 at 1,419.5 Da, at the same 1 mg/mL, differ in molar concentration by roughly the ratio of their molecular weights."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is the dilution formula for changing peptide concentration?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "C1 x V1 = C2 x V2, where C1 and V1 are the starting concentration and volume and C2 and V2 are the target concentration and volume after adding diluent. Total peptide mass stays constant; only volume and the resulting concentration change. The formula works in mass units or molar units."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Why does the salt form of a peptide affect molar concentration calculations?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A peptide's molecular weight includes the mass of any attached salt, such as acetate or trifluoroacetate. The free-base peptide and its salt form have different molecular weights, so using the free-base value for a salt-form vial, or the reverse, introduces a fixed percentage error into every molar concentration calculated from that vial."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
+  <!-- Vercel Web Analytics -->
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
+  <body>
+    <header class="site-header" aria-label="Primary navigation">
+      <a class="brand" href="/" aria-label="Zurich Biotech home">Zurich Biotech<span>+</span></a>
+      <nav>
+        <a href="/#protocols">Protocols</a>
+        <a href="/#science">Science</a>
+        <a href="/#compounds">Compounds</a>
+        <a href="/resources/">Resources</a>
+        <a href="/#truth">About</a>
+        <a class="nav-cta" href="/cart.html" aria-label="Cart">Your Cart <span class="cart-count" id="cartCount">0</span></a>
+      </nav>
+    </header>
+
+    <main class="article-page" id="top">
+      <nav class="article-breadcrumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a> / <a href="/resources/">Resources</a> / <span>Peptide concentration calculations</span>
+      </nav>
+      <p class="article-meta">Protocol · August 24, 2026</p>
+      <h1>Peptide concentration calculation: mg/mL, mcg/mL, and molarity<span>+</span></h1>
+      <p class="lede">Peptide concentration calculation converts a vial's mass and solvent volume into a number a protocol can use: mg/mL, mcg/mL, or a molar concentration such as micromolar. The molar step depends on molecular weight and matters whenever a protocol has to match a dose against a value reported in the literature.</p>
+
+      <article>
+        <h2>What peptide concentration calculation covers</h2>
+
+        <p>Peptide concentration calculation turns a known peptide mass and a known solvent volume into a number a protocol can use directly: milligrams per milliliter, micrograms per milliliter, or a molar concentration such as micromolar or millimolar. The first two units describe how much peptide mass sits in each milliliter of solution. The third describes how many peptide molecules sit in that same milliliter, which depends on the peptide's molecular weight and not on mass alone.</p>
+
+        <p>Most reconstitution protocols specify mass concentration because it maps directly onto a scale and a syringe. Molar concentration matters when a protocol references binding affinity data, an in vitro dose from a paper, or a comparison across peptides of different molecular weights. Two peptides at the same mg/mL concentration can differ by several-fold in molar concentration if their molecular weights differ by that much.</p>
+
+        <h2>Mass concentration: mg/mL and mcg/mL</h2>
+
+        <p>Mass concentration follows the formula used for any reconstitution: concentration in mg/mL equals peptide mass in milligrams divided by solvent volume in milliliters. A 5 mg vial reconstituted with 2 mL gives 2.5 mg/mL, or 2,500 mcg/mL after multiplying by 1,000. The <a href="/resources/peptide-dosing-math-guide/">peptide dosing math guide</a> covers this conversion and the syringe-unit draw calculation that follows it in full.</p>
+
+        <p>Mass concentration is sufficient for most reconstitution and dosing math, since research protocols are usually written in mass terms; a 250 mcg dose is 250 mcg regardless of the peptide's molecular weight. Where mass concentration falls short is comparing across compounds or matching a concentration reported in the literature, since published in vitro work is frequently expressed in micromolar or nanomolar terms.</p>
+
+        <h2>Molar concentration: why molecular weight changes the math</h2>
+
+        <p>Molarity measures moles of peptide per liter of solution, written mol/L or M. One mole of any substance contains the same number of molecules, roughly 6.022 x 10^23 (Avogadro's number), so molarity counts molecules rather than mass. Converting a mass concentration to molarity requires the peptide's molecular weight, usually given in daltons (Da) or grams per mole (g/mol), which are numerically the same value.</p>
+
+        <p>Peptide molecular weight varies widely by chain length and composition. BPC-157, a 15-residue pentadecapeptide, has a molecular weight of 1,419.5 Da according to <a href="https://pubchem.ncbi.nlm.nih.gov/compound/9941957">PubChem</a>. GHK-Cu, a copper-bound tripeptide, has a molecular weight of 402.92 Da according to <a href="https://pubchem.ncbi.nlm.nih.gov/compound/71587328">PubChem</a>.</p>
+
+        <p>A 1 mg/mL solution of each compound contains almost 3.5 times more peptide molecules per milliliter for GHK-Cu than for BPC-157, because the smaller molecule packs more molecules into the same mass. Mass concentration alone hides that difference; molar concentration exposes it. For how molecular weight is listed and read on a specification sheet, see the <a href="/resources/peptide-molecular-weight-guide/">peptide molecular weight guide</a>.</p>
+
+        <h2>Converting between mg/mL and molarity</h2>
+
+        <p>The conversion formula, consistent with the peptide quantification recommendations published by <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4830481/">Hoofnagle et al. in Clinical Chemistry (2016)</a>, is:</p>
+
+        <p><strong>Molarity (mM) = (Concentration in mg/mL / Molecular weight in Da) x 1,000</strong></p>
+
+        <p>Worked example with BPC-157 at 2.5 mg/mL, the concentration from a 5 mg vial reconstituted with 2 mL of bacteriostatic water:</p>
+
+        <p>(2.5 / 1,419.5) x 1,000 = 1.76 mM, or 1,760 micromolar</p>
+
+        <p>The same 2.5 mg/mL mass concentration for GHK-Cu, at 402.92 Da, gives:</p>
+
+        <p>(2.5 / 402.92) x 1,000 = 6.2 mM, or about 6,200 micromolar</p>
+
+        <p>Hoofnagle and coauthors recommend keeping peptide calibrator stocks in the 500 to 2,000 micromolar range for stability and reproducibility in mass-spectrometry-based assay work, a range set in molar terms specifically because that is what the downstream assay reads, independent of each peptide's mass concentration.</p>
+
+        <h2>Dilution math: keeping total peptide mass constant</h2>
+
+        <p>Diluting a stock solution changes concentration without changing the total amount of peptide in the vial. The <a href="https://www.ncbi.nlm.nih.gov/books/NBK560924/">StatPearls Pharmacy Calculations chapter</a> (Sharma and Dunham, NCBI Bookshelf, updated 2023) states the underlying principle directly: when a solution is diluted, "the active drug in the solution will remain constant, but the volume will increase." That fact is the entire basis of the standard dilution formula:</p>
+
+        <p><strong>C1 x V1 = C2 x V2</strong></p>
+
+        <p>C1 and V1 are the starting concentration and volume; C2 and V2 are the target concentration and volume after adding diluent. Given any three values, the fourth is solved by rearranging the equation.</p>
+
+        <p>Example: a researcher has 1 mL of a 5,000 mcg/mL BPC-157 stock and needs 2,500 mcg/mL for a protocol. Solving for V2: V2 = (C1 x V1) / C2 = (5,000 x 1) / 2,500 = 2 mL. Adding 1 mL of bacteriostatic water to the original 1 mL reaches 2 mL total at the target concentration. The formula works the same way in molar units; only the concentration terms change from mcg/mL to micromolar or millimolar.</p>
+
+        <table>
+          <caption style="text-align:left; font-family: var(--tech); font-size: 12px; color: var(--gray-700); margin-bottom: 8px;">2.5 mg/mL converted to molarity for compounds of different molecular weight</caption>
+          <thead>
+            <tr>
+              <th>Compound</th>
+              <th>Molecular weight</th>
+              <th>Molarity at 2.5 mg/mL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>GHK-Cu</td>
+              <td>402.92 Da</td>
+              <td>6.2 mM</td>
+            </tr>
+            <tr>
+              <td>BPC-157</td>
+              <td>1,419.5 Da</td>
+              <td>1.76 mM</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Common mistakes in concentration calculations</h2>
+
+        <p>Three errors recur across peptide research protocols. Applying a molar concentration from published literature directly as a mass concentration, or the reverse, without converting through molecular weight, is the most common. A paper reporting an in vitro effect at 10 micromolar cannot be matched to a stock vial labeled in mg/mL without first calculating the stock's molar concentration.</p>
+
+        <p>Treating mg and mcg as interchangeable when reading a vial label or a literature dose is the second. The <a href="https://www.ncbi.nlm.nih.gov/books/NBK430836/">StatPearls Dose Calculation chapter</a> (Gage and Preuss, NCBI Bookshelf) recommends writing the unit next to every number at each step of a calculation rather than tracking it mentally, specifically because milligram-microgram confusion is one of the most common calculation errors in practice.</p>
+
+        <p>Using an average or assumed molecular weight for a peptide instead of the value specific to its exact sequence and salt form is the third. A peptide supplied as an acetate or trifluoroacetate salt has a different molecular weight than the free base, and using the wrong one introduces a fixed percentage error into every downstream molar calculation.</p>
+
+        <h2>Checking the math before it reaches the syringe</h2>
+
+        <p>A useful check on any concentration calculation is dimensional: confirm the units on both sides of the equation match after cancellation. Dividing mg/mL by Da, equivalent to g/mol, gives mol/mL, which requires multiplying by 1,000 to reach mol/L and by 1,000,000 to reach micromolar. Skipping that check is how a calculation can look reasonable on the page and still be off by several orders of magnitude.</p>
+
+        <p>For dosing math that stays entirely in mass units, the <a href="/dosing-calculator/">Zurich Biotech dosing calculator</a> and the <a href="/resources/u100-insulin-syringe-peptide-units/">U-100 insulin syringe guide</a> cover the reconstitution-to-syringe-unit chain without a molarity step at all. Molarity becomes necessary specifically when matching a protocol to literature values reported in molar terms, or when comparing potency across compounds of different sizes in the <a href="/#compounds">compound catalog</a>.</p>
+
+        <h2>Storage and measurement conditions in Indonesian research settings</h2>
+
+        <p>A concentration calculation is only as accurate as the solvent volume actually measured into the vial. In Bali and Jakarta, ambient temperatures above 30 degrees C accelerate solvent evaporation from an open vial faster than the same process runs in a temperature-controlled lab. A vial left open on a bench during measurement in high heat can lose enough volume to raise its effective concentration, in mass and molar terms both, by a measurable margin before the calculation is applied at all. Using a calibrated syringe for solvent transfer, working over a short window, and capping the vial promptly reduces this source of error in tropical conditions.</p>
+      </article>
+
+      <section class="faq" aria-labelledby="faq-title">
+        <h2 id="faq-title">FAQ</h2>
+
+        <details>
+          <summary>What is the difference between mg/mL and molar concentration for a peptide?</summary>
+          <p>Mg/mL states peptide mass per milliliter, and mcg/mL is the same measurement scaled by 1,000. Molar concentration (mM or micromolar) states the number of peptide molecules per liter, found by dividing mass concentration by the peptide's molecular weight. Two solutions can match on mg/mL and differ substantially in molar terms if the peptides have different molecular weights.</p>
+        </details>
+
+        <details>
+          <summary>How do I convert mg/mL to micromolar for a peptide?</summary>
+          <p>Divide the concentration in mg/mL by the peptide's molecular weight in daltons, then multiply by 1,000 for millimolar or by 1,000,000 for micromolar. A 2.5 mg/mL BPC-157 solution, molecular weight 1,419.5 Da, works out to about 1.76 mM, or 1,760 micromolar.</p>
+        </details>
+
+        <details>
+          <summary>Why do two peptides at the same mg/mL concentration have different molar concentrations?</summary>
+          <p>Molar concentration depends on molecule count, not mass. A smaller peptide molecule packs more individual molecules into the same milligram than a larger one. GHK-Cu at 402.92 Da and BPC-157 at 1,419.5 Da, at the same 1 mg/mL, differ in molar concentration by roughly the ratio of their molecular weights.</p>
+        </details>
+
+        <details>
+          <summary>What is the dilution formula for changing peptide concentration?</summary>
+          <p>C1 x V1 = C2 x V2, where C1 and V1 are the starting concentration and volume and C2 and V2 are the target concentration and volume after adding diluent. Total peptide mass stays constant; only volume and the resulting concentration change. The formula works in mass units or molar units.</p>
+        </details>
+
+        <details>
+          <summary>Why does the salt form of a peptide affect molar concentration calculations?</summary>
+          <p>A peptide's molecular weight includes the mass of any attached salt, such as acetate or trifluoroacetate. The free-base peptide and its salt form have different molecular weights, so using the free-base value for a salt-form vial, or the reverse, introduces a fixed percentage error into every molar concentration calculated from that vial.</p>
+        </details>
+      </section>
+
+      <aside class="end-cta" aria-label="Browse compounds">
+        <h3>Browse the research peptide catalog</h3>
+        <p>Shipped across Bali, Jakarta, Surabaya, Yogyakarta and tier-1 Indonesia. Research use only.</p>
+        <a href="/#compounds">View Compounds +</a>
+      </aside>
+    </main>
+
+    <script src="/script.js"></script>
+  </body>
+</html>
