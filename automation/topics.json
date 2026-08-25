@@ -1060,7 +1060,11 @@
       "priority": 3,
       "intent": "informational",
       "internal_link_targets": ["/resources/lyophilized-peptide-storage/", "/resources/peptide-oxidation-prevention/", "/dosing-calculator/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-08-25",
+        "url": "https://zurichbiotech.com/resources/nitrogen-argon-vial-storage-peptides/"
+      }
     },
     {
       "id": 66,
