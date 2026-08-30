@@ -1108,7 +1108,11 @@
       "priority": 4,
       "intent": "comparison",
       "internal_link_targets": ["/#cjc1295-ipamorelin", "/resources/cjc1295-ipamorelin-research-overview/", "/resources/sermorelin-research-overview/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-08-30",
+        "url": "https://zurichbiotech.com/resources/sermorelin-vs-cjc-1295/"
+      }
     },
     {
       "id": 69,
