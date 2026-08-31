@@ -1124,7 +1124,11 @@
       "priority": 4,
       "intent": "comparison",
       "internal_link_targets": ["/#cjc1295-ipamorelin", "/resources/hexarelin-research-overview/", "/resources/cjc1295-ipamorelin-research-overview/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-08-31",
+        "url": "https://zurichbiotech.com/resources/hexarelin-vs-ipamorelin/"
+      }
     },
     {
       "id": 70,
