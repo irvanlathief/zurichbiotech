@@ -1140,7 +1140,11 @@
       "priority": 4,
       "intent": "comparison",
       "internal_link_targets": ["/#cjc1295-ipamorelin", "/resources/tesamorelin-research-overview/", "/resources/sermorelin-research-overview/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-09-01",
+        "url": "https://zurichbiotech.com/resources/tesamorelin-vs-sermorelin/"
+      }
     },
     {
       "id": 71,
