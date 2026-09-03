@@ -1156,7 +1156,11 @@
       "priority": 4,
       "intent": "comparison",
       "internal_link_targets": ["/#compounds", "/resources/igf-1-lr3-research-overview/", "/dosing-calculator/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-09-03",
+        "url": "https://zurichbiotech.com/resources/igf-1-lr3-vs-igf-1-des/"
+      }
     },
     {
       "id": 72,
