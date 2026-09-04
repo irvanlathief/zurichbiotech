@@ -1172,7 +1172,11 @@
       "priority": 4,
       "intent": "comparison",
       "internal_link_targets": ["/#bpc157-tb500", "/resources/bpc-157-research-overview/", "/resources/ghk-cu-research-overview/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-09-04",
+        "url": "https://zurichbiotech.com/resources/bpc-157-vs-ghk-cu-tissue-repair/"
+      }
     },
     {
       "id": 73,
