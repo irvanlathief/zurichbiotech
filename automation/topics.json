@@ -1188,7 +1188,11 @@
       "priority": 4,
       "intent": "comparison",
       "internal_link_targets": ["/#compounds", "/resources/melanotan-2-research-overview/", "/resources/pt-141-bremelanotide-research/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-09-05",
+        "url": "https://zurichbiotech.com/resources/melanotan-2-vs-pt-141/"
+      }
     },
     {
       "id": 74,
