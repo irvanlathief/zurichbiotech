@@ -1236,7 +1236,11 @@
       "priority": 4,
       "intent": "comparison",
       "internal_link_targets": ["/#retatrutide", "/resources/aod-9604-research-overview/", "/resources/semaglutide-research-overview/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-09-09",
+        "url": "https://zurichbiotech.com/resources/aod-9604-vs-semaglutide-research/"
+      }
     },
     {
       "id": 77,
