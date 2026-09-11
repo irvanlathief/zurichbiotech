@@ -1252,7 +1252,11 @@
       "priority": 4,
       "intent": "comparison",
       "internal_link_targets": ["/#ghk-cu", "/resources/ghk-cu-research-overview/", "/resources/ll-37-antimicrobial-peptide-research/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-09-11",
+        "url": "https://zurichbiotech.com/resources/ghk-cu-vs-ll-37-wound-healing/"
+      }
     },
     {
       "id": 78,
