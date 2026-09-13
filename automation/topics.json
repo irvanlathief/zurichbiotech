@@ -1284,7 +1284,11 @@
       "priority": 4,
       "intent": "comparison",
       "internal_link_targets": ["/#cjc1295-ipamorelin", "/resources/cjc1295-ipamorelin-research-overview/", "/resources/ghrp-6-research-overview/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-09-13",
+        "url": "https://zurichbiotech.com/resources/ipamorelin-vs-ghrp-6/"
+      }
     },
     {
       "id": 80,
