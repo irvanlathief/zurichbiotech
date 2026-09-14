@@ -1300,7 +1300,11 @@
       "priority": 4,
       "intent": "comparison",
       "internal_link_targets": ["/#mots-c", "/resources/mots-c-research-overview/", "/resources/ss-31-elamipretide-research/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-09-14",
+        "url": "https://zurichbiotech.com/resources/ss-31-vs-mots-c-mitochondrial/"
+      }
     },
     {
       "id": 81,
