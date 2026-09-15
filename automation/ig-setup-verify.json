@@ -1,0 +1,22 @@
+{
+  "verified_at": "2026-09-15T00:33:21Z",
+  "token_present": true,
+  "token_length": 202,
+  "graph_api_reachable": false,
+  "token_type": null,
+  "expires_at": null,
+  "scopes": null,
+  "page_id": null,
+  "page_name": null,
+  "ig_user_id": null,
+  "ig_username": null,
+  "followers_count": null,
+  "media_count": null,
+  "blockers": [
+    "graph.facebook.com:443 is blocked by this environment's egress policy. curl error: 'curl: (56) CONNECT tunnel failed, response 403'. Agent proxy status endpoint recorded: {\"kind\":\"connect_rejected\",\"detail\":\"gateway answered 403 to CONNECT (policy denial or upstream failure)\",\"host\":\"graph.facebook.com:443\"}.",
+    "Because no Graph API call could leave the container, steps 3-7 (token validation via /me, Page lookup via /me/accounts, instagram_business_account resolution, IG identity check, and debug_token scope inspection) were NOT executed. token_type, expires_at, scopes, page_id, page_name, ig_user_id, ig_username, followers_count and media_count are null because they are unknown - not because they are empty.",
+    "The IG username could therefore NOT be confirmed as 'zurichbiotech'."
+  ],
+  "ready_to_publish": false,
+  "notes": "General outbound HTTPS works from this environment (github.com completed its CONNECT tunnel and returned an HTTP response), so this is a host-specific policy denial for graph.facebook.com, not a general network outage. Per the agent-proxy guidance, 403/407 policy denials are reported rather than retried or routed around. The token env var IG_ACCESS_TOKEN is present with a 202-character value; its validity, type, scopes and expiry are unverified. Re-run this verification from an environment whose egress policy allows graph.facebook.com."
+}
