@@ -1,0 +1,63 @@
+{
+  "verified_at": "2026-09-15T00:44:39Z",
+  "token_present": true,
+  "token_length": 202,
+  "graph_api_reachable": true,
+  "token_is_valid": true,
+  "token_type": "SYSTEM_USER",
+  "app_id": "28710299968583198",
+  "expires_at": 0,
+  "never_expires": true,
+  "scopes": [
+    "read_insights",
+    "publish_video",
+    "catalog_management",
+    "threads_business_basic",
+    "ads_mcp_management",
+    "pages_show_list",
+    "ads_management",
+    "ads_read",
+    "business_management",
+    "pages_messaging",
+    "instagram_basic",
+    "instagram_manage_comments",
+    "instagram_manage_insights",
+    "instagram_content_publish",
+    "leads_retrieval",
+    "whatsapp_business_management",
+    "instagram_manage_messages",
+    "pages_read_engagement",
+    "pages_manage_metadata",
+    "pages_read_user_content",
+    "pages_manage_ads",
+    "pages_manage_posts",
+    "pages_manage_engagement",
+    "whatsapp_business_messaging",
+    "instagram_shopping_tag_products",
+    "instagram_branded_content_brand",
+    "instagram_branded_content_ads_brand",
+    "manage_app_solution",
+    "pages_utility_messaging",
+    "paid_marketing_messages",
+    "whatsapp_business_manage_events",
+    "instagram_manage_contents",
+    "facebook_branded_content_ads_brand",
+    "public_profile"
+  ],
+  "missing_required_scopes": [],
+  "page_id": "1076917362180709",
+  "page_name": "Zurich Biotech",
+  "ig_user_id": "17841416575231592",
+  "ig_username": "zurichbiotech",
+  "followers_count": 0,
+  "media_count": 11,
+  "content_publishing_quota": {
+    "data": [
+      {
+        "quota_usage": 0
+      }
+    ]
+  },
+  "blockers": [],
+  "ready_to_publish": true
+}
