@@ -1316,7 +1316,8 @@
       "priority": 4,
       "intent": "comparison",
       "internal_link_targets": ["/#mots-c", "/resources/mots-c-research-overview/", "/resources/humanin-research-overview/"],
-      "status": "pending"
+      "status": "done",
+      "published": { "date": "2026-09-15", "url": "https://zurichbiotech.com/resources/humanin-vs-mots-c/" }
     },
     {
       "id": 82,
