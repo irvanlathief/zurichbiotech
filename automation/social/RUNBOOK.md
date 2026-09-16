@@ -44,7 +44,7 @@ look, cast, format, sibling canon handle, caption type, product y/n.
 
 ## 3. Generate
 
-Magnific, Zurich Biotech space. Build the prompt from the v7 section 18 recipe:
+Magnific, Zurich Biotech space. Model `recraft-v4-1`, tier `pro`, aspect 4:5, **one image only** (175 credits). Build the prompt from the v7 section 18 recipe:
 
     [camera, sub-mode and format] + [house look] + [lens and depth behaviour]
     + [cast archetype and what they are doing] + [wardrobe brand reference]
@@ -57,7 +57,7 @@ documentary photograph not advertising`.
 Camera A prompts must name HDR, distortion, over-sharpening and tilt or the frame
 comes back looking like Camera B and is wrong.
 
-Generate a second frame as the v7 `pair` partner for the Threads carousel.
+One image per day. No pair partner, no Threads carousel: the single frame serves feed, story, Threads and Page.
 
 Never generate a vial. Composite a supplied render or leave product out.
 
@@ -105,7 +105,7 @@ Never print, echo, log or commit the token value.
 
 **Instagram story** — same, with `media_type=STORIES`.
 
-**Threads** — 2-3 images, 120-180 char conversion per rule section 7.
+**Threads** — the same single frame, 120-180 char conversion per rule section 7.
 
 **Facebook Page** — mirror of the feed post.
 

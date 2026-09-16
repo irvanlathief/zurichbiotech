@@ -164,8 +164,8 @@ the length.
 | Element | Rule |
 |---|---|
 | Length | 120-180 characters. Approved 15 Sep 2026. |
-| Images | 2-3. Use the v7 `pair`: Camera A before or after, Camera B during. |
-| Ratio | One ratio per post, 4:5 or 9:16. Mixed ratios render inconsistently. |
+| Images | 1. The same frame as the feed post. |
+| Ratio | 4:5, same asset as the feed post. |
 | First line | Carries the post. It is the feed preview. Lead with the most specific thing. |
 | Hashtags | None. Brand forbids them and they count against the limit. |
 | Replies | Always answer replies on our own posts. Strongest ranking signal, zero brand cost. |
@@ -217,6 +217,26 @@ These four are the register. Write against them.
 | session logged. nothing else to say. | session logged. four by one k, two minutes off. the third went wrong and the fourth was fine, which is the usual order. wrote it down the same as always. |
 | tape peel left on the bench. | tape peel left on the bench. curled grey, stuck to itself. you see it on the way out and leave it, because the next session adds to it anyway. |
 | late summer road, still warm at dusk. | late summer road, still warm at dusk. gloves off after the climb and back on before the descent, which is the whole month in one move. |
+
+---
+
+## 7b. Generation model
+
+**Recraft V4.1, pro tier. 175 credits per image.** Approved 16 Sep 2026 on sample
+frames, replacing Seedream 5 Pro.
+
+**One image per day.** The feed frame is the only generation. It is cropped to 4:5
+for feed, 9:16 for story, and reused as-is on Threads and the Page. There is no
+pair partner and no Threads carousel: that trade was made deliberately to hold
+generation at one a day, and it gives up the swipe-interaction signal on Threads.
+
+Budget: 175/day nominal, around 350/day once regeneration on a failed gate is
+counted. Against a 20,000 monthly allowance that leaves real headroom for a bad run.
+Do not switch model to save credits without saying so.
+
+Models considered and rejected: GPT 2 and GPT 2.5 (325 credits, no 4:5 ratio, and
+specialised for non-photorealistic design work). Luma Uni-1.1 (350, would consume
+the monthly allowance alone). Seedream 5 Pro (100, produced the rejected first frame).
 
 ---
 
