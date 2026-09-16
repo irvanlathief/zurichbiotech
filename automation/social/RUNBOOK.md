@@ -116,15 +116,16 @@ against a feed post that does not exist.
 
 ## 8. Engagement
 
-Find 3-5 relevant posts via hashtag search. Training culture only: running, cycling,
-boxing and BJJ, Hyrox, kitchen and prep. Skip anything spammy, controversial,
-transformation-shaped, or selling.
+Hashtag search is unavailable: the app holds no Instagram Public Content Access,
+and App Review for it was declined on 16 Sep 2026. Do not attempt discovery, and
+do not draft comments against accounts you cannot see.
 
-Draft comments in voice. **Do not attempt to post them** — Meta exposes no endpoint
-for commenting on third-party media. They go into the ops log for a human to paste.
+Reply to any new comments on our own posts, in voice, using the same five caption
+types. This is permitted by `instagram_manage_comments` and is the strongest
+ranking signal available to us.
 
-Reply to any new comments on our own posts. This is permitted and is the strongest
-Threads ranking signal.
+Never comment on another account's media. No API exists for it, and browser
+automation against a real brand account risks the account.
 
 ---
 
