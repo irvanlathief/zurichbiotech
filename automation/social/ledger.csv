@@ -1,1 +1,5 @@
 date,channel,scene,camera,submode,look,cast,format,sibling,caption_type,product,woman_subject,published,blocker
+2026-09-16,Instagram feed,SWEAT,Camera B,,SILVER,FIGHTER,4:5,BETWEEN ROUNDS,flat observation,no,yes,yes,
+2026-09-16,Instagram story,SWEAT,Camera B,,SILVER,FIGHTER,9:16,BETWEEN ROUNDS,flat observation,no,yes,yes,
+2026-09-16,Facebook Page,SWEAT,Camera B,,SILVER,FIGHTER,4:5,BETWEEN ROUNDS,flat observation,no,yes,no,"permission refused on /{page-id}/photos: OAuthException code 200 'publish_actions not available' despite pages_manage_posts in token scopes; not retried, no permission settings touched"
+2026-09-16,Threads,SWEAT,Camera B,,SILVER,FIGHTER,4:5,BETWEEN ROUNDS,flat observation,no,yes,no,"threads_content_publish not granted; skipped per standing instruction, not attempted"
