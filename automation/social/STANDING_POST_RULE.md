@@ -237,6 +237,54 @@ Nothing publishes on a failed gate, and nothing publishes with an apology attach
 
 ---
 
+## 8b. Plausibility gate
+
+Added 16 Sep 2026 after the first generated frame passed the brand gate 9 of 9 and
+was still rejected on sight: long fingers, a body positioned nonsensically in the
+ring, and a black cap lying in the middle of a boxing ring.
+
+The brand gate asks "is this on-world". It never asked "would this exist". Both
+questions have to pass.
+
+### Anatomy
+
+- **Hands stay out of frame on tight crops.** SWEAT and SMEAR scenes are face, neck
+  and shoulders. Do not write a hand, a finger or a wrapped fist into the frame to
+  add interest. Hands are where the model fails most and the failure is unmissable.
+- Where hands are the subject (PREP, WRAP siblings), they are wrapped, taped, or
+  holding a known object, never loose and open, and never in the far background.
+- Feet, teeth and ears carry the same risk at distance. Crop them out or blur them.
+
+### Objects must belong to the sport and the moment
+
+Every dropped object passes two tests before it goes in the prompt:
+
+1. Does this object belong to this sport at all?
+2. Would it be lying in *this exact spot*, at *this exact moment* in the session?
+
+A cap belongs in a gym bag, on a bench, on a hook. It does not lie in the middle of
+a boxing ring between rounds. A towel over the ropes passes. A bidon on the canvas
+does not. When in doubt, drop the object rather than place it: v7 already says three
+or four is enough, and fewer objects means less for the model to invent.
+
+### Spatial coherence
+
+Name **one** spatial plane per frame. The rejected prompt said the room collapsed to
+black two feet behind her *and* placed ropes, a ring apron and objects at depth
+behind that. Those cannot both be true, and the model resolved it by inventing a
+geometry that reads as wrong.
+
+Pick: tight and black behind, or a legible room with depth. Never both.
+
+### The reviewer's question
+
+Before publishing, look at the frame and ask what a person who actually trains in
+this sport would notice first. If the answer is anything other than the subject,
+regenerate. A fighter does not see "high contrast black and white". They see a cap
+on the canvas and stop believing the picture.
+
+---
+
 ## 9. Ledger
 
 Append one row per post to `ledger.csv`:
