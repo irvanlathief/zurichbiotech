@@ -1329,7 +1329,11 @@
       "priority": 4,
       "intent": "comparison",
       "internal_link_targets": ["/#compounds", "/resources/kisspeptin-research-overview/", "/dosing-calculator/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-09-16",
+        "url": "https://zurichbiotech.com/resources/kisspeptin-vs-gonadorelin-research/"
+      }
     },
     {
       "id": 83,
