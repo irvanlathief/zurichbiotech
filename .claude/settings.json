@@ -1,0 +1,28 @@
+{
+  "permissions": [
+    {
+      "tool": "Bash",
+      "pattern": "curl.*",
+      "allow": true,
+      "description": "Graph API calls via curl"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "git.*",
+      "allow": true,
+      "description": "Ledger commits and pushes"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "python3.*",
+      "allow": true,
+      "description": "Image processing and API orchestration"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "pip.*",
+      "allow": true,
+      "description": "Install dependencies"
+    }
+  ]
+}
