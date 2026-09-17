@@ -140,11 +140,34 @@ Never print, echo, log or commit the token value.
     POST /v21.0/{IG_USER_ID}/media          image_url, caption
     POST /v21.0/{IG_USER_ID}/media_publish  creation_id
 
-**Instagram story** — same, with `media_type=STORIES`.
+**Instagram story**, same, with `media_type=STORIES`.
 
-**Threads** — the same single frame, 120-180 char conversion per rule section 7.
+**Facebook Page**, mirror of the feed post. **The Page needs a Page access token,
+not `$IG_ACCESS_TOKEN`.** Fetch it per run and never store it:
 
-**Facebook Page** — mirror of the feed post.
+    GET  /v21.0/me/accounts                 -> find id 1076917362180709, take its access_token
+    POST /v21.0/{PAGE_ID}/photos            url, caption, access_token=<page token>
+
+Posting to `/{page-id}/photos` with the user token returns `(#200) The
+permission(s) publish_actions are not available. It has been deprecated.` That
+error names a permission that has not existed since 2018 and has nothing to do
+with the real problem, which is simply the wrong token. It cost two runs on
+16 and 17 Sep, both of which logged it as a grant Irvan needed to make. He does
+not: the token already carries `pages_manage_posts` and `CREATE_CONTENT` on the
+Page. Verified 17 Sep by uploading unpublished with a Page token and deleting it.
+
+**Threads is blocked twice over.** Do not attempt it, and do not log it as a
+one-line skip as though a single grant would fix it:
+
+1. `threads_content_publish` is not granted. The token holds only
+   `threads_business_basic`, which reads and does not post.
+2. `graph.threads.net` is denied by this environment's network policy. The proxy
+   answers 403 to CONNECT, so the host is unreachable from the container even
+   with the scope granted. `graph.facebook.com` is allowed; the Threads host is
+   a separate entry and has to be added to the environment.
+
+Both have to be cleared before Threads can publish. Re-check them with
+`/me/permissions` and `$HTTPS_PROXY/__agentproxy/status` rather than assuming.
 
 Publish feed first. If it fails, stop and log; do not post the downstream channels
 against a feed post that does not exist.
