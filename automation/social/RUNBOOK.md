@@ -156,18 +156,42 @@ with the real problem, which is simply the wrong token. It cost two runs on
 not: the token already carries `pages_manage_posts` and `CREATE_CONTENT` on the
 Page. Verified 17 Sep by uploading unpublished with a Page token and deleting it.
 
-**Threads is blocked twice over.** Do not attempt it, and do not log it as a
-one-line skip as though a single grant would fix it:
+**Threads needs its own token and does not have one.** Do not attempt it, and do
+not log it as a missing permission: that has been the wrong diagnosis twice.
 
-1. `threads_content_publish` is not granted. The token holds only
-   `threads_business_basic`, which reads and does not post.
-2. `graph.threads.net` is denied by this environment's network policy. The proxy
-   answers 403 to CONNECT, so the host is unreachable from the container even
-   with the scope granted. `graph.facebook.com` is allowed; the Threads host is
-   a separate entry and has to be added to the environment.
+- *Network, cleared 17 Sep.* `graph.threads.net` was denied by the environment
+  network policy, proxy answering 403 to CONNECT. Irvan added the host and the
+  container now reaches Meta directly.
+- *Token, open.* `$IG_ACCESS_TOKEN` is a Facebook user token and
+  `graph.threads.net` will not parse it at all: `Invalid OAuth access token,
+  Cannot parse access token`, code 190. **This is not a scope problem and adding
+  a scope to the Facebook token will not fix it.** Threads runs its own OAuth and
+  issues its own token, bound to the Threads account.
 
-Both have to be cleared before Threads can publish. Re-check them with
-`/me/permissions` and `$HTTPS_PROXY/__agentproxy/status` rather than assuming.
+What that needs, once, from Irvan:
+
+1. Meta App Dashboard, Threads use case, with the publish permission added.
+   The token already carries `threads_business_basic`, so some Threads use case
+   exists on the app; check the dashboard for whether the publish scope is named
+   `threads_content_publish` or `threads_business_content_publish`, since the
+   business-login variant uses the second and the token's existing scope hints at
+   it. Request the one the dashboard actually offers.
+2. Authorize at `threads.net/oauth/authorize`, scope `threads_basic` plus the
+   publish scope, and exchange the code at `graph.threads.net/oauth/access_token`.
+3. Exchange the short-lived token for the 60 day one,
+   `graph.threads.net/access_token?grant_type=th_exchange_token`, and store it in
+   the environment as `THREADS_ACCESS_TOKEN`. It expires: refresh inside 60 days
+   or the channel silently dies again.
+
+Publishing then mirrors Instagram, on the Threads host and the Threads token:
+
+    POST /v1.0/me/threads          media_type, text, image_url
+    POST /v1.0/me/threads_publish  creation_id
+
+Until `THREADS_ACCESS_TOKEN` exists, log Threads as awaiting its own token.
+Re-check with `/me/permissions` and `$HTTPS_PROXY/__agentproxy/status` rather
+than assuming. Note that `developers.facebook.com` is itself blocked by the
+egress policy, so the Meta docs cannot be read from inside a run.
 
 Publish feed first. If it fails, stop and log; do not post the downstream channels
 against a feed post that does not exist.
