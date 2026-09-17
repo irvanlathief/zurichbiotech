@@ -178,8 +178,12 @@ What that needs, once, from Irvan:
    profile while the Threads account holds a role on the app. **No App Review is
    needed.** Advanced Access would only matter if we published for other people,
    which we never do.
-2. Authorize at `threads.net/oauth/authorize`, scope `threads_basic` plus the
-   publish scope, and exchange the code at `graph.threads.net/oauth/access_token`.
+2. Authorize at `threads.net/oauth/authorize`, scope
+   `threads_basic,threads_content_publish`, and exchange the returned code at
+   `graph.threads.net/oauth/access_token`. Threads App ID is `1094140076537978`,
+   which is a public client id and safe to keep here. **The app secret is not,
+   and never belongs in this repo, in a log, or in a chat.** This step needs a
+   human in a browser, so the cron can never do it unattended.
 3. Exchange the short-lived token for the 60 day one,
    `graph.threads.net/access_token?grant_type=th_exchange_token`, and store it in
    the environment as `THREADS_ACCESS_TOKEN`. It expires: refresh inside 60 days
