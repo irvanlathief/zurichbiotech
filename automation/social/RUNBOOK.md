@@ -170,12 +170,14 @@ not log it as a missing permission: that has been the wrong diagnosis twice.
 
 What that needs, once, from Irvan:
 
-1. Meta App Dashboard, Threads use case, with the publish permission added.
-   The token already carries `threads_business_basic`, so some Threads use case
-   exists on the app; check the dashboard for whether the publish scope is named
-   `threads_content_publish` or `threads_business_content_publish`, since the
-   business-login variant uses the second and the token's existing scope hints at
-   it. Request the one the dashboard actually offers.
+1. Already done. The app carries the "Access the Threads API" use case, and
+   `threads_basic`, `threads_content_publish` and `threads_delete` all read
+   **Ready for testing**, confirmed on the dashboard 17 Sep. The scope is
+   `threads_content_publish`, not the `threads_business_*` variant. Ready for
+   testing is standard access, which is enough to publish to our own Threads
+   profile while the Threads account holds a role on the app. **No App Review is
+   needed.** Advanced Access would only matter if we published for other people,
+   which we never do.
 2. Authorize at `threads.net/oauth/authorize`, scope `threads_basic` plus the
    publish scope, and exchange the code at `graph.threads.net/oauth/access_token`.
 3. Exchange the short-lived token for the 60 day one,
