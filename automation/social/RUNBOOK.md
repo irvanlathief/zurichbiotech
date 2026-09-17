@@ -27,39 +27,76 @@ published, this is a duplicate fire: stop, log, do not post again.
 
 ## 1. Load
 
-- `automation/social/STANDING_POST_RULE.md` — the selection engine
-- `automation/social/WRITING_RULES.md` — voice
+**The Magnific board is the visual authority.** Not this repo, not the
+`zb-guardrail` skill. Read it fresh every run: Irvan edits the board directly,
+and whatever it says that morning is the brand world that morning.
+
+Space `a2b2586b-6a14-432a-acfe-944fd0e02fee`, "Zurich Biotech".
+
+- **RULES**, text node `311b2902-1100-4b50-98bc-f487dc8350ca`. The image brief.
+  Read it with `spaces_get_nodes`; the brief is that node's `text` value.
+  `spaces_state` truncates it at roughly 2,200 characters, so never read it from
+  there and never work from a summary of it held in this repo.
+- **VIBE**, panel node `e1beb876-dc97-42eb-bd2a-d5db7aa58374`. The reference
+  photographs the brief addresses as `@img1` to `@img18`. `spaces_get_nodes` on
+  the panel returns the panel only, not its contents: call `spaces_state` for
+  page 1, take every node whose `groupId` is the panel id, and read each one's
+  `creationIdentifier` out of `nodeData`. Never hardcode that list. It changes
+  whenever he adds a reference, and the weighting in the rule is computed from
+  it.
+
+Then, from this repo:
+
+- `automation/social/STANDING_POST_RULE.md`, cadence, rotation, gates, channels
+- `automation/social/WRITING_RULES.md`, caption voice, authoritative for text
 - `automation/social/ledger.csv` — trailing 40 rows
-- the `zb-guardrail` skill — World System v7, the thirteen canon frames
-- `automation/social/calendar_fallback.csv` — only if the run fails later
+
+**`zb-guardrail` v7 is retired as the visual system**, superseded by the board on
+17 Sep 2026. Take no camera, look, scene, palette or canon-sibling direction from
+it. Three of its rules are compliance rather than style, are not covered anywhere
+on the board, and still bind:
+
+- Never generate the product, or any vial, label, cap or barcode.
+- Never depict administration, injection, reconstitution or consumption.
+- Never write a claim, a dosage, or a result.
 
 ---
 
 ## 2. Select
 
-Run the deficit algorithm in the rule, section 2. Produces: scene, camera, submode,
-look, cast, format, sibling canon handle, caption type, product y/n.
+Run the deficit algorithm in the rule, section 2. Produces: register, cast,
+format, the `@img` references to attach, caption type, product y/n.
 
 ---
 
 ## 3. Generate
 
-Magnific, Zurich Biotech space. Model `recraft-v4-1`, tier `pro`, aspect 4:5, **one image only** (175 credits). Build the prompt from the v7 section 18 recipe:
+Magnific, Zurich Biotech space. Model `recraft-v4-1`, tier `pro`, aspect 4:5,
+**one image only** (175 credits).
 
-    [camera, sub-mode and format] + [house look] + [lens and depth behaviour]
-    + [cast archetype and what they are doing] + [wardrobe brand reference]
-    + [location] + [three or four dropped objects] + [what the light is doing]
-    + [composition fault] + [negative constraints]
+Build the prompt out of the RULES node, not out of a recipe stored here. The
+brief assigns each reference a register, and the rule, section 2, turns those
+into the day's selection. Write the frame in the brief's own terms: film
+character, light, palette, viewpoint, wardrobe, casting.
 
-Close with: `no one looking at camera, no posing, no logos on footwear, no product,
-documentary photograph not advertising`.
+**Attach the VIBE photographs as `style` references on the generation call**, two
+or three that carry the register chosen for the day. This is the step that
+stopped the frames coming back sterile. A written description on its own leaves
+the model to invent texture, and it invents badly. Do not attach references that
+fight each other, a black-and-white frame and a warm colour frame in the same
+call.
 
-Camera A prompts must name HDR, distortion, over-sharpening and tilt or the frame
-comes back looking like Camera B and is wrong.
+**Describe any detail the model has to draw, rather than naming it.** "Rows of
+numbers" returns typeset. Handwriting has to be described as handwriting: uneven
+baseline drifting off the ruled line, pressure varying so some words bite dark
+and others skip, a struck-out line, a smudge, paper cockled where sweat landed.
+The same goes for screens, worn labels and anything else made of small marks.
 
-One image per day. No pair partner, no Threads carousel: the single frame serves feed, story, Threads and Page.
+One image per day. It is cropped 4:5 for feed and 9:16 for story and reused on
+the Page. No pair partner.
 
-Never generate a vial. Composite a supplied render or leave product out.
+Never generate the product, a vial, a label, a cap or a barcode. Composite a
+supplied render or leave product out.
 
 ---
 
@@ -103,11 +140,64 @@ Never print, echo, log or commit the token value.
     POST /v21.0/{IG_USER_ID}/media          image_url, caption
     POST /v21.0/{IG_USER_ID}/media_publish  creation_id
 
-**Instagram story** — same, with `media_type=STORIES`.
+**Instagram story**, same, with `media_type=STORIES`.
 
-**Threads** — the same single frame, 120-180 char conversion per rule section 7.
+**Facebook Page**, mirror of the feed post. **The Page needs a Page access token,
+not `$IG_ACCESS_TOKEN`.** Fetch it per run and never store it:
 
-**Facebook Page** — mirror of the feed post.
+    GET  /v21.0/me/accounts                 -> find id 1076917362180709, take its access_token
+    POST /v21.0/{PAGE_ID}/photos            url, caption, access_token=<page token>
+
+Posting to `/{page-id}/photos` with the user token returns `(#200) The
+permission(s) publish_actions are not available. It has been deprecated.` That
+error names a permission that has not existed since 2018 and has nothing to do
+with the real problem, which is simply the wrong token. It cost two runs on
+16 and 17 Sep, both of which logged it as a grant Irvan needed to make. He does
+not: the token already carries `pages_manage_posts` and `CREATE_CONTENT` on the
+Page. Verified 17 Sep by uploading unpublished with a Page token and deleting it.
+
+**Threads needs its own token and does not have one.** Do not attempt it, and do
+not log it as a missing permission: that has been the wrong diagnosis twice.
+
+- *Network, cleared 17 Sep.* `graph.threads.net` was denied by the environment
+  network policy, proxy answering 403 to CONNECT. Irvan added the host and the
+  container now reaches Meta directly.
+- *Token, open.* `$IG_ACCESS_TOKEN` is a Facebook user token and
+  `graph.threads.net` will not parse it at all: `Invalid OAuth access token,
+  Cannot parse access token`, code 190. **This is not a scope problem and adding
+  a scope to the Facebook token will not fix it.** Threads runs its own OAuth and
+  issues its own token, bound to the Threads account.
+
+What that needs, once, from Irvan:
+
+1. Already done. The app carries the "Access the Threads API" use case, and
+   `threads_basic`, `threads_content_publish` and `threads_delete` all read
+   **Ready for testing**, confirmed on the dashboard 17 Sep. The scope is
+   `threads_content_publish`, not the `threads_business_*` variant. Ready for
+   testing is standard access, which is enough to publish to our own Threads
+   profile while the Threads account holds a role on the app. **No App Review is
+   needed.** Advanced Access would only matter if we published for other people,
+   which we never do.
+2. Authorize at `threads.net/oauth/authorize`, scope
+   `threads_basic,threads_content_publish`, and exchange the returned code at
+   `graph.threads.net/oauth/access_token`. Threads App ID is `1094140076537978`,
+   which is a public client id and safe to keep here. **The app secret is not,
+   and never belongs in this repo, in a log, or in a chat.** This step needs a
+   human in a browser, so the cron can never do it unattended.
+3. Exchange the short-lived token for the 60 day one,
+   `graph.threads.net/access_token?grant_type=th_exchange_token`, and store it in
+   the environment as `THREADS_ACCESS_TOKEN`. It expires: refresh inside 60 days
+   or the channel silently dies again.
+
+Publishing then mirrors Instagram, on the Threads host and the Threads token:
+
+    POST /v1.0/me/threads          media_type, text, image_url
+    POST /v1.0/me/threads_publish  creation_id
+
+Until `THREADS_ACCESS_TOKEN` exists, log Threads as awaiting its own token.
+Re-check with `/me/permissions` and `$HTTPS_PROXY/__agentproxy/status` rather
+than assuming. Note that `developers.facebook.com` is itself blocked by the
+egress policy, so the Meta docs cannot be read from inside a run.
 
 Publish feed first. If it fails, stop and log; do not post the downstream channels
 against a feed post that does not exist.
@@ -147,8 +237,9 @@ note the date mismatch rather than losing the log.
 
 ## 10. On failure
 
-Follow the rule, section 10. Mon/Tue/Thu/Fri/Sat fall back to the calendar row.
-Wed/Sun have no row: log the blocker and skip.
+Follow the rule, section 10. Log the blocker and skip, any day of the week.
+`calendar_fallback.csv` is suspended: its rows are v7 and would publish the
+system the board replaced.
 
 Never improvise an off-brand post to avoid an empty day.
 
