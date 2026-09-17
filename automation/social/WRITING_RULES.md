@@ -1,13 +1,13 @@
 # Zurich Biotech content writing rules
-World System v7 - training culture writing context
+Training culture writing context
 
-Operational standing rule for agents and human writers drafting Instagram (and sibling) copy for Zurich Biotech. This document governs what we talk about and how we write. It does not replace visual camera rules; it sits beside them.
+Operational standing rule for agents and human writers drafting Instagram (and sibling) copy for Zurich Biotech. **This document governs text only: what we talk about and how we write.** The image brief on the Magnific board governs everything visual. Where this file still describes a frame, it is describing the world the words come from, not instructing the camera.
 
 ---
 
 ## 1. Purpose of this rule
 
-Keep every caption, concept line, seasonal hook, and calendar note inside the World System v7 training-culture frame. We document ordinary hard training. We do not sell peptides in the voice of ads, challenges, or wellness campaigns.
+Keep every caption, concept line, seasonal hook, and calendar note inside the training-culture frame. We document ordinary hard training. We do not sell peptides in the voice of ads, challenges, or wellness campaigns.
 
 Use this file when:
 - drafting or editing calendar rows
@@ -133,10 +133,10 @@ Not allowed:
 
 - Product appears in at most about one in five posts; most months lean lower.
 - When `product=yes`, the concept stays lifestyle-first. The photo is still training culture.
-- OBJECT scenes are the only time product is the subject (still life on SEAMLESS). Still no administration.
+- A still life is the only time product is the subject, and it still shows no administration.
 - Captions never name the product. SKU is a spreadsheet field for ops and compositing notes.
-- Prefer peripheral presence (bag edge, counter corner, out of focus) over hero pack shots outside OBJECT.
-- Prompt seeds close with documentary-not-advertising language; keep that promise in the caption.
+- Prefer peripheral presence (bag edge, counter corner, out of focus) over hero pack shots.
+- The image brief promises observation rather than advertising; keep that promise in the caption.
 
 Product supports the world. The world does not exist to announce product.
 
@@ -144,27 +144,23 @@ Product supports the world. The world does not exist to announce product.
 
 ## 8. Commands / workflow when drafting calendar rows or captions
 
-When creating or editing a row:
-1. Confirm date is Mon/Tue/Thu/Fri/Sat (Wed/Sun quiet unless a rare seasonal note explicitly justified).
-2. Pick camera and scene so consecutive days do not repeat the same camera+scene+cast triple.
-3. Set look from v7: Camera A mostly AVAILABLE; SILVER heavy overall and on Camera B; GEL scarce on B; GOLD HOUR rare/probation; FLAT GREY for ROAD/coast-like; SEAMLESS only for OBJECT.
-4. Write `concept` as one plain sentence a photographer could shoot.
-5. Build `prompt_seed` from the recipe: [camera + submode + format] + [look] + [lens/depth] + [cast + action] + [wardrobe brand ref] + [location] + [3-4 dropped objects] + [light] + [composition fault] + negatives. Camera A must name HDR, distortion, over-sharpening, tilt. Close with: no one looking at camera, no posing, no logos on footwear, no product (unless OBJECT), documentary photograph not advertising.
-6. Choose `caption_type` then write `caption` in voice (section 3-4).
-7. Fill `seasonal_hook` as atmosphere (section 6), not as a promo line.
-8. Set `product` / `product_sku` only when the month budget allows; OBJECT forces product=yes.
-9. Use `notes` for production only (composite vial after, Magnific board, story candidate).
+Posting runs seven days a week. The register, the frame and the references are
+chosen by `STANDING_POST_RULE.md` section 2 against the image brief on the
+Magnific board. **Nothing in this file selects or describes a frame.** When
+writing the text for a row:
+
+1. Read the register the rule selected, and the frame that was generated.
+2. Choose `caption_type`, then write `caption` in voice (sections 3 and 4).
+3. Fill `seasonal_hook` as atmosphere (section 6), never as a promo line.
+4. Set `product` / `product_sku` only when the month budget allows.
+5. Use `notes` for production only (composite vial after, story candidate).
 
 When rewriting a caption only:
 - Strip emoji, hashtags, exclamation, product names, claims.
 - Force it into one caption type.
-- Prefer concrete nouns from the frame.
+- Prefer concrete nouns from the frame that actually exists, not from the brief.
 
-Sibling canon handles to rotate toward:
-- Camera A: WRAP, MIRROR, STAIRWELL, NOTEBOOK, FUEL LAY, AISLE, COUNTER
-- Camera B: BOXER CROP, BETWEEN ROUNDS, GRAPPLE, WET STREET, RED SMEAR, COAST
-
-Cast rotate: MILER, ROULEUR, FIGHTER, GRAPPLER, ENGINE, OPERATOR. Keep women subjects at or above roughly one quarter of posts.
+Keep women subjects at or above roughly one quarter of posts.
 
 ---
 

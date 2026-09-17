@@ -27,39 +27,76 @@ published, this is a duplicate fire: stop, log, do not post again.
 
 ## 1. Load
 
-- `automation/social/STANDING_POST_RULE.md` — the selection engine
-- `automation/social/WRITING_RULES.md` — voice
+**The Magnific board is the visual authority.** Not this repo, not the
+`zb-guardrail` skill. Read it fresh every run: Irvan edits the board directly,
+and whatever it says that morning is the brand world that morning.
+
+Space `a2b2586b-6a14-432a-acfe-944fd0e02fee`, "Zurich Biotech".
+
+- **RULES**, text node `311b2902-1100-4b50-98bc-f487dc8350ca`. The image brief.
+  Read it with `spaces_get_nodes`; the brief is that node's `text` value.
+  `spaces_state` truncates it at roughly 2,200 characters, so never read it from
+  there and never work from a summary of it held in this repo.
+- **VIBE**, panel node `e1beb876-dc97-42eb-bd2a-d5db7aa58374`. The reference
+  photographs the brief addresses as `@img1` to `@img18`. `spaces_get_nodes` on
+  the panel returns the panel only, not its contents: call `spaces_state` for
+  page 1, take every node whose `groupId` is the panel id, and read each one's
+  `creationIdentifier` out of `nodeData`. Never hardcode that list. It changes
+  whenever he adds a reference, and the weighting in the rule is computed from
+  it.
+
+Then, from this repo:
+
+- `automation/social/STANDING_POST_RULE.md`, cadence, rotation, gates, channels
+- `automation/social/WRITING_RULES.md`, caption voice, authoritative for text
 - `automation/social/ledger.csv` — trailing 40 rows
-- the `zb-guardrail` skill — World System v7, the thirteen canon frames
-- `automation/social/calendar_fallback.csv` — only if the run fails later
+
+**`zb-guardrail` v7 is retired as the visual system**, superseded by the board on
+17 Sep 2026. Take no camera, look, scene, palette or canon-sibling direction from
+it. Three of its rules are compliance rather than style, are not covered anywhere
+on the board, and still bind:
+
+- Never generate the product, or any vial, label, cap or barcode.
+- Never depict administration, injection, reconstitution or consumption.
+- Never write a claim, a dosage, or a result.
 
 ---
 
 ## 2. Select
 
-Run the deficit algorithm in the rule, section 2. Produces: scene, camera, submode,
-look, cast, format, sibling canon handle, caption type, product y/n.
+Run the deficit algorithm in the rule, section 2. Produces: register, cast,
+format, the `@img` references to attach, caption type, product y/n.
 
 ---
 
 ## 3. Generate
 
-Magnific, Zurich Biotech space. Model `recraft-v4-1`, tier `pro`, aspect 4:5, **one image only** (175 credits). Build the prompt from the v7 section 18 recipe:
+Magnific, Zurich Biotech space. Model `recraft-v4-1`, tier `pro`, aspect 4:5,
+**one image only** (175 credits).
 
-    [camera, sub-mode and format] + [house look] + [lens and depth behaviour]
-    + [cast archetype and what they are doing] + [wardrobe brand reference]
-    + [location] + [three or four dropped objects] + [what the light is doing]
-    + [composition fault] + [negative constraints]
+Build the prompt out of the RULES node, not out of a recipe stored here. The
+brief assigns each reference a register, and the rule, section 2, turns those
+into the day's selection. Write the frame in the brief's own terms: film
+character, light, palette, viewpoint, wardrobe, casting.
 
-Close with: `no one looking at camera, no posing, no logos on footwear, no product,
-documentary photograph not advertising`.
+**Attach the VIBE photographs as `style` references on the generation call**, two
+or three that carry the register chosen for the day. This is the step that
+stopped the frames coming back sterile. A written description on its own leaves
+the model to invent texture, and it invents badly. Do not attach references that
+fight each other, a black-and-white frame and a warm colour frame in the same
+call.
 
-Camera A prompts must name HDR, distortion, over-sharpening and tilt or the frame
-comes back looking like Camera B and is wrong.
+**Describe any detail the model has to draw, rather than naming it.** "Rows of
+numbers" returns typeset. Handwriting has to be described as handwriting: uneven
+baseline drifting off the ruled line, pressure varying so some words bite dark
+and others skip, a struck-out line, a smudge, paper cockled where sweat landed.
+The same goes for screens, worn labels and anything else made of small marks.
 
-One image per day. No pair partner, no Threads carousel: the single frame serves feed, story, Threads and Page.
+One image per day. It is cropped 4:5 for feed and 9:16 for story and reused on
+the Page. No pair partner.
 
-Never generate a vial. Composite a supplied render or leave product out.
+Never generate the product, a vial, a label, a cap or a barcode. Composite a
+supplied render or leave product out.
 
 ---
 
@@ -147,8 +184,9 @@ note the date mismatch rather than losing the log.
 
 ## 10. On failure
 
-Follow the rule, section 10. Mon/Tue/Thu/Fri/Sat fall back to the calendar row.
-Wed/Sun have no row: log the blocker and skip.
+Follow the rule, section 10. Log the blocker and skip, any day of the week.
+`calendar_fallback.csv` is suspended: its rows are v7 and would publish the
+system the board replaced.
 
 Never improvise an off-brand post to avoid an empty day.
 
