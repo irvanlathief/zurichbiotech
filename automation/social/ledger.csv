@@ -3,3 +3,7 @@ date,channel,scene,camera,submode,look,cast,format,sibling,caption_type,product,
 2026-09-16,Instagram story,SWEAT,Camera B,,SILVER,FIGHTER,9:16,BETWEEN ROUNDS,flat observation,no,yes,yes,
 2026-09-16,Facebook Page,SWEAT,Camera B,,SILVER,FIGHTER,4:5,BETWEEN ROUNDS,flat observation,no,yes,no,"permission refused on /{page-id}/photos: OAuthException code 200 'publish_actions not available' despite pages_manage_posts in token scopes; not retried, no permission settings touched"
 2026-09-16,Threads,SWEAT,Camera B,,SILVER,FIGHTER,4:5,BETWEEN ROUNDS,flat observation,no,yes,no,"threads_content_publish not granted; skipped per standing instruction, not attempted"
+2026-09-19,Instagram feed,KITCHEN,Camera A,,AVAILABLE,GRAPPLER,4:3,COUNTER,kitchen,no,no,yes,"calendar fallback used: generative PROOF/NOTEBOOK attempt failed plausibility gate twice (own-legs/feet composition, then gibberish notebook+watch text); fell back to 2026-09-19 calendar_fallback.csv row per rule section 10"
+2026-09-19,Instagram story,KITCHEN,Camera A,,AVAILABLE,GRAPPLER,9:16,COUNTER,kitchen,no,no,yes,
+2026-09-19,Facebook Page,KITCHEN,Camera A,,AVAILABLE,GRAPPLER,4:3,COUNTER,kitchen,no,no,no,"permission refused on /{page-id}/photos: OAuthException code 200 'publish_actions not available, deprecated'; not retried, no permission settings touched"
+2026-09-19,Threads,KITCHEN,Camera A,,AVAILABLE,GRAPPLER,4:5,COUNTER,kitchen,no,no,no,"threads_content_publish not granted; skipped per standing instruction, not attempted"
