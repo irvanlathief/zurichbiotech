@@ -1345,7 +1345,11 @@
       "priority": 4,
       "intent": "comparison",
       "internal_link_targets": ["/#semax", "/resources/selank-research-overview/", "/resources/dsip-research-overview/"],
-      "status": "pending"
+      "status": "done",
+      "published": {
+        "date": "2026-09-18",
+        "url": "https://zurichbiotech.com/resources/selank-vs-dsip-anxiety-sleep/"
+      }
     },
     {
       "id": 84,
